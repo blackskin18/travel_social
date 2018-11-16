@@ -10,11 +10,10 @@
             <header class="major">
                 <h2> Tạo bài viết của bạn</h2>
             </header>
-            <form action="{{ route('post.create')  }}" method="POST"
-                  enctype="multipart/form-data">
+            <form action="{{ route('post.create')  }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="hidden-input" id="hidden-input">
-                    <div id="marker-info-box">
+                <div class="hidden_input" id="hidden_input">
+                    <div id="marker_info_box">
                     </div>
                 </div>
                 <div style="margin-bottom: 20px">

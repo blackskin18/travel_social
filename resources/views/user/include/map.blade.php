@@ -1,4 +1,4 @@
-<div class="map-box">
+<div class="map_box">
     <div class="opacity" id="opacity">
     </div>
     <div class="my_map">
@@ -11,14 +11,14 @@
 <script>
     $(function () {
         $("#btn_create_map").click(function () {
-            $("div.map-box").css("display", "block");
+            $("div.map_box").css("display", "block");
         });
 
         $("#close_map").click(function () {
-            $("div.map-box").css("display", "none");
+            $("div.map_box").css("display", "none");
         });
         $("#opacity").click(function () {
-            $("div.map-box").css("display", "none");
+            $("div.map_box").css("display", "none");
         });
 
     });
@@ -51,13 +51,13 @@
         google.maps.event.addListener(map, 'click', function (event) {
             var marker = makeMaker(event.latLng);
             markerArray.push(marker);
-            var markerInfoHtml = `<div class="marker-info">
+            var markerInfoHtml = `<div class="marker_info">
                             ${markerArray.length}
                             <input type="" name="lat[]" value="${marker.getPosition().lat()}">
                             <input type="" name="lng[]" value="${marker.getPosition().lng()}">
-                            <input type="" name="marker-description[]" class="marker-description">
+                            <input type="" name="marker_description[]" class="marker_description">
                             </div>`;
-            $("div#marker-info-box").append(markerInfoHtml);
+            $("div#marker_info_box").append(markerInfoHtml);
 
 
             if (markerArray.length > 1) {
@@ -76,7 +76,7 @@
 
         marker.addListener('click', function () {
             var index = findIndexOfMarker(location);
-            var descriptionMarker = $("div.marker-info").eq(index).find(".marker-description").val();
+            var descriptionMarker = $("div.marker_info").eq(index).find(".marker_description").val();
             infoWindow.close();
             infoWindow.setContent('<div>' +
                 '<textarea class="input-border" name="" id="infoWindow" cols="30" rows="3">' +
@@ -88,7 +88,7 @@
 
         marker.addListener('rightclick', function () {
             var index = findIndexOfMarker(location);
-            $("div.marker-info").eq(index).remove();
+            $("div.marker_info").eq(index).remove();
 
             markerArray.splice(index, 1);
             marker.setMap(null);
@@ -118,7 +118,7 @@
                 var index = findIndexOfMarker(localInfoWindow.getPosition());
                 var infoValue = $("#infoWindow").val();
 
-                $("div.marker-info").eq(index).find(".marker-description").val(infoValue);
+                $("div.marker_info").eq(index).find(".marker_description").val(infoValue);
             });
         });
 
