@@ -2,23 +2,41 @@
 
 @section('content')
     @include('user.include.left_menu')
-    <!-- Main -->
-    @include('user.include.upload_image_popup')
+
+    {{--@include('user.include.upload_image_popup')--}}
 
     <div id="main">
-        <!-- One -->
         <section id="one">
             <header class="major">
                 <h2> Tạo bài viết của bạn</h2>
             </header>
-            <textarea class="input-border" name="" id="" cols="30" rows="3"></textarea>
-            <ul class="actions">
-                <li><a href="#" class="button primary ">Đăng</a></li>
-                <li><a href="#" class="button primary" id="btn_create_map">Map</a></li>
-                <li><a href="#" class="button primary" id="btn_add_image">Ảnh</a></li>
-            </ul>
-        </section>
+            <form action="{{ route('post.create')  }}" method="POST"
+                  enctype="multipart/form-data">
+                @csrf
+                <div class="hidden-input" id="hidden-input">
+                    <div id="marker-info-box">
+                    </div>
+                </div>
+                <div style="margin-bottom: 20px">
+                    <textarea class="input-border" id="post_description" name="post_description" cols="30"
+                          rows="3">
+                    </textarea>
+                    <ul class="actions" style="margin-bottom: 0px; height: 50px">
+                        <li><a href="#" class="button" id="btn_create_map">Map</a></li>
+                        <li>
+                            <div class="upload-btn-wrapper">
+                                <button class="btn">Upload a file</button>
+                                <input type="file" name="photos[]" multiple  accept="image/x-png,image/jpeg"/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
+                <input type="submit" class="button primary" value="Đăng">
+
+            </form>
+
+        </section>
 
         @include('user.include.article')
         @include('user.include.article')
@@ -26,10 +44,6 @@
 
 @endsection
 @section('head')
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ url('css/style.min.css')  }}" rel="stylesheet">
-    <script src="{{ url('js/uploadHBR.min.js')  }}"></script>
 @endsection
 @section('map')
     @include('user.include.map')

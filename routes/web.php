@@ -22,18 +22,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/user/personal-page/{id}', 'UserController@personalPage')->name('personal.page');
 Route::get('/user/detail-info/{id}', 'UserController@displayInfo')->name('detail.info');
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/post/create', 'PostController@create')->name('post.create');

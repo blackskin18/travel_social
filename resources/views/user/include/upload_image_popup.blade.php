@@ -32,42 +32,37 @@
 </style>
 <div class="upload-image-box">
     <div class="opacity">
-
     </div>
     <div class="upload-image-popup">
-        <!-- The file upload form used as target for the file upload widget -->
-        <form id="fileupload" action="https://jquery-file-upload.appspot.com/" method="POST"
+        <form id="fileupload" action="{{ route('post.create')  }}" method="POST"
               enctype="multipart/form-data">
-            <!-- Redirect browsers with JavaScript disabled to the origin page -->
-            <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/">
-            </noscript>
-            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+            @csrf
             <div class="row fileupload-buttonbar">
-                <div class="col-lg-8 col-lg-offset-3">
-                    <!-- The fileinput-button span is used to style the file input field as button -->
+                <div id="input_hidden">
+                    <input type="text" name="aaaa">
+                </div>
+                <div class="col-lg-8 col-lg-offset-4">
                     <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
                     <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
+                    <input type="file" name="photos[]" multiple>
                 </span>
-                    <button type="submit" class="btn btn-primary start">
-                        <i class="glyphicon glyphicon-upload"></i>
-                        <span>Start upload</span>
-                    </button>
+                    {{--<button type="submit" class="btn btn-primary start">--}}
+                        {{--<i class="glyphicon glyphicon-upload"></i>--}}
+                        {{--<span>Start upload</span>--}}
+                    {{--</button>--}}
                     <button type="reset" class="btn btn-warning cancel">
                         <i class="glyphicon glyphicon-ban-circle"></i>
                         <span>Cancel upload</span>
                     </button>
-                    <button type="button" class="btn btn-danger delete">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        <span>Delete</span>
-                    </button>
-                    <input type="checkbox" class="toggle">
-                    <!-- The global file processing state -->
-                    <span class="fileupload-process"></span>
+                    {{--<button type="button" class="btn btn-danger delete">--}}
+                        {{--<i class="glyphicon glyphicon-trash"></i>--}}
+                        {{--<span>Delete</span>--}}
+                    {{--</button>--}}
+                    {{--<input type="checkbox" class="toggle">--}}
+                    {{--<span class="fileupload-process"></span>--}}
                 </div>
             </div>
-            <!-- The table listing the files available for upload/download -->
             <table role="presentation" class="table table-striped">
                 <tbody class="files"></tbody>
             </table>

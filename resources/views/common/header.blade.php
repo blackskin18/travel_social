@@ -16,9 +16,7 @@
     <link rel="stylesheet" href="{{ url('lib/jquery-file-upload/css/jquery.fileupload.css')  }}">
     <link rel="stylesheet" href="{{ url('lib/jquery-file-upload/css/jquery.fileupload-ui.css')  }}">
     <!-- CSS adjustments for browsers with JavaScript disabled -->
-
-    <noscript><link rel="stylesheet" href="{{ url('lib/jquery-file-upload/css/jquery.fileupload-noscript.css') }}"></noscript>
-    <noscript><link rel="stylesheet" href="{{ url('lib/jquery-file-upload/css/jquery.fileupload-ui-noscript.css') }}"></noscript>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     @yield('head')
 
 </head>
