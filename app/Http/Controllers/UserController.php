@@ -2,33 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Model\User;
-use App\UserRepository;
+use App\Repository\UserRepository;
 
 class UserController extends Controller
 {
 	private $user;
 	protected $userRepository;
 
-	public function __construct(UserRepository $repository)
+	public function __construct(UserRepository $userRepository)
 	{
 		$this->user = Auth::user();
-		$this->userRepository = $repository;
+		$this->userRepository = $userRepository;
 	}
 
     public function personalPage($id)
     {
-    	$user = $this->userRepository->all();
-    	dd($user);
+    	$user = $this->userRepository->find($id);
     	return view('user.personal_page')->with('user', $user);
     }
 
     public function displayInfo($id)
     {
-    	$user = User::find($id);
+    	$user = $this->userRepository->find($id);
     	return view('user.detail_info')->with('user', $user);
     }
 }

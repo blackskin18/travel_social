@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Repository;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 
