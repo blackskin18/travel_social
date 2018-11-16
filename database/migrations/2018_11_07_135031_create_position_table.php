@@ -19,7 +19,7 @@ class CreatePositionTable extends Migration
             $table->foreign('post_id')->references('id')->on('posts');
 
             $table->float('lat', 10, 6);
-            $table->float('lag', 10, 6);
+            $table->float('lng', 10, 6);
 
             $table->longText('description')->nullable();
             $table->dateTime('time_arrive')->nullable();
