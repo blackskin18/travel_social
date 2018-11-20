@@ -23,3 +23,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/user/personal-page/{id}', 'UserController@personalPage')->name('personal.page');
 Route::get('/user/detail-info/{id}', 'UserController@displayInfo')->name('detail.info');
 Route::post('/post/create', 'PostController@create')->name('post.create');
+Route::get('/post/map/get_info', 'PostController@getMapInfo')->name('post.map.info');

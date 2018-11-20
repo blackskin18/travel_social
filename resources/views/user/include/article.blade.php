@@ -4,7 +4,7 @@
             <img style="border-radius: 50%; width:75px; height: 75px "
                  src="{{ url('asset/images/avatar/'.$user->id.'/'.$user->avatar) }}" alt="">
         </article>
-        <article class="col-10 col-12-xsmall" style="padding: 0">
+        <article class="col-7 col-12-xsmall" style="padding: 0">
             <h2 class="none-padding none-margin">
                 <a href="" style="color: #5cc6a7; text-decoration: none">
                     {{ $user->name }}
@@ -12,23 +12,24 @@
                 đã đăng bài viết
             </h2>
             <p>
-                31 Tháng 10 lúc 20:54
+                {{ $article->created_at  }}
             </p>
+        </article>
+        <article class="col-3 col-12-xsmall">
+            <button class="button primary btn_show_map" data-post-id="{{ $article->id }}"> show map </button>
         </article>
     </div>
     <div class="">
-        {{ $article->description  }}
+        {!! $article->description !!}
     </div>
 
     <div class="row">
         @foreach($article->postImage as $key => $image)
-            <article class="col-4 col-12-xsmall work-item">
-                <a href="images/fulls/01.jpg" class="image fit"><img src="{{ url($image->image) }}"
-                                                                     alt=""/></a>
+            <article class="col-6 col-12-xsmall work-item">
+                <a href="{{ url($image->image) }}" class="image fit"><img src="{{ url($image->image) }}" alt=""/></a>
             </article>
         @endforeach
     </div>
-    <ul class="actions">
-        <li><a href="#" class="button">Full Portfolio</a></li>
-    </ul>
+    <div class="comment-box">
+    </div>
 </section>
