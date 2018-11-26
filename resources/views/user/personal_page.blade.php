@@ -29,7 +29,7 @@
                 </div>
 
                 <input type="submit" class="button primary" value="Đăng">
-                <input type="button" id="test" class="button primary" value="test">
+                {{-- <input type="button" id="test" class="button primary" value="test"> --}}
 
             </form>
 

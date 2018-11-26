@@ -16,8 +16,17 @@
             </p>
         </article>
         <article class="col-3 col-12-xsmall">
-            <button class="button primary btn_show_map" data-post-id="{{ $article->id }}"> show map </button>
+            <button class="button primary btn_show_map" data-post-id="{{ $article->id }}"> show map</button>
         </article>
+    </div>
+    <div class="hidden_input" id="article_info_position_{{$article->id}}">
+        @foreach($article->position as $key => $position)
+            <div class="marker_info">
+                <input type="" class="lat_position" value="{{ $position->lat }}">
+                <input type="" class="lng_position" value="{{ $position->lng }}">
+                <input type="" class="marker_description" value="{{ $position->description }}">
+            </div>
+        @endforeach
     </div>
     <div class="">
         {!! $article->description !!}
