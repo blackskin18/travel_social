@@ -24,3 +24,8 @@ Route::get('/user/personal-page/{id}', 'UserController@personalPage')->name('per
 Route::get('/user/detail-info/{id}', 'UserController@displayInfo')->name('detail.info');
 Route::post('/post/create', 'PostController@create')->name('post.create');
 Route::get('/post/map/get_info', 'PostController@getMapInfo')->name('post.map.info');
+
+Route::get('socket', 'CommentController@index');
+Route::post('sendmessage', 'CommentController@sendMessage');
+Route::get('writemessage', 'CommentController@writemessage');
+

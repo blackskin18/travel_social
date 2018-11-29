@@ -40,5 +40,7 @@
         @endforeach
     </div>
     <div class="comment-box">
+
     </div>
+
 </section>

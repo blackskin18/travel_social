@@ -224,3 +224,7 @@ header#header>div.more-info {
     top: -2%;
     left: 98%;
 }
+
+.hidden_input {
+    display: none;
+}
