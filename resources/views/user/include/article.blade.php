@@ -1,4 +1,4 @@
-<section id="two">
+<section id="two" class="article">
     <div class="row">
         <article class="col-2 col-12-xsmall" style="padding: 0 0 0 2.5em">
             <img style="border-radius: 50%; width:75px; height: 75px "
@@ -39,8 +39,27 @@
             </article>
         @endforeach
     </div>
-    <div class="comment-box">
-
-    </div>
+    {{--<div class="row">--}}
+        <div class="like_box">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="text-center btn_like"> Like </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center btn_comment" data-article-id="{{$article->id}}"> Bình luận</div>
+                </div>
+            </div>
+        </div>
+        <div class="comment_box display_none" id="comment_box_{{$article->id}}">
+            <div class="row comment_input_box">
+                <div class="avatar_comment_box col-lg-1">
+                    <img class="avatar_image" src="{{ url('asset/images/avatar/'.$user->id.'/'.$user->avatar) }}" alt="">
+                </div>
+                <div class="col-lg-10">
+                    <input type="text" class="comment_input" data-article-id="{{$article->id}}">
+                </div>
+            </div>
+        </div>
+    {{--</div>--}}
 
 </section>

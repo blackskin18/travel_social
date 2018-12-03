@@ -31,8 +31,8 @@
 		<a href="{{ route('personal.page', Auth::user()->id) }}">
 			<div class="info">
 				<div class="image-nav">
-					<img class="avatar-nav" src="{{ url('asset/images/avatar/'.$user->id.'/'.$user->avatar) }}" alt="">
-				</div>
+                    <img class="avatar-nav" src="{{ url('asset/images/avatar/'.$user->id.'/'.$user->avatar) }}" alt="">
+                </div>
 				<div class="username-nav">
 					{{ $user->name }}
 				</div>

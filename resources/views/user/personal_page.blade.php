@@ -37,11 +37,26 @@
         @foreach($articles as $article)
             @include('user.include.article', ["article" => $article])
         @endforeach
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+        {{--<script src="{{asset('js/socket.io.js')}}"></script>--}}
+        <script>
+            // $(document).ready(function () {
+            //     var socket = io.connect('http://127.0.0.1:8890');
+            //     console.log('connected..');
+            //     socket.on('message', function (data) {
+            //         $('#message').append("<p>" + data + "</p>");
+            //     });
+            // });
+        </script>
     </div>
 
 @endsection
 @section('head')
-    <script src="{{ url('js/article.js')  }}"></script>
+    <script src="{{ url('js/User/article.js') }}"></script>
+    {{--<script src="{{ url('js/article.js')  }}"></script>--}}
 @endsection
 @section('map')
     @include('user.include.map')
