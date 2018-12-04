@@ -30,7 +30,8 @@ class CommentRepository extends BaseRepository
 
     public function storageComment($input, $user)
     {
-        $dataInsert = $input;
+        $dataInsert['content'] = $input['comment_content'];
+        $dataInsert['post_id'] = $input['post_id'];
         $dataInsert['user_id'] = $user->id;
         if ($input['post_id']) {
             if ($this->postRepository->find($input['post_id'])) {
@@ -46,6 +47,7 @@ class CommentRepository extends BaseRepository
     public function getCommentInPost($postId)
     {
         $comment = Comment::where('post_id', $postId)->with('user')->orderBy('created_at', 'desc')->get();
+
         return $comment;
     }
 }

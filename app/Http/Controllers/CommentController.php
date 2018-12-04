@@ -20,37 +20,31 @@ class CommentController extends Controller
     public function getCommentInPost(Request $request)
     {
         $comments = $this->commentRepository->getCommentInPost($request->post_id);
-        //$comments = $this->commentRepository->findWhere(['post_id' => $request->post_id]);
 
-        return Response::json([
-            'status' => 'success',
-            'code' => 200,
-            'data' => $comments,
-        ], 200);
+        //$comments = $this->commentRepository->findWhere(['post_id' => $request->post_id]);
+        return Response::json(['status' => 'success',
+                               'code'   => 200,
+                               'data'   => $comments,], 200);
     }
 
     public function sendMessage(Request $request)
     {
-        //$postId = $request->post_id;
-        //$message = $request->message;
         $user = Auth::user();
+
         if ($this->commentRepository->storageComment($request->input(), $user)) {
-            return Response::json([
-                'status' => 'success',
-                'code' => 200,
-                'data' => [],
-            ], 200);
+            $redis = LRedis::connection();
+            $redis->publish('message', json_encode(['comment'     => $request->comment_content,
+                                                    'post_id'      => $request->post_id,
+                                                    'user_id'     => $user->id,
+                                                    'user_avatar' => $user->avatar,
+                                                    'user_name'   => $user->name]));
+            return Response::json(['status' => 'success',
+                                   'code'   => 200,
+                                   'data'   => [],], 200);
         } else {
-            return Response::json([
-                'status' => 'fails',
-                'code' => 201,
-                'data' => [],
-            ], 201);
+            return Response::json(['status' => 'fails',
+                                   'code'   => 201,
+                                   'data'   => [],], 201);
         }
-
-        //$redis = LRedis::connection();
-        //$redis->publish('message', [ "comment" => $message, "post_id" => $postId]);
-
-        //return redirect('writemessage');
     }
 }

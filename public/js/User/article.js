@@ -1,9 +1,10 @@
 $(function () {
     $("div.btn_comment").click(function () {
         var articleId = $(this).data('article-id');
-        $("div.comment_box").css("display", "block");
-        let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $("div#comment_box_" + articleId).css("display", "block");
+        $("div#comment_box_" + articleId+">.list_comment").html("");
 
+        let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': CSRF_TOKEN
@@ -18,18 +19,20 @@ $(function () {
                 var data = response.data;
                 for (var i in data) {
                     var commentElement = `
-<div class="row">
-    <div class="col-lg-1"></div>
-    <div class="avatar_comment_box col-lg-1">
-        <img class="avatar_image" src="${window.location.origin}/asset/images/avatar/${data[i].user.id}/${data[i].user.avatar}" alt="">
-    </div>
-    <div class="col-lg-9">
-        <div>
-            <p>${data[i].content}</p>
-        </div>
-    </div>
-</div>`;
-                    $("div#comment_box_" + articleId).append(commentElement);
+                        <div class="row">
+                            <div class="avatar_comment_box col-lg-1">
+                                <img class="avatar_image" src="${window.location.origin}/asset/images/avatar/${data[i].user.id}/${data[i].user.avatar}" alt="">
+                            </div>
+                                <div class="comment">
+                                    <a href="/user/personal-page/${data[i].user_id}">
+                                        ${data[i].user.name}
+                                    </a>
+                                    <div style="display: inline-block;">
+                                        <p>${data[i].content}</p>
+                                    </div>
+                                </div>
+                        </div>`;
+                    $("div#comment_box_" + articleId+">.list_comment").append(commentElement);
                 }
             }
         });
@@ -40,7 +43,7 @@ $(function () {
         if (event.which === 13) {
             var articleId = $(this).data('article-id');
             var message = $(this).val();
-            console.log(message);
+            $(this).val("");
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -53,9 +56,9 @@ $(function () {
             $.ajax({
                 url: '/comment/send',
                 type: 'POST',
-                data: {content: message, post_id: articleId},
+                data: {comment_content: message, post_id: articleId},
                 success: function (data) {
-                    console.log(data);
+                    // console.log(data);
                 }
             });
         }

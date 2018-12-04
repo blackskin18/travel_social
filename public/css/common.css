@@ -1,3 +1,7 @@
+a{
+    border-bottom-color: transparent;
+}
+
 .menu-header {
     background-color: #5CC6A7;
     width: 100%;
@@ -264,6 +268,23 @@ header#header > div.more-info {
 input.comment_input {
     border: 1px solid #cce3f6;
     border-radius: 25px;
+}
+
+div.list_comment>div {
+    margin-bottom: 0.5em;
+}
+
+div.list_comment div.comment {
+    display: inline-block;
+    margin-left: 2em;
+    background: #F2F3F5;
+    border-radius: 100px;
+    height: 3em;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+div.list_comment div.comment>a{
+    cursor: pointer;
 }
 
 .btn_like:hover, .btn_comment:hover {

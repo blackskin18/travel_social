@@ -59,6 +59,8 @@
                     <input type="text" class="comment_input" data-article-id="{{$article->id}}">
                 </div>
             </div>
+            <div class="list_comment">
+            </div>
         </div>
     {{--</div>--}}
 
