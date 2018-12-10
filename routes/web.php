@@ -29,3 +29,6 @@ Route::post('/comment/send', 'CommentController@sendMessage')->name('comment.sen
 Route::get('comment/get', 'CommentController@getCommentInPost')->name('comment.get');
 
 Route::post('/user/change_avatar', 'UserController@changeAvatar')->name('user.change_avatar');
+
+
+Route::get('storage/post/{postId}/{filename}', 'FileStorageController@getPostImage')->name('file.post_image');

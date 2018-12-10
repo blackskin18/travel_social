@@ -14,3 +14,5 @@ yarn-error.log
 .env
 .phpunit.result.cache
 /.idea
+/storage
+/public/asset/images

@@ -37,7 +37,7 @@
             @foreach($article->postImage as $key => $image)
                 <article class="col-6 col-12-xsmall work-item">
                     <div class="image fit">
-                        <img src="{{ url($image->image) }}" alt=""/>
+                        <img src="{{ url('/storage/post/'.$image->post_id.'/'.$image->image) }}" alt=""/>
                     </div>
                 </article>
             @endforeach

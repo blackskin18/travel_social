@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreatePostRequest;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Response;
 use App\Repository\PostRepository;
@@ -54,11 +55,12 @@ class PostController extends Controller
 
         if ($request->photos) {
             foreach ($request->photos as $photo) {
-                $filename = $photo->store('');
-                $photo->move(public_path('asset/images/post/'.$post->id), $filename);
+                $pathFile = Storage::put('public/images/post/'.$post->id, $photo);
+                $pathFileArray = explode('/',$pathFile );
+                $filename = $pathFileArray[count($pathFileArray) - 1];
                 $this->postImageRepo->create([
                     "post_id" => $post->id,
-                    "image" => 'asset/images/post'.$post->id.'/'.$filename,
+                    "image" => $filename,
                 ]);
             }
         }
