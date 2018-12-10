@@ -27,3 +27,5 @@ Route::get('/post/map/get_info', 'PostController@getMapInfo')->name('post.map.in
 
 Route::post('/comment/send', 'CommentController@sendMessage')->name('comment.send');
 Route::get('comment/get', 'CommentController@getCommentInPost')->name('comment.get');
+
+Route::post('/user/change_avatar', 'UserController@changeAvatar')->name('user.change_avatar');

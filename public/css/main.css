@@ -2588,6 +2588,7 @@ input, select, textarea {
 		text-align: left;
 		top: 3em;
 		width: 35%;
+        z-index: 100;
 	}
 
 		#header > * {

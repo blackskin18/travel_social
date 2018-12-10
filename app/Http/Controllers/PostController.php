@@ -55,7 +55,7 @@ class PostController extends Controller
         if ($request->photos) {
             foreach ($request->photos as $photo) {
                 $filename = $photo->store('');
-                $photo->move(public_path('asset/images/post'.$post->id), $filename);
+                $photo->move(public_path('asset/images/post/'.$post->id), $filename);
                 $this->postImageRepo->create([
                     "post_id" => $post->id,
                     "image" => 'asset/images/post'.$post->id.'/'.$filename,

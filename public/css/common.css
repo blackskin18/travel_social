@@ -2,6 +2,7 @@ a{
     border-bottom-color: transparent;
 }
 
+
 .menu-header {
     background-color: #5CC6A7;
     width: 100%;
@@ -12,28 +13,87 @@ a{
     z-index: 100;
 }
 
+.popup {
+    background: #5CC6A7;
+    display: none;
+}
+
+.popup_opacity {
+    width: 100%;
+    height: 100%;
+    background-color: #1d2124;
+    opacity: 0.4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 101;
+}
+
+.popup_content {
+    /*width: 35em;*/
+    /*height: 35em;*/
+    border: 3px solid black;
+    background: whitesmoke;
+    border-radius: 15px;
+    position: fixed;
+    top: 5em;
+    left: 25em;
+    z-index: 102;
+}
+
 .inner {
     position: relative;
 }
 
-.inner .avatar div.change-avatar {
-    display: none;
+.inner .avatar {
     width: 8.25em;
-    height: 4.125em;
+    height: 8.25em;
+    border-radius: 100%;
+}
+
+.inner .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    border: 0.2em solid red;
+}
+
+.inner .avatar .change_avatar {
+    display: none;
+    width: 8.05em;
+    height: 4.025em;
     border-bottom-right-radius: 5em;
     border-bottom-left-radius: 5em;
     background: black;
     color: white;
     text-align: center;
     padding-top: 1em;
-    opacity: 0.8;
+    opacity: 0.6;
     position: absolute;
-    top: 4.125em;
-    left: 0;
+    top: 4.05em;
+    left: 0.1em;
 }
 
-.inner .avatar:hover div.change-avatar {
+.inner .avatar .change_avatar input[type=file]{
+    width: 8.25em;
+    height: 4.125em;
+    border-bottom-right-radius: 5em;
+    border-bottom-left-radius: 5em;
+    position: absolute;
+    top: 0em;
+    left: 0;
+    opacity: 0;
+}
+
+.inner .avatar:hover .change_avatar {
     display: block;
+}
+.inner .avatar:hover .change_avatar:hover {
+    cursor: pointer;
+}
+
+#submit_change_avatar {
+    margin-left: 10em;
 }
 
 .input-border {
@@ -204,27 +264,6 @@ header#header > div.more-info {
     display: none;
 }
 
-.opacity {
-    width: 100%;
-    height: 100%;
-    background-color: #1d2124;
-    opacity: 0.4;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 101;
-}
-
-.my_map {
-    width: 35em;
-    height: 35em;
-    border: 3px solid black;
-    border-radius: 15px;
-    position: fixed;
-    top: 5em;
-    left: 25em;
-    z-index: 102;
-}
 
 #map {
     width: 100%;
@@ -232,7 +271,7 @@ header#header > div.more-info {
     border-radius: 15px;
 }
 
-.close_map {
+.popup_close {
     width: 5%;
     height: 5%;
     background: black;

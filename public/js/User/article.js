@@ -18,10 +18,15 @@ $(function () {
             success: function (response) {
                 var data = response.data;
                 for (var i in data) {
+                    if(data[i].user.avatar) {
+                        var avatar = src=window.location.origin+'/asset/images/avatar/'+data[i].user.id+'/'+data[i].user.avatar;
+                    } else {
+                        var avatar = window.location.origin + '/asset/images/avatar/default/avatar_default.png';
+                    }
                     var commentElement = `
                         <div class="row">
                             <div class="avatar_comment_box col-lg-1">
-                                <img class="avatar_image" src="${window.location.origin}/asset/images/avatar/${data[i].user.id}/${data[i].user.avatar}" alt="">
+                                <img class="avatar_image" src="${avatar}" alt="">
                             </div>
                                 <div class="comment">
                                     <a href="/user/personal-page/${data[i].user_id}">

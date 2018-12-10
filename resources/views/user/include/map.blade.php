@@ -1,11 +1,9 @@
-<div class="map_box">
-    <div class="opacity" id="opacity">
+<div class="map_box popup">
+    <div class="popup_opacity">
     </div>
-    <div class="my_map">
+    <div class="popup_content" style="width: 35em;height: 35em;">
         <div id="map"></div>
-        <div class="close_map" id="close_map">
+        <div class=" popup_close">
         </div>
     </div>
 </div>
-
-

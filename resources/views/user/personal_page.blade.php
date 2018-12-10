@@ -29,47 +29,14 @@
                 </div>
 
                 <input type="submit" class="button primary" value="Đăng">
-                {{-- <input type="button" id="test" class="button primary" value="test"> --}}
-
             </form>
-
         </section>
-        @foreach($articles as $article)
-            @include('user.include.article', ["article" => $article])
-        @endforeach
-        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-        <script>
-            $(document).ready(function () {
-                var socket = io.connect('http://127.0.0.1:8890');
-                console.log('connected..');
-                socket.on('message', function (data) {
-                    data = $.parseJSON(data);
-                    var commentElement = `
-                        <div class="row">
-                            <div class="avatar_comment_box col-lg-1">
-                                <img class="avatar_image" src="${window.location.origin}/asset/images/avatar/${data.user_id}/${data.user_avatar}" alt="">
-                            </div>
-                                <div class="comment">
-                                    <a href="/user/personal-page/${data.user_id}">
-                                        ${data.user_name}
-                                    </a>
-                                    <div style="display: inline-block;">
-                                        <p>${data.comment}</p>
-                                    </div>
-                                </div>
-                        </div>`;
-                    $("div#comment_box_" + data.post_id+">.list_comment").prepend(commentElement);
-                });
-            });
-        </script>
+        @include('user.include.article', ["$articles" => $articles])
     </div>
 
 @endsection
 @section('head')
-    <script src="{{ url('js/User/article.js') }}"></script>
-    {{--<script src="{{ url('js/article.js')  }}"></script>--}}
+
 @endsection
 @section('map')
     @include('user.include.map')

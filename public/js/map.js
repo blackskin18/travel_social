@@ -17,15 +17,6 @@ $(function () {
         $("div.map_box").css("display", "block");
     });
 
-
-    $("#close_map").click(function () {
-        $("div.map_box").css("display", "none");
-    });
-    $("#opacity").click(function () {
-        $("div.map_box").css("display", "none");
-    });
-
-
 });
 
 
