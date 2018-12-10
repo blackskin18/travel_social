@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="{{ url('lib/cropper/css/cropper.css') }}">
 <div class="avatar">
-    <img src="{{ url('asset/images/avatar/'.$user->id.'/'.$user->avatar) }}" alt=""/>
+    @if($user->avatar)
+        <img src="{{ url('asset/images/avatar/'.$user->id.'/'.$user->avatar) }}" alt=""/>
+    @else
+        <img src="{{ url('asset/images/avatar/default/avatar_default.png') }}" alt=""/>
+    @endif
     @if($user->id == Auth::user()->id)
         <a class="change_avatar" id="change_avatar">
             Thay Ảnh

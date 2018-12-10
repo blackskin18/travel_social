@@ -33,10 +33,10 @@
 		<a href="{{ route('personal.page', Auth::user()->id) }}">
 			<div class="info">
 				<div class="image-nav avatar">
-                    <img class="avatar-nav" src="{{ url('asset/images/avatar/'.$user->id.'/'.$user->avatar) }}" alt="">
+                    <img class="avatar-nav" src="{{ url('asset/images/avatar/'.Auth::user()->id.'/'.Auth::user()->avatar) }}" alt="">
                 </div>
 				<div class="username-nav">
-					{{ $user->name }}
+					{{ Auth::user()->name }}
 				</div>
 			</div>
 		</a>
