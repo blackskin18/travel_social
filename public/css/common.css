@@ -30,8 +30,6 @@ a{
 }
 
 .popup_content {
-    /*width: 35em;*/
-    /*height: 35em;*/
     border: 3px solid black;
     background: whitesmoke;
     border-radius: 15px;
@@ -39,6 +37,16 @@ a{
     top: 5em;
     left: 25em;
     z-index: 102;
+}
+
+.popup_close {
+    width: 25px;
+    height: 25px;
+    background: black;
+    position: absolute;
+    border-radius: 50%;
+    top: -2%;
+    left: 98%;
 }
 
 .inner {
@@ -271,15 +279,7 @@ header#header > div.more-info {
     border-radius: 15px;
 }
 
-.popup_close {
-    width: 5%;
-    height: 5%;
-    background: black;
-    position: absolute;
-    border-radius: 50%;
-    top: -2%;
-    left: 98%;
-}
+
 
 .hidden_input {
     display: none;
@@ -328,4 +328,14 @@ div.list_comment div.comment>a{
 
 .btn_like:hover, .btn_comment:hover {
     background: #F7F7F7;
+}
+
+.image_displayed_box .image_toolbar .next_image, .image_displayed_box .image_toolbar .prev_image{
+    display: none;
+    position: fixed;
+}
+
+.image_displayed_box .image_toolbar .next_image:hover, .image_displayed_box .image_toolbar .prev_image:hover{
+    opacity: 0.6;
+    cursor: pointer;
 }

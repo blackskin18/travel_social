@@ -50,8 +50,9 @@ $(function () {
         a.toBlob((blob) => {
             const formData = new FormData();
             formData.append('file', blob);
-            formData.append('_token', '{{csrf_token()}}');
-            $.ajax('/user/change_avatar', {
+            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+            $.ajax({
+                url: '/user/change_avatar',
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -60,9 +61,8 @@ $(function () {
                     var response = jQuery.parseJSON(response);
                     $("div.avatar img").attr("src", window.location.origin + '/' + response.data.src_avatar);
                     $(".popup").css('display', 'none');
-
                 },
-                error() {
+                error: function() {
                     console.log('Upload error');
                 },
             });

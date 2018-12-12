@@ -14,6 +14,7 @@ class CommentController extends Controller
 
     public function __construct(CommentRepository $commentRepository)
     {
+        $this->middleware('auth');
         $this->commentRepository = $commentRepository;
     }
 

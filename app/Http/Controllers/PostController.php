@@ -30,6 +30,7 @@ class PostController extends Controller
         PositionRepository $positionRepo,
         PostImageRepository $postImageRepo
     ) {
+        $this->middleware('auth');
         $this->userRepo = $userRepo;
         $this->postRepo = $postRepo;
         $this->positionRepo = $positionRepo;
@@ -65,7 +66,7 @@ class PostController extends Controller
             }
         }
 
-        return redirect()->route('personal.page', ['id' => 1]);
+        return redirect()->route('personal.page', ['id' => $user->id]);
     }
 
     public function getMapInfo(Request $request)
