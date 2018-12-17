@@ -25,9 +25,9 @@ class UserController extends Controller
     public function personalPage($id)
     {
         $user = $this->userRepository->find($id);
-        $posts = $this->postRepository->with('position')->findWhere(['user_id' => $id]);
+        $posts = $this->postRepository->with('position')->with('user:id,avatar,name')->findWhere(['user_id' => $id]);
 
-        return view('user.personal_page')->with('user', $user)->with('articles', $posts);
+        return view('user.personal_page')->with('user', $user)->with('posts', $posts);
     }
 
     public function displayInfo($id)

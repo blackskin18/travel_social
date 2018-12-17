@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Repository;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class PostRepository extends BaseRepository {
-
+class PostRepository extends BaseRepository
+{
     /**
      * Specify Model class name
      *
@@ -13,5 +14,10 @@ class PostRepository extends BaseRepository {
     function model()
     {
         return "App\\Model\\Post";
+    }
+
+    public function deletePost($postId)
+    {
+        return $postId;
     }
 }

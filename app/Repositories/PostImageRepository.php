@@ -14,4 +14,9 @@ class PostImageRepository extends BaseRepository {
     {
         return "App\\Model\\PostImage";
     }
+
+    public function deleteWithPost($post_id)
+    {
+
+    }
 }

@@ -31,7 +31,7 @@
                 </form>
             </section>
         @endif
-        @include('user.include.article', ["$articles" => $articles])
+        @include('post.include.list_post', ["$posts" => $posts])
     </div>
 
 @endsection

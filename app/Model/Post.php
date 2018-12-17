@@ -11,9 +11,14 @@ class Post extends Model
         'user_id', 'description', 'status', 'type'
     ];
 
-    public function postImage()
+    public function post_image()
     {
         return $this->hasMany('App\Model\PostImage');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Model\User');
     }
 
     public function position()
