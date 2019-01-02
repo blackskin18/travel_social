@@ -22,7 +22,7 @@ class UserController extends Controller
         $this->postRepository = $postRepository;
     }
 
-    public function personalPage($id)
+    public function showPersonalPage($id)
     {
         $user = $this->userRepository->find($id);
         $posts = $this->postRepository->with('position')->with('user:id,avatar,name')->findWhere(['user_id' => $id]);
@@ -51,4 +51,8 @@ class UserController extends Controller
         return Response(['status' => 'success',
                          'data'=> ['src_avatar'=>'asset/images/avatar/'.$user->id.'/'.$filename]], 200)->header('Content-Type', 'text/plain');;
     }
+
+
+
+
 }

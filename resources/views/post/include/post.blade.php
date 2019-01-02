@@ -68,10 +68,10 @@
     <div>
         <div class="like_box">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="text-center btn_like"> Like</div>
+                <div class="col-sm-6 col-md-5 col-lg-6">
+                    <div class="text-center btn_like" data-post-id="{{$post->id}}"> <i class='far fa-thumbs-up'></i> Like</div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-sm-6 col-md-5 col-lg-6">
                     <div class="text-center btn_comment" data-article-id="{{$post->id}}"> Bình luận</div>
                 </div>
             </div>

@@ -1,9 +1,15 @@
 $(function () {
     $(".post_setting_btn").click(function () {
         var postId = $(this).data('post-id')
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var popupSettingHtml = `<div class="popup_setting" style="width: 100%"><ul>
-                                <li><a href="">edit</a></li>
-                                <li><a href="${window.location.origin}/post/delete/${postId}">delete</a></li>
+                                <li><a href="/post/edit/${postId}">Edit</a></li>
+                                <li>
+                                    <form id="delete_post" method="post" action="/post/delete/${postId}">
+                                        <input type="hidden" name="_token" value="${CSRF_TOKEN}" /> 
+                                        <a onclick="document.getElementById('delete_post').submit();">Delete post</a>
+                                    </form>
+                                </li>
                             </ul></div>`;
         $(this).popModal({
             html: popupSettingHtml,
@@ -32,7 +38,6 @@ $(function () {
                 'X-CSRF-TOKEN': CSRF_TOKEN
             }
         });
-
         $.ajax({
             url: '/comment/get',
             type: 'GET',
@@ -63,7 +68,6 @@ $(function () {
                 }
             }
         });
-
     });
 
     $("input.comment_input").keypress(function (event) {
@@ -90,6 +94,40 @@ $(function () {
             });
         }
     });
+
+    $("div.btn_like").click(function () {
+        var postId = $(this).data('post-id');
+        let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var btnElement = $(this);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            }
+        });
+
+        $.ajax({
+            url: '/like',
+            type: 'post',
+            data: {post_id: postId},
+            success: function (response) {
+                var data = JSON.parse(response);
+                if (data.message === 'LIKE') {
+                    btnElement.css('color', '#0ea27a');
+                    btnElement.children().eq(0).css('color', '#0ea27a');
+                } else {
+                    btnElement.css('color', '#a2a2a2');
+                    btnElement.children().eq(0).css('color', '#a2a2a2');
+                }
+            },
+            error: function () {
+                alert('something error');
+            }
+        });
+
+    })
+
+
 });
 
 $(document).ready(function () {

@@ -372,3 +372,19 @@ div.popup_setting > ul > li > a:hover {
     background-color: #5CC6A7;
     color: white !important;
 }
+
+div.image_in_post {
+    position: relative;
+}
+
+div.image_in_post > .btn_delete {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 370px;
+}
+
+div.image_in_post > .btn_delete:hover > i {
+    color: white;
+    text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}

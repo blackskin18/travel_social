@@ -25,4 +25,9 @@ class Post extends Model
     {
         return $this->hasMany('App\Model\Position');
     }
+
+    public function like()
+    {
+        return $this->hasMany('App\Model\Like');
+    }
 }

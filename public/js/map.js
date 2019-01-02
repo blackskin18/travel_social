@@ -61,10 +61,9 @@ MapCustom.prototype.addListenerCreatePost = function (infoBoxSelector) {
     this.listener = this.map.addListener('click', function (event) {
         var marker = that.makeMarker({lat: event.latLng.lat(), lng: event.latLng.lng()}, infoBoxSelector, that.CREATE);
         var markerInfoHtml = `<div class="marker_info">
-                            ${that.markerArray.length}
-                            <input type="" name="lat[]" class="lat_position" value="${marker.getPosition().lat()}">
-                            <input type="" name="lng[]" class="lng_position" value="${marker.getPosition().lng()}">
-                            <input type="" name="marker_description[]" class="marker_description">
+                            <input type="hidden" name="lat[]" class="lat_position" value="${marker.getPosition().lat()}">
+                            <input type="hidden" name="lng[]" class="lng_position" value="${marker.getPosition().lng()}">
+                            <input type="hidden" name="marker_description[]" class="marker_description">
                             </div>`;
         $("div#marker_info_box").append(markerInfoHtml);
     });
@@ -73,6 +72,7 @@ MapCustom.prototype.addListenerCreatePost = function (infoBoxSelector) {
     for (var i = 0; i < sumMarkers; i++) {
         var lat = parseFloat($("div.marker_info").eq(i).find("input.lat_position").val());
         var lng = parseFloat($("div.marker_info").eq(i).find("input.lng_position").val());
+        console.log(lat, lng);
         this.makeMarker({lat: lat, lng: lng}, infoBoxSelector, this.CREATE);
     }
 }

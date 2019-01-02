@@ -16,9 +16,18 @@ class PositionRepository extends BaseRepository
         return "App\\Model\\Position";
     }
 
-    //public function deleteWithPost($post_id)
-    //{
-    //    if ($this->deleteWhere(['post_id' => $post_id])) {
-    //
-    //}
+    public function deleteOldPositions($post_id)
+    {
+        $this->deleteWhere(['post_id' => $post_id]);
+    }
+
+    public function createPositions($lats, $lngs, $descriptions, $postId)
+    {
+        for ($i = 0; $i < count($lats); $i++) {
+            $this->create(['post_id'     => $postId,
+                           'lat'         => $lats[$i],
+                           'lng'         => $lngs[$i],
+                           'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $descriptions[$i]),]);
+        }
+    }
 }

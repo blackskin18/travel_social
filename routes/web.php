@@ -19,19 +19,25 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
-Route::get('/user/personal-page/{id}', 'UserController@personalPage')->name('personal.page');
+Route::get('/user/personal-page/{id}', 'UserController@showPersonalPage')->name('personal.page');
 Route::get('/user/detail-info/{id}', 'UserController@displayInfo')->name('detail.info');
 Route::post('/user/change_avatar', 'UserController@changeAvatar')->name('user.change_avatar');
 
 Route::post('/post/create', 'PostController@create')->name('post.create');
 Route::get('/post/map/get_info', 'PostController@getMapInfo')->name('post.map.info');
 Route::get('/post/detail/{id}', 'PostController@getDetailPost')->name('post.detail');
-Route::get('/post/delete/{id}', 'PostController@deletePost')->name('post.delete');
+Route::delete('/post/delete/{id}', 'PostController@destroy')->name('post.destroy');
+Route::get('post/edit/{id}', 'PostController@edit')->name('post.edit');
+Route::post('post/update/{id}', 'PostController@update')->name('post.update');
+
+
 
 
 Route::post('/comment/send', 'CommentController@sendMessage')->name('comment.send');
 Route::get('/comment/get', 'CommentController@getCommentInPost')->name('comment.get');
+
+
+Route::post('/like', 'LikeController@addLike')->name('like.add');
 
 
 Route::get('storage/post/{postId}/{filename}', 'FileStorageController@getPostImage')->name('file.post_image');

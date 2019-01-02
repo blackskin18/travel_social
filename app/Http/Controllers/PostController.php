@@ -54,15 +54,7 @@ class PostController extends Controller
                                          'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->marker_description[$i]),]);
         }
 
-        if ($request->photos) {
-            foreach ($request->photos as $photo) {
-                $pathFile = Storage::put('public/images/post/'.$post->id, $photo);
-                $pathFileArray = explode('/', $pathFile);
-                $filename = $pathFileArray[count($pathFileArray) - 1];
-                $this->postImageRepo->create(["post_id" => $post->id,
-                                              "image"   => $filename,]);
-            }
-        }
+        $this->postImageRepo->createMulti($request->photos, $post->id);
 
         return redirect()->back()->with('message', 'Operation Successful !');
         //return redirect()->route('personal.page', ['id' => $user->id]);
@@ -89,7 +81,7 @@ class PostController extends Controller
         return view('post.detail')->with('post', $post);
     }
 
-    public function deletePost($post_id)
+    public function destroy($post_id)
     {
         try {
             $post = $this->postRepo->find($post_id);
@@ -102,6 +94,46 @@ class PostController extends Controller
                 return Response(['status' => 'success', 'code' => 200], 200)->header('Content-Type', 'text/plain');
             } else {
                 return Response(['status' => 'failure', 'code' => 201], 200)->header('Content-Type', 'text/plain');
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function edit($post_id)
+    {
+        try {
+            $post = $this->postRepo->with('position')->find($post_id);
+            if (Auth::user()->can('update', $post)) {
+                return view('post.edit')->with('post', $post);
+            } else {
+                echo "you can't edit this post";
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function update(Request $request, $post_id)
+    {
+        try {
+            $post = $this->postRepo->with('position')->find($post_id);
+
+            if (Auth::user()->can('update', $post) && $post) {
+                if (count($request->lat) === count($request->lng) && count($request->lng) === count($request->marker_description)) {
+                    $this->positionRepo->deleteOldPositions($post->id);
+                    $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $post->id);
+
+                    $this->postImageRepo->deleteWithArrayOfId($request->delete_images, $post->id);
+                    $this->postImageRepo->createMulti($request->photos, $post->id);
+
+                    $post->description = $request->post_description;
+                    $post->save();
+                }
+
+                return redirect()->route('post.detail', ['id' => $post->id]);
+            } else {
+                return "you can't edit this post";
             }
         } catch (\Exception $e) {
             return $e->getMessage();

@@ -5,9 +5,9 @@
     <meta charset="utf-8"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    {{--<link id="bootstrap-styleshhet"--}}
-          {{--href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet"--}}
-          {{--type="text/css"/>--}}
+    <link id="bootstrap-styleshhet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css'
@@ -24,8 +24,6 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlkPRpU8Qk221zsdBOpn8cVl_WDSBtIWk&callback=initMap"
         async defer></script>
-
-
 
     @yield('head')
 

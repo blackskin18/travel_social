@@ -12,7 +12,6 @@ class FileStorageController extends Controller
 
     public function getPostImage($postId, $filename)
     {
-
         $path = storage_path('app\public\images\post\\'.$postId.'\\'.$filename);
         if (!File::exists($path)) {
             abort(404);
