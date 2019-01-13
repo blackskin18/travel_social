@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Repository\PositionRepository;
@@ -44,9 +45,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = $this->postRepo->with('position')->with('user:id,avatar,name')->all();
+        $user = Auth::user();
+        $posts = $this->postRepo->getList($user->id);
 
-        //return $posts;
         return view('home.new_feed')->with('posts', $posts);
 
     }

@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('home');
+    //return view('welcome');
 });
 
 Auth::routes();
@@ -23,14 +24,22 @@ Route::get('/user/personal-page/{id}', 'UserController@showPersonalPage')->name(
 Route::get('/user/detail-info/{id}', 'UserController@displayInfo')->name('detail.info');
 Route::post('/user/change_avatar', 'UserController@changeAvatar')->name('user.change_avatar');
 
+Route::post('/user/edit/edit_name', 'UserController@updateName')->name('user.update.name');
+Route::post('/user/edit/edit_nick_name', 'UserController@updateNickName')->name('user.update.nick_name');
+Route::post('/user/edit/edit_phone', 'UserController@updatePhone')->name('user.update.phone');
+Route::post('/user/edit/edit_gender', 'UserController@updateGender')->name('user.update.gender');
+Route::post('/user/edit/edit_address', 'UserController@updateAddress')->name('user.update.address');
+Route::post('/user/edit/edit_email', 'UserController@updateEmail')->name('user.update.email');
+Route::post('/user/edit/edit_description', 'UserController@updateDescription')->name('user.update.description');
+
+
+
 Route::post('/post/create', 'PostController@create')->name('post.create');
 Route::get('/post/map/get_info', 'PostController@getMapInfo')->name('post.map.info');
 Route::get('/post/detail/{id}', 'PostController@getDetailPost')->name('post.detail');
 Route::delete('/post/delete/{id}', 'PostController@destroy')->name('post.destroy');
 Route::get('post/edit/{id}', 'PostController@edit')->name('post.edit');
 Route::post('post/update/{id}', 'PostController@update')->name('post.update');
-
-
 
 
 Route::post('/comment/send', 'CommentController@sendMessage')->name('comment.send');

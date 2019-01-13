@@ -22,7 +22,7 @@ class CommentController extends Controller
     {
         $comments = $this->commentRepository->getCommentInPost($request->post_id);
 
-        //$comments = $this->commentRepository->findWhere(['post_id' => $request->post_id]);
+
         return Response::json(['status' => 'success',
                                'code'   => 200,
                                'data'   => $comments,], 200);
@@ -34,11 +34,14 @@ class CommentController extends Controller
 
         if ($this->commentRepository->storageComment($request->input(), $user)) {
             $redis = LRedis::connection();
+            $countComment = count( $this->commentRepository->findWhere(['post_id'=>$request->post_id]));
             $redis->publish('message', json_encode(['comment'     => $request->comment_content,
                                                     'post_id'      => $request->post_id,
                                                     'user_id'     => $user->id,
                                                     'user_avatar' => $user->avatar,
+                                                    'count_comment' => $countComment,
                                                     'user_name'   => $user->name]));
+
             return Response::json(['status' => 'success',
                                    'code'   => 200,
                                    'data'   => [],], 200);

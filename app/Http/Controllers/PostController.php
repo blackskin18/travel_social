@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repository\CommentRepository;
+use App\Repository\LikeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreatePostRequest;
@@ -26,12 +27,15 @@ class PostController extends Controller
 
     protected $commentRepo;
 
+    protected $likeRepo;
+
     public function __construct(
         PostRepository $postRepo,
         UserRepository $userRepo,
         PositionRepository $positionRepo,
         PostImageRepository $postImageRepo,
-        CommentRepository $commentRepo
+        CommentRepository $commentRepo,
+        LikeRepository $likeRepo
     ) {
         $this->middleware('auth');
         $this->userRepo = $userRepo;
@@ -39,6 +43,7 @@ class PostController extends Controller
         $this->positionRepo = $positionRepo;
         $this->postImageRepo = $postImageRepo;
         $this->commentRepo = $commentRepo;
+        $this->likeRepo = $likeRepo;
     }
 
     public function create(CreatePostRequest $request)
@@ -74,9 +79,10 @@ class PostController extends Controller
         return Response($data, 200)->header('Content-Type', 'text/plain');
     }
 
-    public function getDetailPost($post_id)
+    public function getDetailPost($postId)
     {
-        $post = $this->postRepo->with('post_image')->with('position')->find($post_id);
+        $user = Auth::user();
+        $post = $this->postRepo->getOne($postId, $user->id);
 
         return view('post.detail')->with('post', $post);
     }
@@ -86,14 +92,17 @@ class PostController extends Controller
         try {
             $post = $this->postRepo->find($post_id);
             if (Auth::user()->can('delete', $post)) {
+                $this->likeRepo->deleteWhere(['post_id' => $post_id]);
                 $this->positionRepo->deleteWhere(['post_id' => $post_id]);
                 $this->postImageRepo->deleteWhere(['post_id' => $post_id]);
                 $this->commentRepo->deleteWhere(['post_id' => $post_id]);
                 $this->postRepo->delete($post_id);
 
-                return Response(['status' => 'success', 'code' => 200], 200)->header('Content-Type', 'text/plain');
+                //return Response(['status' => 'success', 'code' => 200], 200)->header('Content-Type', 'text/plain');
+                return redirect('home');
             } else {
-                return Response(['status' => 'failure', 'code' => 201], 200)->header('Content-Type', 'text/plain');
+                return "you can't delete this post";
+                //return Response(['status' => 'failure', 'code' => 201], 200)->header('Content-Type', 'text/plain');
             }
         } catch (\Exception $e) {
             return $e->getMessage();

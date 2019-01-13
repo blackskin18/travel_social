@@ -3,11 +3,12 @@ $(function () {
         var postId = $(this).data('post-id')
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var popupSettingHtml = `<div class="popup_setting" style="width: 100%"><ul>
-                                <li><a href="/post/edit/${postId}">Edit</a></li>
+                                <li><a href="/post/edit/${postId}"> Sửa bài viết </a></li>
                                 <li>
                                     <form id="delete_post" method="post" action="/post/delete/${postId}">
                                         <input type="hidden" name="_token" value="${CSRF_TOKEN}" /> 
-                                        <a onclick="document.getElementById('delete_post').submit();">Delete post</a>
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <a onclick="document.getElementById('delete_post').submit();">Xóa bài viết</a>
                                     </form>
                                 </li>
                             </ul></div>`;
@@ -111,7 +112,7 @@ $(function () {
             type: 'post',
             data: {post_id: postId},
             success: function (response) {
-                var data = JSON.parse(response);
+                var data = JSON.parse(response).data;
                 if (data.message === 'LIKE') {
                     btnElement.css('color', '#0ea27a');
                     btnElement.children().eq(0).css('color', '#0ea27a');
@@ -119,6 +120,8 @@ $(function () {
                     btnElement.css('color', '#a2a2a2');
                     btnElement.children().eq(0).css('color', '#a2a2a2');
                 }
+
+                $("#count_like_in_"+postId).html(data.count_like + " lượt thích");
             },
             error: function () {
                 alert('something error');
@@ -135,10 +138,14 @@ $(document).ready(function () {
     console.log('connected..');
     socket.on('message', function (data) {
         data = $.parseJSON(data);
+
+        $("#count_comment_in_" + data.post_id).text(data.count_comment + " bình luận");
+
+        var avtarSrc = data.user_avatar ? `${window.location.origin}/asset/images/avatar/${data.user_id}/${data.user_avatar}` : `${window.location.origin}/asset/images/avatar/default/avatar_default.png`;
         var commentElement = `
                         <div class="row">
                             <div class="avatar_comment_box col-lg-1">
-                                <img class="avatar_image" src="${window.location.origin}/asset/images/avatar/${data.user_id}/${data.user_avatar}" alt="">
+                                <img class="avatar_image" src="${avtarSrc}" alt="">
                             </div>
                                 <div class="comment">
                                     <a href="/user/personal-page/${data.user_id}">

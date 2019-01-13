@@ -2,8 +2,13 @@
     {{--header--}}
     <div class="row">
         <article class="col-2 col-12-xsmall" style="padding: 0 0 0 2.5em">
-            <img style="border-radius: 50%; width:75px; height: 75px "
-                 src="{{ url('asset/images/avatar/'.$post->user->id.'/'.$post->user->avatar) }}" alt="">
+            @if($post->user->avatar)
+                <img style="border-radius: 50%; width:75px; height: 75px "
+                     src="{{ url('asset/images/avatar/'.$post->user->id.'/'.$post->user->avatar) }}" alt="">
+            @else
+                <img style="border-radius: 50%; width:75px; height: 75px "
+                     src="{{ url('asset/images/avatar/default/avatar_default.png') }}" alt="">
+            @endif
         </article>
         <article class="col-7 col-12-xsmall" style="padding: 0">
             <h2 class="none-padding none-margin">
@@ -20,11 +25,13 @@
                         {{ $post->created_at  }}
                     </p>
                 </div>
-                <div class="display_inline_block" style="padding-left: 5px">
-                    <a class="post_setting_btn" data-post-id="{{$post->id}}">
-                        <i class="material-icons" style="font-size:24px">settings</i>
-                    </a>
-                </div>
+                @if($post->user_id == Auth::user()->id)
+                    <div class="display_inline_block" style="padding-left: 5px">
+                        <a class="post_setting_btn" data-post-id="{{$post->id}}">
+                            <i class="material-icons" style="font-size:24px">settings</i>
+                        </a>
+                    </div>
+                @endif
             </div>
 
         </article>
@@ -63,33 +70,61 @@
         @endforeach
     </div>
     {{--end list image--}}
+    <div>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <a class="pointer" id="count_like_in_{{$post->id}}">
+                    {{ count($post->like) }} lượt thích
+                </a>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 text-right">
+                <a class="pointer" id="count_comment_in_{{$post->id}}">
+                    {{ count($post->comment) }} bình luận
+                </a>
+            </div>
+        </div>
+    </div>
 
     {{--like and comment--}}
     <div>
         <div class="like_box">
             <div class="row">
-                <div class="col-sm-6 col-md-5 col-lg-6">
-                    <div class="text-center btn_like" data-post-id="{{$post->id}}"> <i class='far fa-thumbs-up'></i> Like</div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    @if($post->be_liked)
+                        <div class="text-center btn_like pointer" data-post-id="{{$post->id}}" style="color: #0ea27a">
+                            @else
+                                <div class="text-center btn_like pointer" data-post-id="{{$post->id}}">
+                                    @endif
+                                    <i class='far fa-thumbs-up'></i>
+                                    Like
+                                </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="text-center btn_comment pointer" data-article-id="{{$post->id}}"> Bình luận
+                            </div>
+                        </div>
                 </div>
-                <div class="col-sm-6 col-md-5 col-lg-6">
-                    <div class="text-center btn_comment" data-article-id="{{$post->id}}"> Bình luận</div>
+            </div>
+            <div class="comment_box display_none" id="comment_box_{{$post->id}}">
+                <div class="row comment_input_box">
+                    <div class="avatar_comment_box col-lg-1">
+                        @if(Auth::user()->avatar)
+                            <img class="avatar_image"
+                                 src="{{ url('asset/images/avatar/'.Auth::user()->id.'/'.Auth::user()->avatar) }}"
+                                 alt="">
+                        @else
+                            <img class="avatar_image"
+                                 src="{{ url('asset/images/avatar/default/avatar_default.png') }}"
+                                 alt="">
+                        @endif
+                    </div>
+                    <div class="col-lg-10">
+                        <input type="text" class="comment_input" data-article-id="{{$post->id}}">
+                    </div>
+                </div>
+                <div class="list_comment">
                 </div>
             </div>
         </div>
-        <div class="comment_box display_none" id="comment_box_{{$post->id}}">
-            <div class="row comment_input_box">
-                <div class="avatar_comment_box col-lg-1">
-                    <img class="avatar_image"
-                         src="{{ url('asset/images/avatar/'.Auth::user()->id.'/'.Auth::user()->avatar) }}"
-                         alt="">
-                </div>
-                <div class="col-lg-10">
-                    <input type="text" class="comment_input" data-article-id="{{$post->id}}">
-                </div>
-            </div>
-            <div class="list_comment">
-            </div>
-        </div>
-    </div>
     {{-- end like and comment--}}
 </section>

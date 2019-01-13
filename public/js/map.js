@@ -131,14 +131,16 @@ MapCustom.prototype.makeMarker = function (location, infoBoxSelector, type) {
 
     if (type == this.CREATE) {
         marker.addListener('rightclick', function () {
-            var index = this.findIndexOfMarker(location);
+            var index = that.findIndexOfMarker(location);
             $("div.marker_info").eq(index).remove();
 
             that.markerArray.splice(index, 1);
             marker.setMap(null);
 
-            if (markerArray.length > 1) {
-                directions();
+            if (that.markerArray.length > 1) {
+                that.directions();
+            } else if (that.markerArray.length === 1) {
+                that.directionsDisplay.setMap(null);
             }
         });
 

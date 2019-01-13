@@ -2,6 +2,10 @@ a {
     border-bottom-color: transparent;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 .menu-header {
     background-color: #5CC6A7;
     width: 100%;
@@ -163,14 +167,21 @@ div.notifycation > * {
     display: inline-block;
 }
 
-div.info {
-    margin-left: 32em;
-    width: 10em;
-    position: relative;
-}
+/*div.info {*/
+/*margin-left: 25em;*/
+/*width: 10em;*/
+/*position: relative;*/
+/*}*/
 
-div.info > * {
-    display: inline-block;
+/*div.info > * {*/
+/*display: inline-block;*/
+/*}*/
+
+div.avatar_nav_box {
+    width: 10em;
+    position: absolute;
+    top: 0;
+    left: 58%;
 }
 
 div.info .image-nav .avatar-nav {
@@ -188,10 +199,39 @@ div.info .username-nav {
     left: 3em;
 }
 
-.add-friend, .messenger, .article-notify {
+#navbarDropdown {
+    padding: 10px;
+    color: white;
+}
+
+li.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.add-friend, .messenger, .article-notify, .setting_nav {
     width: 2.5em;
     height: 2.5em;
-    position: relative;
+    position: absolute;
+}
+
+.add-friend {
+    top: 0;
+    left: 70%;
+}
+
+.messenger {
+    top: 0;
+    left: 73%;
+}
+
+.article-notify {
+    top: 0;
+    left: 76%;
+}
+
+.setting_nav {
+    top: 0;
+    left: 77%;
 }
 
 .icon {
@@ -347,7 +387,7 @@ div.popup_setting {
     width: 100%;
 }
 
-div.popup_setting > ul {
+div.popup_setting ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -355,20 +395,21 @@ div.popup_setting > ul {
     /*background-color: #f1f1f1;*/
 }
 
-div.popup_setting > ul > li {
+div.popup_setting ul li {
     padding-left: 0;
     color: white;
 }
 
-div.popup_setting > ul > li a {
+div.popup_setting ul li a {
     display: block;
-    color: #000;
+    color: #000 !important;
     padding: 8px 16px;
     text-decoration: none;
+    cursor: pointer;
 }
 
 /* Change the link color on hover */
-div.popup_setting > ul > li > a:hover {
+div.popup_setting ul li a:hover {
     background-color: #5CC6A7;
     color: white !important;
 }

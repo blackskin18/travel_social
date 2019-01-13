@@ -27,9 +27,10 @@ class LikeController extends Controller
             $post = $this->postRepository->find($request->post_id);
             if ($post) {
                 $message = $this->likeRepository->createOrDelete($user->id, $post->id);
-                $data = ['code'    => 200,
-                         'status'  => 'success',
-                         'message' => $message];
+                $data = ['code'   => 200,
+                         'status' => 'success',
+                         'data'     => ['message'    => $message,
+                                      'count_like' => count($post->like)]];
                 return Response($data, 200)->header('Content-Type', 'text/plain');
             }
 
