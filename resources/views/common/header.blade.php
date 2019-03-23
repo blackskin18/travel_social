@@ -4,6 +4,8 @@
     <title>Mạng Xã Hội Du lịch</title>
     <meta charset="utf-8"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <meta name="user-name" content="{{ auth::user()->name }}"/>
+    <meta name="user-id" content="{{ auth::user()->id }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -22,14 +24,14 @@
 
 {{--    <script src="{{ asset('js/app.js') }}" defer></script>--}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
     <script src="{{url('lib/pop_modal/js/popModal.js')}}"></script>
     <script src="{{ url('js/common.js') }}"></script>
     <script src="{{ url('js/map.js') }}"></script>
+    @yield('head')
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlkPRpU8Qk221zsdBOpn8cVl_WDSBtIWk&callback=initMap"
         async defer></script>
-
-    @yield('head')
 
 </head>
 <body class="is-preload">

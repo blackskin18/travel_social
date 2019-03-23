@@ -47,7 +47,6 @@ class CommentRepository extends BaseRepository
     public function getCommentInPost($postId)
     {
         $comment = Comment::where('post_id', $postId)->with('user')->orderBy('created_at', 'desc')->get();
-
-        return $comment;
+        return $comment->makeVisible('user');
     }
 }

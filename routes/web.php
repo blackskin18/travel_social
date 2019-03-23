@@ -32,8 +32,6 @@ Route::post('/user/edit/edit_address', 'UserController@updateAddress')->name('us
 Route::post('/user/edit/edit_email', 'UserController@updateEmail')->name('user.update.email');
 Route::post('/user/edit/edit_description', 'UserController@updateDescription')->name('user.update.description');
 
-
-
 Route::post('/post/create', 'PostController@create')->name('post.create');
 Route::get('/post/map/get_info', 'PostController@getMapInfo')->name('post.map.info');
 Route::get('/post/detail/{id}', 'PostController@getDetailPost')->name('post.detail');
@@ -50,3 +48,10 @@ Route::post('/like', 'LikeController@addLike')->name('like.add');
 
 
 Route::get('storage/post/{postId}/{filename}', 'FileStorageController@getPostImage')->name('file.post_image');
+
+// location base service
+Route::get('follow_location', 'LocationServiceController@index')->name('location.service');
+
+//trip
+Route::get('trip/create', 'LocationServiceController@create')->name('trip.create');
+Route::post('trip/store', 'LocationServiceController@store')->name('trip.store');

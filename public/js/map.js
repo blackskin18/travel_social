@@ -8,7 +8,6 @@ $(function () {
         $("div.map_box").css("display", "block");
     });
 
-
     $(".btn_show_map").click(function () {
         let articleId = $(this).data('post-id');
         // 'article_info_position_''

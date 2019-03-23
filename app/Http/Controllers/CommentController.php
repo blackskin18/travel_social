@@ -6,7 +6,7 @@ use App\Repository\CommentRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
-use LRedis;
+//use LRedis;
 
 class CommentController extends Controller
 {
@@ -33,14 +33,14 @@ class CommentController extends Controller
         $user = Auth::user();
 
         if ($this->commentRepository->storageComment($request->input(), $user)) {
-            $redis = LRedis::connection();
+//            $redis = LRedis::connection();
             $countComment = count( $this->commentRepository->findWhere(['post_id'=>$request->post_id]));
-            $redis->publish('message', json_encode(['comment'     => $request->comment_content,
-                                                    'post_id'      => $request->post_id,
-                                                    'user_id'     => $user->id,
-                                                    'user_avatar' => $user->avatar,
-                                                    'count_comment' => $countComment,
-                                                    'user_name'   => $user->name]));
+//            $redis->publish('message', json_encode(['comment'     => $request->comment_content,
+//                                                    'post_id'      => $request->post_id,
+//                                                    'user_id'     => $user->id,
+//                                                    'user_avatar' => $user->avatar,
+//                                                    'count_comment' => $countComment,
+//                                                    'user_name'   => $user->name]));
 
             return Response::json(['status' => 'success',
                                    'code'   => 200,

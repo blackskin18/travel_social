@@ -429,3 +429,8 @@ div.image_in_post > .btn_delete:hover > i {
     color: white;
     text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
 }
+
+div.content_container {
+    width: 80%;
+    margin: 80px auto;
+}

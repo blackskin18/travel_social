@@ -49,7 +49,7 @@ class PostController extends Controller
     public function create(CreatePostRequest $request)
     {
         $user = Auth::user();
-        $countPosition = count($request->lat);
+        $countPosition = is_countable($request->lat);
         $post = $this->postRepo->create(["user_id"     => $user->id,
                                          'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),]);
         for ($i = 0; $i < $countPosition; $i++) {

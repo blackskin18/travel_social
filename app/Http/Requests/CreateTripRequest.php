@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePostRequest extends FormRequest
+class CreateTripRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,11 @@ class CreatePostRequest extends FormRequest
      */
     public function rules()
     {
-        return ['lat.*'              => 'required',
-                'lng.*'              => 'required',
-                'marker_description.*' => 'string|nullable',
-                'photos.*'           => 'image',
-                'post_description'   => 'string|nullable'];
+        return [
+            'title'      => 'required',
+            'time_start' => 'required|date',
+            'time_end'   => 'required|date',
+            'member'     => 'required'
+        ];
     }
 }

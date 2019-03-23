@@ -25,13 +25,15 @@
                         {{ $post->created_at  }}
                     </p>
                 </div>
-                @if($post->user_id == Auth::user()->id)
+                {{--@if($post->user_id == Auth::user()->id)--}}
                     <div class="display_inline_block" style="padding-left: 5px">
-                        <a class="post_setting_btn" data-post-id="{{$post->id}}">
+                        <a class="post_setting_btn" data-post-id="{{$post->id}}"
+                                                    data-post-owner="{{$post->user_id}}"
+                                                    data-auth-user="{{Auth::user()->id}}">
                             <i class="material-icons" style="font-size:24px">settings</i>
                         </a>
                     </div>
-                @endif
+                {{--@endif--}}
             </div>
 
         </article>
