@@ -18,14 +18,11 @@
 				</button>
 			</div>
 		</div>
-		<div class="inner">
-			<div class="image avatar">
-				<img src="{{ url('asset/images/avatar/'.$user->id.'/'.$user->avatar) }}" alt="" />
-				<div class="change-avatar">
-					Thay Ảnh
-				</div>
-			</div>
-			<h1><strong>I am {{ $user->name  }}</strong></h1>
+		<div class="inner avatar_display">
+            @include('user.include.upload_avatar')
+            <a href="{{route('personal.page', ['id' => $user->id])}}">
+                <h1><strong>{{ $user->name  }}</strong></h1>
+            </a>
 		</div>
 		<div class="more-info">
 			<div class="album">

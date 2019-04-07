@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreatePostRequest extends FormRequest
@@ -13,7 +14,7 @@ class CreatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return TRUE;
     }
 
     /**
@@ -23,9 +24,10 @@ class CreatePostRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'photos.*' => 'image',
-            'post_description' =>'string|nullable'
-        ];
+        return ['lat.*'              => 'required',
+                'lng.*'              => 'required',
+                'marker_description.*' => 'string|nullable',
+                'photos.*'           => 'image',
+                'post_description'   => 'string|nullable'];
     }
 }

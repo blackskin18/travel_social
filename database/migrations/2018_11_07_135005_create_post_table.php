@@ -18,9 +18,9 @@ class CreatePostTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->longText('description')->default(null);
-            $table->longText('status')->default(null);
-            $table->longText('type')->default(null);
+            $table->longText('description')->nullable();
+            $table->longText('status')->nullable();
+            $table->longText('type')->nullable();
 
             $table->timestamps();
         });

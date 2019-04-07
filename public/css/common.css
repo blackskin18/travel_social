@@ -1,193 +1,27 @@
+a {
+    border-bottom-color: transparent;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
 .menu-header {
-	background-color: #5CC6A7;
-	width: 100%;
-	height: 3em;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 100;
-}
-
-.inner {
-	position: relative;
-}
-.inner .avatar div.change-avatar{
-	display: none;
-	width: 8.25em;
-	height: 4.125em;
-	border-bottom-right-radius: 5em;
-	border-bottom-left-radius: 5em;
-	background: black;
-	color: white;
-	text-align: center;
-	padding-top: 1em;
-	opacity: 0.8;
-	position: absolute;
-	top: 4.125em;	
-	left: 0;
-}
-.inner .avatar:hover div.change-avatar {
-	display: block;
-}
-
-
-.input-border {
-	border: 1px solid #5CC6A7;
-}
-.margin-top-1{
-	margin-top: 10px;
-}
-.none-padding {
-	padding: 0;
-}
-.none-margin {
-	margin: 0;
-}
-
-.menu-header>div {
-	display: inline-block;
-}
- 
-.menu-header .logo {
-	width: 2%;
-	margin: 0 0 0 2.5em;
-}
-
-.menu-header .logo > img {
-	height: 2.5em;
-}
-
-.menu-header .search-box {
-	width: 30%;
-	padding: 0;
-	position: relative;
-}
-.menu-header .search-box .search {
-	width: 300px;
-	height: 2em;
-	position: absolute;
-	top: -2.2em;
-	left: 1em;
-}
-
-.menu-header .notifycation{
-	width: 63%;
-}
-
-div.notifycation>*{
-	display: inline-block;
-}
-
-div.info{
-	margin-left: 32em;
-	width: 10em;
-	position: relative;
-}
-div.info>*{
-	display: inline-block;
-}
-div.info .image-nav .avatar-nav{
-	width: 2.5em;
-	height: 2.5em;
-	margin-top: 0.2em;
-	border-radius: 50%;
-}
-div.info .username-nav{
-	color: white;
-	width: 100px;
-	position: absolute;
-	top: 0.65em;
-	left: 3em;
-}
-
-.add-friend, .messenger, .article-notify{
-	width: 2.5em;
-	height: 2.5em;
-	position: relative;
-}
-
-.icon{
-	width: 2em;
-	height: 2em;
-	position: absolute;
-	top: 0.25em;
-	left: 0;
-}
-
-
-header#header>div.more-info {
-	width: 5em;
-	height: 15em;
-	position: absolute;
-	top: 20em;
-	left: 0;
-}
-
-header#header>div.more-info .album,
-header#header>div.more-info .detail-info,
-header#header>div.more-info .list-friend {
-	width: 3em;
-	height: 3em;
-	background: #5CC6A7;
-	color: white;
-	border-top-right-radius: 1.5em;
-	border-bottom-right-radius: 1.5em;
-	margin-bottom: 2px;
-	text-align: center;
-	vertical-align: middle;
-    transition: width 1s;
-}
-header#header>div.more-info .album:hover,
-header#header>div.more-info .detail-info:hover,
-header#header>div.more-info .list-friend:hover {
-	width: 6em;
-}
-
-header#header>div.more-info {
-	width: 5em;
-	height: 15em;
-	position: absolute;
-	top: 20em;
-	left: 0;
-}
-
-
-
-
-
-
-/*create post*/
-.upload-btn-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-}
-
-.btn {
-    border: 2px solid gray;
-    color: gray;
-    background-color: white;
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.upload-btn-wrapper input[type=file] {
-    font-size: 100px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-}
-
-
-.map-box {
+    background-color: #5CC6A7;
     width: 100%;
-    height: 100%;
+    height: 3em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.popup {
+    background: #5CC6A7;
     display: none;
 }
-.opacity {
+
+.popup_opacity {
     width: 100%;
     height: 100%;
     background-color: #1d2124;
@@ -198,15 +32,287 @@ header#header>div.more-info {
     z-index: 101;
 }
 
-.my_map {
-    width: 35em;
-    height: 35em;
+.popup_content {
     border: 3px solid black;
+    background: whitesmoke;
     border-radius: 15px;
     position: fixed;
     top: 5em;
     left: 25em;
     z-index: 102;
+}
+
+.popup_close {
+    width: 25px;
+    height: 25px;
+    background: black;
+    position: absolute;
+    border-radius: 50%;
+    top: -2%;
+    left: 98%;
+}
+
+.inner {
+    position: relative;
+}
+
+.inner .avatar {
+    width: 8.25em;
+    height: 8.25em;
+    border-radius: 100%;
+}
+
+.inner .avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    border: 0.2em solid red;
+}
+
+.inner .avatar .change_avatar {
+    display: none;
+    width: 8.05em;
+    height: 4.025em;
+    border-bottom-right-radius: 5em;
+    border-bottom-left-radius: 5em;
+    background: black;
+    color: white;
+    text-align: center;
+    padding-top: 1em;
+    opacity: 0.6;
+    position: absolute;
+    top: 4.05em;
+    left: 0.1em;
+}
+
+.inner .avatar .change_avatar input[type=file] {
+    width: 8.25em;
+    height: 4.125em;
+    border-bottom-right-radius: 5em;
+    border-bottom-left-radius: 5em;
+    position: absolute;
+    top: 0em;
+    left: 0;
+    opacity: 0;
+}
+
+.inner .avatar:hover .change_avatar {
+    display: block;
+}
+
+.inner .avatar:hover .change_avatar:hover {
+    cursor: pointer;
+}
+
+#submit_change_avatar {
+    margin-left: 10em;
+}
+
+.input-border {
+    border: 1px solid #5CC6A7;
+}
+
+.margin-top-1 {
+    margin-top: 10px;
+}
+
+.none-padding {
+    padding: 0;
+}
+
+.none-margin {
+    margin: 0;
+}
+
+.display_none {
+    display: none;
+}
+
+.display_inline_block {
+    display: inline-block;
+}
+
+.menu-header > div {
+    display: inline-block;
+}
+
+.menu-header .logo {
+    width: 2%;
+    margin: 0 0 0 2.5em;
+}
+
+.menu-header .logo > img {
+    height: 2.5em;
+}
+
+.menu-header .search-box {
+    width: 30%;
+    padding: 0;
+    position: relative;
+}
+
+.menu-header .search-box .search {
+    width: 300px;
+    height: 2em;
+    position: absolute;
+    top: -2.2em;
+    left: 1em;
+}
+
+.menu-header .notifycation {
+    width: 63%;
+}
+
+div.notifycation > * {
+    display: inline-block;
+}
+
+/*div.info {*/
+/*margin-left: 25em;*/
+/*width: 10em;*/
+/*position: relative;*/
+/*}*/
+
+/*div.info > * {*/
+/*display: inline-block;*/
+/*}*/
+
+div.avatar_nav_box {
+    width: 10em;
+    position: absolute;
+    top: 0;
+    left: 58%;
+}
+
+div.info .image-nav .avatar-nav {
+    width: 2.5em;
+    height: 2.5em;
+    margin-top: 0.2em;
+    border-radius: 50%;
+}
+
+div.info .username-nav {
+    color: white;
+    width: 100px;
+    position: absolute;
+    top: 0.65em;
+    left: 3em;
+}
+
+#navbarDropdown {
+    padding: 10px;
+    color: white;
+}
+
+li.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.add-friend, .messenger, .article-notify, .setting_nav {
+    width: 2.5em;
+    height: 2.5em;
+    position: absolute;
+}
+
+.add-friend {
+    top: 0;
+    left: 70%;
+}
+
+.messenger {
+    top: 0;
+    left: 73%;
+}
+
+.article-notify {
+    top: 0;
+    left: 76%;
+}
+
+.setting_nav {
+    top: 0;
+    left: 77%;
+}
+
+.icon {
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    top: 0.25em;
+    left: 0;
+}
+
+header#header > div.more-info {
+    width: 5em;
+    height: 15em;
+    position: absolute;
+    top: 20em;
+    left: 0;
+}
+
+header#header > div.more-info .album,
+header#header > div.more-info .detail-info,
+header#header > div.more-info .list-friend {
+    width: 3em;
+    height: 3em;
+    background: #5CC6A7;
+    color: white;
+    border-top-right-radius: 1.5em;
+    border-bottom-right-radius: 1.5em;
+    margin-bottom: 2px;
+    text-align: center;
+    vertical-align: middle;
+    transition: width 1s;
+}
+
+header#header > div.more-info .album:hover,
+header#header > div.more-info .detail-info:hover,
+header#header > div.more-info .list-friend:hover {
+    width: 6em;
+}
+
+header#header > div.more-info {
+    width: 5em;
+    height: 15em;
+    position: absolute;
+    top: 20em;
+    left: 0;
+}
+
+/*.article {*/
+/*width: 800px;*/
+/*background: #d9def6;*/
+/*}*/
+
+/*create post*/
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+/*.btn {*/
+/*border: 2px solid gray;*/
+/*color: gray;*/
+/*background-color: white;*/
+/*padding: 8px 20px;*/
+/*border-radius: 8px;*/
+/*font-size: 20px;*/
+/*font-weight: bold;*/
+/*}*/
+
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.map_box {
+    width: 100%;
+    height: 100%;
+    display: none;
 }
 
 #map {
@@ -215,12 +321,123 @@ header#header>div.more-info {
     border-radius: 15px;
 }
 
-.close_map {
-    width: 5%;
-    height: 5%;
-    background: black;
+.hidden_input {
+    display: none;
+}
+
+.like_box {
+    border-top: 2px solid #d9e3f6;
+    border-bottom: 2px solid #d9e3f6;
+}
+
+.avatar_comment_box {
+    /*border-top*/
+    /*width: 3em;*/
+    /*height: 3em;*/
+}
+
+.avatar_image {
+    width: 3em;
+    height: 3em;
+    border-radius: 1.5em;
+}
+
+input.comment_input {
+    border: 1px solid #cce3f6;
+    border-radius: 25px;
+}
+
+div.list_comment > div {
+    margin-bottom: 0.5em;
+}
+
+div.list_comment div.comment {
+    display: inline-block;
+    margin-left: 2em;
+    background: #F2F3F5;
+    border-radius: 100px;
+    height: 3em;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+div.list_comment div.comment > a {
+    cursor: pointer;
+}
+
+.btn_like:hover, .btn_comment:hover {
+    background: #F7F7F7;
+}
+
+.image_displayed_box .image_toolbar .next_image, .image_displayed_box .image_toolbar .prev_image {
+    display: none;
+    position: fixed;
+}
+
+.image_displayed_box .image_toolbar .next_image:hover, .image_displayed_box .image_toolbar .prev_image:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+/*popModal*/
+.post_setting_btn {
+    cursor: pointer;
+}
+
+div.popup_setting {
+    width: 100%;
+}
+
+div.popup_setting ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    /*background-color: #f1f1f1;*/
+}
+
+div.popup_setting ul li {
+    padding-left: 0;
+    color: white;
+}
+
+div.popup_setting ul li a {
+    display: block;
+    color: #000 !important;
+    padding: 8px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Change the link color on hover */
+div.popup_setting ul li a:hover {
+    background-color: #5CC6A7;
+    color: white !important;
+}
+
+div.image_in_post {
+    position: relative;
+}
+
+div.image_in_post > .btn_delete {
+    cursor: pointer;
     position: absolute;
-    border-radius: 50%;
-    top: -2%;
-    left: 98%;
+    top: 0;
+    left: 370px;
+}
+
+div.image_in_post > .btn_delete:hover > i {
+    color: white;
+    text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+
+div.content_container {
+    width: 60%;
+    margin: 80px auto;
+}
+
+
+div.left-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
 }

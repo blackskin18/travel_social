@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/asset/images
 /storage/*.key
 /vendor
 /.idea
@@ -13,3 +14,5 @@ yarn-error.log
 .env
 .phpunit.result.cache
 /.idea
+/storage
+/public/asset/images
