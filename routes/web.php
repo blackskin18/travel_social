@@ -49,9 +49,12 @@ Route::post('/like', 'LikeController@addLike')->name('like.add');
 
 Route::get('storage/post/{postId}/{filename}', 'FileStorageController@getPostImage')->name('file.post_image');
 
-// location base service
-Route::get('follow_location', 'LocationServiceController@index')->name('location.service');
-
 //trip
-Route::get('trip/create', 'LocationServiceController@create')->name('trip.create');
-Route::post('trip/store', 'LocationServiceController@store')->name('trip.store');
+Route::get('trip/follow_position/{tripId}', 'TripController@followPosition')->name('location.service');
+Route::get('trip/create', 'TripController@create')->name('trip.create');
+Route::get('trip/detail_info/{tripId}', 'TripController@showDetail')->name('trip.detail');
+Route::post('trip/store', 'TripController@store')->name('trip.store');
+Route::get('trip/list', 'TripController@showList')->name('trip.list');
+
+Route::post('trip/user_accept/{trip_id}', 'TripController@userAccept')->name('trip.accept');
+Route::post('trip/user_un_accept/{trip_id}', 'TripController@userUnAccept')->name('trip.un_accept');

@@ -16,4 +16,12 @@ class TripUser extends Model
      */
 
     protected $fillable = ['trip_id', 'user_id'];
+
+    public function trip() {
+        return $this->belongsTo('App\Model\Trip');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Model\User');
+    }
 }

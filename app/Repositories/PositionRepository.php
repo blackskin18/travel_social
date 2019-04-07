@@ -21,13 +21,23 @@ class PositionRepository extends BaseRepository
         $this->deleteWhere(['post_id' => $post_id]);
     }
 
-    public function createPositions($lats, $lngs, $descriptions, $postId)
+    public function createPositions($lats, $lngs, $descriptions, $postId = false, $tripId = false)
     {
-        for ($i = 0; $i < count($lats); $i++) {
-            $this->create(['post_id'     => $postId,
-                           'lat'         => $lats[$i],
-                           'lng'         => $lngs[$i],
-                           'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $descriptions[$i]),]);
+        if($postId) {
+            for ($i = 0; $i < count($lats); $i++) {
+                $this->create(['post_id'     => $postId,
+                    'lat'         => $lats[$i],
+                    'lng'         => $lngs[$i],
+                    'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $descriptions[$i]),]);
+            }
+        }
+        if($tripId) {
+            for ($i = 0; $i < count($lats); $i++) {
+                $this->create(['trip_id'     => $tripId,
+                    'lat'         => $lats[$i],
+                    'lng'         => $lngs[$i],
+                    'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $descriptions[$i]),]);
+            }
         }
     }
 }

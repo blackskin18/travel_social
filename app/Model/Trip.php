@@ -16,6 +16,19 @@ class Trip extends Model
      */
 
     protected $fillable = [
-        'title', 'user_id'
+        'title', 'user_id', 'accepted'
     ];
+
+    public function userJoin() {
+        return $this->belongsToMany('App\Model\User', 'trip_users');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Model\User');
+    }
+
+    public function position() {
+        return $this->hasMany('App\Model\Position');
+    }
+
 }

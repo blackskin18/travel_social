@@ -58,7 +58,7 @@ MapCustom.prototype.initMap = function () {
 MapCustom.prototype.addListenerCreatePost = function (infoBoxSelector) {
     var that = this;
     this.listener = this.map.addListener('click', function (event) {
-        var marker = that.makeMarker({lat: event.latLng.lat(), lng: event.latLng.lng()}, infoBoxSelector, that.CREATE);
+        var marker = that.makePostionMarker({lat: event.latLng.lat(), lng: event.latLng.lng()}, infoBoxSelector, that.CREATE);
         var markerInfoHtml = `<div class="marker_info">
                             <input type="hidden" name="lat[]" class="lat_position" value="${marker.getPosition().lat()}">
                             <input type="hidden" name="lng[]" class="lng_position" value="${marker.getPosition().lng()}">
@@ -71,8 +71,7 @@ MapCustom.prototype.addListenerCreatePost = function (infoBoxSelector) {
     for (var i = 0; i < sumMarkers; i++) {
         var lat = parseFloat($("div.marker_info").eq(i).find("input.lat_position").val());
         var lng = parseFloat($("div.marker_info").eq(i).find("input.lng_position").val());
-        console.log(lat, lng);
-        this.makeMarker({lat: lat, lng: lng}, infoBoxSelector, this.CREATE);
+        this.makePostionMarker({lat: lat, lng: lng}, infoBoxSelector, this.CREATE);
     }
 }
 
@@ -83,13 +82,12 @@ MapCustom.prototype.addListenerShowMap = function (infoBoxSelector) {
         var lat = parseFloat($(infoBoxSelector + ">div.marker_info").eq(i).find("input.lat_position").val());
         var lng = parseFloat($(infoBoxSelector + ">div.marker_info").eq(i).find("input.lng_position").val());
 
-
-        this.makeMarker({lat: lat, lng: lng}, infoBoxSelector, this.SHOW);
+        this.makePostionMarker({lat: lat, lng: lng}, infoBoxSelector, this.SHOW);
     }
 }
 
 
-MapCustom.prototype.makeMarker = function (location, infoBoxSelector, type) {
+MapCustom.prototype.makePostionMarker = function (location, infoBoxSelector, type) {
     var that = this;
     var marker = new google.maps.Marker({
         position: location,
@@ -230,5 +228,77 @@ MapCustom.prototype.displayRoute = function (origin, destination, wayPoint, serv
             alert('Could not display directions due to: ' + status);
         }
     });
+}
 
+// -----------------------------------------------------follow position
+MapCustom.prototype.startFollowPosition = function() {
+    var _this = this;
+    this.database = Firebase.getDatabase();
+    navigator.geolocation.getCurrentPosition(function (response) {
+        var position = response.coords;
+        _this.map.setCenter( {lat: position.latitude, lng: position.longitude});
+        _this.makeMemberMaker(position);
+    });
+}
+
+
+MapCustom.prototype.makeMemberMaker = function(position) {
+    var _this = this;
+    var memberRef = this.database.ref('trip/' + R.trip.id);
+    memberRef.on('value', function (response) {
+        let users = response.val().user;
+        for(let i in users) {
+            if(i == R.trip.user_id){
+                // là host
+                if(i == R.userId) {
+                    // là user
+                    if(!_this.userMaker) {
+                        _this.userMaker = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "UH");
+                    }
+                } else {
+                    if(!_this.host) {
+                        _this.host = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "H");
+                    } else {
+                        _this.host.setPosition({lat: users[i].lat, lng: users[i].lng});
+                    }
+                }
+            } else {
+                if(i == R.userId) {
+                    if(!_this.userMaker) {
+                        _this.userMaker = _this.makeMaker({lat: position.latitude, lng: position.longitude}, "UM");
+                    }
+                } else {
+                    if(!_this.member[i]) {
+                        _this.member[i] = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "M");
+                    } else {
+                        _this.member[i].setPosition({lat: users[i].lat, lng: users[i].lng});
+                    }
+                }
+            }
+        }
+    });
+}
+
+MapCustom.prototype.setUserMakerPosition = function(position) {
+    this.updatePositionInServer(position);
+    if (this.userMaker) {
+        this.userMaker.setPosition({lat: position.latitude, lng: position.longitude});
+    }
+}
+
+MapCustom.prototype.makeMaker = function(position, label) {
+    let marker = new google.maps.Marker({position: position,
+        map: this.map,
+        draggable: true
+    });
+    marker.setLabel(label);
+    return marker;
+}
+
+MapCustom.prototype.updatePositionInServer = function(position) {
+    this.database.ref('trip/' + R.trip.id + '/user/'+R.userId).set({
+        lat: position.latitude,
+        lng: position.longitude,
+        name: R.userName
+    });
 }

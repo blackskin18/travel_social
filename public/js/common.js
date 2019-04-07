@@ -70,10 +70,6 @@ class Comment extends Firebase {
 }
 
 
-// Comment.onListenerChange(function (data) {
-//     console.log(data)
-// });
-// Comment.where({'user_id': 1});
 var R = {}
 
 R.userName = $('meta[name="user-name"]').attr('content');

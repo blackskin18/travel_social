@@ -23,7 +23,15 @@
                     @endforeach
                 </select>
             </div>
+            <div class="hidden_input" id="hidden_input">
+                <div id="marker_info_box">
+                </div>
+            </div>
+            <li><a href="#" class="button" id="btn_create_map">Map</a></li>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+@endsection
+@section('map')
+    @include('user.include.map')
 @endsection

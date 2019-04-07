@@ -26,12 +26,34 @@ class TripUserRepository extends BaseRepository
 //        parent::__construct($app);
 //    }
 
-    public function createMulti($tripId, $members) {
-//        dd($members);
+    public function createMulti($trip, $members) {
         foreach ($members as $member) {
-            $a = self::create(['trip_id' => $tripId, 'user_id' => $member]);
-            echo $a;
+            self::create(['trip_id' => $trip->id, 'user_id' => $member]);
         }
+        self::create(['trip_id' => $trip->id, 'user_id' => $trip->user_id, 'accepted' => 1]);
+    }
+
+    public function getTripsUserFollow($userId) {
+        if($userId && is_numeric($userId)) {
+
+            $tripsUserFollow = self::with('trip')->findWhere(['user_id' => $userId]);
+
+            foreach ($tripsUserFollow as $key => $tripUserFollow) {
+                if($tripUserFollow->trip->user_id === $userId) {
+                    unset($tripsUserFollow[$key]);
+                }
+            }
+            return $tripsUserFollow;
+        } else {
+            return [];
+        }
+
+    }
+    public function updateFollowStatus($userId, $tripId, $acceptedStatus) {
+        $userTrip = self::findWhere(['user_id'=> $userId, 'trip_id'=>$tripId])->first();
+        $userTrip->accepted = $acceptedStatus;
+        $userTrip->save();
+
     }
 
 }

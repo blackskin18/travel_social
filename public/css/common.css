@@ -431,6 +431,13 @@ div.image_in_post > .btn_delete:hover > i {
 }
 
 div.content_container {
-    width: 80%;
+    width: 60%;
     margin: 80px auto;
+}
+
+
+div.left-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
 }

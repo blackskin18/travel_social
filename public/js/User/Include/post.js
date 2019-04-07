@@ -143,7 +143,7 @@ $(function () {
 
 $(document).ready(function () {
     var database = Firebase.getDatabase();
-    var ref = database.ref('comments
+    var ref = database.ref('comments');
     ref.on("child_added", function(response) {
         var comment = response.val();
         var Ref = database.ref('users/' + comment.user_id);

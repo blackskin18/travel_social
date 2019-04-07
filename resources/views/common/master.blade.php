@@ -1,5 +1,7 @@
 @include('common.header')
 
+@include('common.menu')
+
 @yield('content')
 
 
