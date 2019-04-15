@@ -51,10 +51,17 @@ Route::get('storage/post/{postId}/{filename}', 'FileStorageController@getPostIma
 
 //trip
 Route::get('trip/follow_position/{tripId}', 'TripController@followPosition')->name('location.service');
+
 Route::get('trip/create', 'TripController@create')->name('trip.create');
 Route::get('trip/detail_info/{tripId}', 'TripController@showDetail')->name('trip.detail');
 Route::post('trip/store', 'TripController@store')->name('trip.store');
+Route::delete('trip/delete', 'TripController@delete')->name('trip.delete');
+
+
 Route::get('trip/list', 'TripController@showList')->name('trip.list');
+Route::get('trip/join', 'TripController@showList')->name('trip.list');
+
+
 
 Route::post('trip/user_accept/{trip_id}', 'TripController@userAccept')->name('trip.accept');
 Route::post('trip/user_un_accept/{trip_id}', 'TripController@userUnAccept')->name('trip.un_accept');

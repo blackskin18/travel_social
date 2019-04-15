@@ -1,24 +1,3 @@
-$(function () {
-    var myMap = new MapCustom();
-
-    $("#btn_create_map").click(function () {
-        // initMap();
-        myMap.initMap();
-        myMap.addListenerCreatePost("div#marker_info_box");
-        $("div.map_box").css("display", "block");
-    });
-
-    $(".btn_show_map").click(function () {
-        let articleId = $(this).data('post-id');
-        // 'article_info_position_''
-        myMap.initMap();
-        myMap.addListenerShowMap("div#article_info_position_" + articleId);
-        $("div.map_box").css("display", "block");
-    });
-
-});
-
-
 function MapCustom() {
     this.map = null;
     this.geocoder = null;
@@ -36,6 +15,9 @@ MapCustom.prototype.initMap = function () {
         center: {lat: 21.0245, lng: 105.84117},
         zoom: 10
     });
+
+    // var trafficLayer = new google.maps.TrafficLayer();
+    // trafficLayer.setMap(this.map);
 
     for (var i = 0; i < this.markerArray.length; i++) {
         this.markerArray[i].setMap(null);
@@ -233,7 +215,6 @@ MapCustom.prototype.displayRoute = function (origin, destination, wayPoint, serv
 // -----------------------------------------------------follow position
 MapCustom.prototype.startFollowPosition = function() {
     var _this = this;
-    this.database = Firebase.getDatabase();
     navigator.geolocation.getCurrentPosition(function (response) {
         var position = response.coords;
         _this.map.setCenter( {lat: position.latitude, lng: position.longitude});
@@ -244,7 +225,7 @@ MapCustom.prototype.startFollowPosition = function() {
 
 MapCustom.prototype.makeMemberMaker = function(position) {
     var _this = this;
-    var memberRef = this.database.ref('trip/' + R.trip.id);
+    var memberRef = R.firebaseDB.ref('trip/' + R.trip.id);
     memberRef.on('value', function (response) {
         let users = response.val().user;
         for(let i in users) {
@@ -296,7 +277,7 @@ MapCustom.prototype.makeMaker = function(position, label) {
 }
 
 MapCustom.prototype.updatePositionInServer = function(position) {
-    this.database.ref('trip/' + R.trip.id + '/user/'+R.userId).set({
+    R.firebaseDB.ref('trip/' + R.trip.id + '/user/'+R.userId).set({
         lat: position.latitude,
         lng: position.longitude,
         name: R.userName

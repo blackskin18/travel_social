@@ -35,4 +35,9 @@ class Post extends Model
         return $this->hasMany('App\Model\Comment');
 
     }
+
+    public function trip() {
+        return $this->hasOne('App\Model\Trip');
+    }
+
 }

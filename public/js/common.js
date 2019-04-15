@@ -74,6 +74,8 @@ var R = {}
 
 R.userName = $('meta[name="user-name"]').attr('content');
 R.userId = $('meta[name="user-id"]').attr('content');
+R.userAvatar = $('meta[name="user-avatar"]').attr('content');
+R.firebaseDB = Firebase.getDatabase();
 
 
 $(function () {

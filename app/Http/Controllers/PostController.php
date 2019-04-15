@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Repository\CommentRepository;
 use App\Repository\LikeRepository;
+use App\Repository\TripRepository;
+use App\Repository\TripUserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreatePostRequest;
@@ -17,17 +19,17 @@ use App\Repository\PostImageRepository;
 
 class PostController extends Controller
 {
+    CONST NORMAL = 1;
+    CONST WITH_TRIP = 2;
+
     protected $postRepo;
-
     protected $userRepo;
-
     protected $positionRepo;
-
     protected $postImageRepo;
-
     protected $commentRepo;
-
     protected $likeRepo;
+    protected $tripUserRepo;
+    protected $tripRepo;
 
     public function __construct(
         PostRepository $postRepo,
@@ -35,8 +37,11 @@ class PostController extends Controller
         PositionRepository $positionRepo,
         PostImageRepository $postImageRepo,
         CommentRepository $commentRepo,
-        LikeRepository $likeRepo
-    ) {
+        LikeRepository $likeRepo,
+        TripRepository $tripRepo,
+        TripUserRepository $tripUserRepo
+    )
+    {
         $this->middleware('auth');
         $this->userRepo = $userRepo;
         $this->postRepo = $postRepo;
@@ -44,37 +49,48 @@ class PostController extends Controller
         $this->postImageRepo = $postImageRepo;
         $this->commentRepo = $commentRepo;
         $this->likeRepo = $likeRepo;
+        $this->tripUserRepo = $tripUserRepo;
+        $this->tripRepo = $tripRepo;
     }
 
     public function create(CreatePostRequest $request)
     {
-        $user = Auth::user();
-        $countPosition = is_countable($request->lat);
-        $post = $this->postRepo->create(["user_id"     => $user->id,
-                                         'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),]);
-        for ($i = 0; $i < $countPosition; $i++) {
-            $this->positionRepo->create(['post_id'     => $post->id,
-                                         'lat'         => $request->lat[$i],
-                                         'lng'         => $request->lng[$i],
-                                         'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->marker_description[$i]),]);
+        $authUser = Auth::user();
+        $post = $this->postRepo->create([
+            'user_id'     => $authUser->id,
+            'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),
+            'type'        => $request->is_create_trip ? self::WITH_TRIP : self::NORMAL,
+        ]);
+
+        if ($request->is_create_trip) {
+            $trip = $this->tripRepo->create([
+                'user_id'    => $authUser->id,
+                'post_id'    => $post->id,
+                'title'      => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),
+                'time_start' => $request->time_start,
+                'time_end'   => $request->time_end
+            ]);
+            $this->tripUserRepo->createMulti($trip, $request->member);
         }
 
+        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $post->id, $trip->id ?? null);
         $this->postImageRepo->createMulti($request->photos, $post->id);
 
         return redirect()->back()->with('message', 'Operation Successful !');
-        //return redirect()->route('personal.page', ['id' => $user->id]);
     }
 
     public function getMapInfo(Request $request)
     {
         $postId = $request->post_id;
-        if (! is_numeric($postId)) {
+        if (!is_numeric($postId)) {
             return Response('Not found post Id', 204)->header('Content-Type', 'text/plain');
         }
 
         $positions = $this->positionRepo->findWhere(['post_id' => $postId]);
-        $data = ['status' => 'success',
-                 'data'   => $positions];
+        $data = [
+            'status' => 'success',
+            'data'   => $positions
+        ];
 
         return Response($data, 200)->header('Content-Type', 'text/plain');
     }
@@ -97,11 +113,10 @@ class PostController extends Controller
                 $this->postImageRepo->deleteWhere(['post_id' => $post_id]);
                 $this->commentRepo->deleteWhere(['post_id' => $post_id]);
                 $this->postRepo->delete($post_id);
-
                 //return Response(['status' => 'success', 'code' => 200], 200)->header('Content-Type', 'text/plain');
-                return redirect('home');
+                return redirect()->back()->with('message', 'Operation Successful !');
             } else {
-                return "you can't delete this post";
+                throw new \Exception("you can't delete this post");
                 //return Response(['status' => 'failure', 'code' => 201], 200)->header('Content-Type', 'text/plain');
             }
         } catch (\Exception $e) {

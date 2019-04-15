@@ -2,8 +2,10 @@
 
 @section('content')
     <div class="content_container">
+        <div id="map" style="width: 100%; height: 500px;">
+
+        </div>
         <div>{{$trip->title}}</div>
-{{--        <div id="map" style="margin-top: 50px; width: 1000px; height: 600px"></div>--}}
         <div class="hidden_input" id="position_info">
             @foreach($trip->position as $key => $position)
                 <div class="marker_info">
@@ -23,5 +25,5 @@
 @endsection
 
 @section('map')
-    @include('user.include.map')
+{{--    @include('user.include.map')--}}
 @endsection

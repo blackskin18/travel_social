@@ -30,14 +30,24 @@ class PostRepository extends BaseRepository
 
     public function getListOfUser($userId, $authUserId)
     {
-        $posts = $this->with('position')->with('like')->with('user:id,avatar,name')->orderBy('id', 'desc')->findWhere(['user_id' => $userId]);
+        $posts = $this->with('position')
+            ->with('like')
+            ->with('trip')
+            ->with('user:id,avatar,name')
+            ->orderBy('id', 'desc')
+            ->findWhere(['user_id' => $userId])
+        ;
 
         return $this->checkBeLiked($posts, $authUserId);
     }
 
     public function getOne($postId, $authUserId)
     {
-        $post = $this->with('position')->with('like')->with('user:id,avatar,name')->find($postId);
+        $post = $this->with('position')
+            ->with('like')
+            ->with('user:id,avatar,name')
+            ->find($postId)
+        ;
         $likes = $post->like;
         $post->be_liked = false;
 

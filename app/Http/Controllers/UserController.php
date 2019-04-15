@@ -28,8 +28,8 @@ class UserController extends Controller
         $authUser = Auth::user();
         if ($user) {
             $posts = $this->postRepository->getListOfUser($user->id, $authUser->id);
-
-            return view('user.personal_page')->with('user', $user)->with('posts', $posts);
+            $allUser = $this->userRepository->findWhereNotIn('id', [$authUser->id]);
+            return view('user.personal_page')->with('user', $user)->with('allUser', $allUser)->with('posts', $posts);
         }
     }
 

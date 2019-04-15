@@ -40,8 +40,7 @@ class TripController extends Controller
         $members = $trip->userJoin;
         foreach ($members as $member) {
             if ($member->id === $user->id) {
-//                dd($trip->position);
-                return view('trip.index')->with('user_join',     $members)->with('trip', $trip);
+                return view('trip.index')->with('user_join', $members)->with('trip', $trip);
             }
         }
         return "Error";
@@ -65,36 +64,66 @@ class TripController extends Controller
             'time_end'   => $request->time_end
         ]);
 
-        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description,false, $trip->id);
+        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, false, $trip->id);
         $this->tripUserRepo->createMulti($trip, $request->member);
-        return "true";
+        return redirect()->route('trip.detail', ['tripId' => $trip->id]);
     }
 
-    public function showDetail($tripId) {
-        $trip = $this->tripRepo->with('user')->find($tripId);
-        $tripUsers = $this->tripUserRepo->with('user')->findWhere(['trip_id' => $tripId]);
-
-        return view('trip.detail')->with('trip', $trip)->with('tripUsers', $tripUsers);
+    public function delete(Request $request)
+    {
+        try {
+            $trip = $this->tripRepo->find($request->trip_id);
+            if ($trip && Auth::user()->can('delete', $trip)) {
+                $this->tripUserRepo->deleteWhere(['trip_id' => $request->trip_id]);
+                $this->positionRepo->deleteWhere(['trip_id' => $request->trip_id]);
+                $this->tripRepo->delete($request->trip_id);
+                return redirect()->back()->with('message', 'Operation Successful !');
+            } else {
+                throw new \Exception("You can't delete this trip");
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
-    public function showList() {
-        $authUser = Auth::user();
-        $tripsCreateByUser = $this->tripRepo->findWhere(['user_id' => $authUser->id]);
-        $tripsUserFollow = $this->tripUserRepo->getTripsUserFollow($authUser->id);
+    public function showDetail($tripId)
+    {
+        try {
+            $trip = $this->tripRepo->with('user')->find($tripId);
+            $tripUsers = $this->tripUserRepo->with('user')->findWhere(['trip_id' => $tripId]);
 
-        return view('trip.list')->with('tripsCreateByUser', $tripsCreateByUser)->with('tripsUserFollow', $tripsUserFollow);
+            return view('trip.detail')->with('trip', $trip)->with('tripUsers', $tripUsers);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
-    public function userAccept($trip_id) {
+    public function showList()
+    {
+        try {
+            $authUser = Auth::user();
+            $tripsCreateByUser = $this->tripRepo->findWhere(['user_id' => $authUser->id]);
+            $tripsUserFollow = $this->tripUserRepo->getTripsUserFollow($authUser->id);
+
+            return view('trip.list')->with('tripsCreateByUser', $tripsCreateByUser)->with('tripsUserFollow', $tripsUserFollow);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function userAccept($trip_id)
+    {
         $userAuth = Auth::user();
         $this->tripUserRepo->updateFollowStatus($userAuth->id, $trip_id, 1);
         return redirect()->route('trip.detail', ['tripId' => $trip_id]);
     }
 
-    public function userUnAccept($trip_id) {
+    public function userUnAccept($trip_id)
+    {
         $userAuth = Auth::user();
         $this->tripUserRepo->updateFollowStatus($userAuth->id, $trip_id, 0);
         return redirect()->route('trip.detail', ['tripId' => $trip_id]);
     }
+
 
 }

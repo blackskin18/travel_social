@@ -27,10 +27,12 @@ class TripUserRepository extends BaseRepository
 //    }
 
     public function createMulti($trip, $members) {
-        foreach ($members as $member) {
-            self::create(['trip_id' => $trip->id, 'user_id' => $member]);
+        if($members) {
+            foreach ($members as $member) {
+                self::create(['trip_id' => $trip->id, 'user_id' => $member]);
+            }
+            self::create(['trip_id' => $trip->id, 'user_id' => $trip->user_id, 'accepted' => 1]);
         }
-        self::create(['trip_id' => $trip->id, 'user_id' => $trip->user_id, 'accepted' => 1]);
     }
 
     public function getTripsUserFollow($userId) {

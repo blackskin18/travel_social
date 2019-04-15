@@ -23,17 +23,10 @@ class PositionRepository extends BaseRepository
 
     public function createPositions($lats, $lngs, $descriptions, $postId = false, $tripId = false)
     {
-        if($postId) {
+        if(($postId || $tripId) && is_countable($lats) > 0) {
             for ($i = 0; $i < count($lats); $i++) {
                 $this->create(['post_id'     => $postId,
-                    'lat'         => $lats[$i],
-                    'lng'         => $lngs[$i],
-                    'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $descriptions[$i]),]);
-            }
-        }
-        if($tripId) {
-            for ($i = 0; $i < count($lats); $i++) {
-                $this->create(['trip_id'     => $tripId,
+                    'trip_id'     => $tripId,
                     'lat'         => $lats[$i],
                     'lng'         => $lngs[$i],
                     'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $descriptions[$i]),]);

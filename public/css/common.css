@@ -378,6 +378,15 @@ div.list_comment div.comment > a {
     cursor: pointer;
 }
 
+/*post*/
+.post_box{
+    padding-top: 10px;
+    padding-left: 25px;
+    padding-right:35px;
+    padding-bottom: 10px;
+    border-radius: 30px;
+}
+
 /*popModal*/
 .post_setting_btn {
     cursor: pointer;
@@ -435,9 +444,27 @@ div.content_container {
     margin: 80px auto;
 }
 
-
 div.left-menu {
     position: fixed;
-    top: 70px;
+    top: 3.1em;
     left: 0;
+    background: #5CC6A7;
+    height: 1000px;
+}
+
+div.left-menu>ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+div.left-menu>ul>li{
+    color: white;
+    width: 15em;
+    height: 3em;
+    border-bottom: 1px solid white;
+    padding-top: 7px;
+}
+
+div.left-menu>ul>li>a{
+    color: white;
 }

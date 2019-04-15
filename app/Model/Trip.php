@@ -16,8 +16,10 @@ class Trip extends Model
      */
 
     protected $fillable = [
-        'title', 'user_id', 'accepted'
+        'post_id', 'title', 'user_id', 'accepted'
     ];
+
+    protected $visible = ['id'];
 
     public function userJoin() {
         return $this->belongsToMany('App\Model\User', 'trip_users');
@@ -31,4 +33,7 @@ class Trip extends Model
         return $this->hasMany('App\Model\Position');
     }
 
+    public function post() {
+        return $this->hasOne('App\Model\Post');
+    }
 }

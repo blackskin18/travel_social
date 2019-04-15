@@ -12,6 +12,8 @@
                     <tr>
                         <th>Tên</th>
                         <th>Ngày tạo</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,6 +25,15 @@
                                 </a>
                             </td>
                             <td>{{ $tripCreateByUser->created_at }}</td>
+                            <td>
+                                <form id="delete_trip_{{$tripCreateByUser->id}}" method="post" action="{{ route('trip.delete')  }}">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="trip_id" value="{{$tripCreateByUser->id}}">
+                                    <a onclick="document.getElementById('delete_trip_{{$tripCreateByUser->id}}').submit();" class="button small">Xóa</a>
+                                </form>
+                            </td>
+                            <td><button class="button small">Xửa</button></td>
                         </tr>
                     @endforeach
                 </tbody>

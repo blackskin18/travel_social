@@ -45,10 +45,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $posts = $this->postRepo->getList($user->id);
-
-        return view('home.new_feed')->with('posts', $posts);
+        $authUser = Auth::user();
+        $allUser = $this->userRepo->findWhereNotIn('id', [$authUser->id]);
+        $posts = $this->postRepo->getList($authUser->id);
+        return view('home.new_feed')->with('allUser', $allUser)->with('posts', $posts);
 
     }
 }
