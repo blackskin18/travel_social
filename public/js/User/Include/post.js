@@ -8,7 +8,11 @@ $(function () {
 
         var popupSettingHtml = `<div class="popup_setting" style="width: 100%"><ul>`;
         if(authUser !== postOwner && tripId) {
-            popupSettingHtml += `<li id="join_btn"><a>Tham gia</a></li>`
+            popupSettingHtml += `<li id="join_btn"><form id="delete_post" method="post" action="/post/delete/${postId}">
+                                        <input type="hidden" name="_token" value="${CSRF_TOKEN}" /> 
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <a onclick="document.getElementById('delete_post').submit();">Tham Gia</a>
+                                    </form></li>`
         }else if (tripId) {
             popupSettingHtml += `<li id="join_btn"><a href="/trip/detail_info/${tripId}">Xem chuyến đi</a></li>`
         }

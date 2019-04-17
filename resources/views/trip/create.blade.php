@@ -27,10 +27,13 @@
                 <div id="marker_info_box">
                 </div>
             </div>
-            <li><a href="#" class="button" id="btn_create_map">Map</a></li>
+            <div>
+                <a href="#" class="btn btn-primary" id="btn_create_map">Map</a>
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
+    <script src="{{url("js/trip/create.js")}}"></script>
 @endsection
 @section('map')
     @include('user.include.map')

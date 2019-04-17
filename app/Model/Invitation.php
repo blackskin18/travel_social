@@ -5,7 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 
-class TripUser extends Model
+class Invitation extends Model
 {
 
 

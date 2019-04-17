@@ -8,7 +8,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 //use App\Repository\PostRepository;
 
-class TripUserRepository extends BaseRepository
+class InvitationRepository extends BaseRepository
 {
     /**
      * Specify Model class name
@@ -17,7 +17,7 @@ class TripUserRepository extends BaseRepository
      */
     function model()
     {
-        return "App\\Model\\TripUser";
+        return "App\\Model\\Invitation";
     }
 
 //    public function __construct(\Illuminate\Container\Container $app, PostRepository $postRepository)
@@ -37,21 +37,19 @@ class TripUserRepository extends BaseRepository
 
     public function getTripsUserFollow($userId) {
         if($userId && is_numeric($userId)) {
-
-            $tripsUserFollow = self::with('trip')->findWhere(['user_id' => $userId]);
-
-            foreach ($tripsUserFollow as $key => $tripUserFollow) {
-                if($tripUserFollow->trip->user_id === $userId) {
-                    unset($tripsUserFollow[$key]);
+            $invitations = self::with('trip')->findWhere(['user_id' => $userId]);
+            foreach ($invitations as $key => $invitation) {
+                if($invitation->trip->user_id === $userId) {
+                    unset($invitations[$key]);
                 }
             }
-            return $tripsUserFollow;
+            return $invitations;
         } else {
             return [];
         }
 
     }
-    public function updateFollowStatus($userId, $tripId, $acceptedStatus) {
+    public function updateInvitationStatus($userId, $tripId, $acceptedStatus) {
         $userTrip = self::findWhere(['user_id'=> $userId, 'trip_id'=>$tripId])->first();
         $userTrip->accepted = $acceptedStatus;
         $userTrip->save();

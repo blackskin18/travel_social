@@ -29,39 +29,40 @@
         <h1> Thành viên </h1>
         <table class="table table-striped">
             <tbody>
-                @foreach($tripUsers as $tripUser)
-                    @if($tripUser->user_id !== $trip->user_id)
+                @foreach($invitations as $invitation)
+                    @if($invitation->user_id !== $trip->user_id)
                         <tr>
                             <td>
-                                <a href="{{route('personal.page', ['id' => $tripUser->user->id])}}">
-                                    {{ $tripUser->user->name }}
+                                <a href="{{route('personal.page', ['id' => $invitation->user->id])}}">
+                                    {{ $invitation->user->name }}
                                 </a>
                             </td>
-                            <td>{{ $tripUser->user->email }}</td>
+                            <td>{{ $invitation->user->email }}</td>
                             <td>
-                                @if($tripUser->user_id === Auth::user()->id)
-                                    @if($tripUser->accepted)
+                                @if($invitation->user_id === Auth::user()->id)
+                                    @if($invitation->accepted)
                                         Sẽ tham gia
-                                        <form action="{{route('trip.un_accept',['trip_id' => $trip->id])}}" class="none-margin" method="post">
+                                        <form action="{{ route('invitation.accept')  }}" class="none-margin" method="post">
                                             @csrf
+                                            <input type="hidden" name="trip_id" value="{{$invitation->trip_id}}">
                                             <input type="submit" class="button small" value="Hủy">
                                         </form>
                                     @else
-                                        <form action="{{route('trip.accept',['trip_id' => $trip->id])}}" class="none-margin" method="post">
+                                        <form action="{{ route('invitation.accept')  }}" class="none-margin" method="post">
                                             @csrf
+                                            <input type="hidden" name="trip_id" value="{{$invitation->trip_id}}">
                                             <input type="submit" class="button small" value="Tham gia">
                                         </form>
                                     @endif
-
                                 @else
-                                    @if($tripUser->accepted)
+                                    @if($invitation->accepted)
                                         Sẽ tham gia
                                     @else
                                         Đang đợi xác nhận
                                     @endif
                                 @endif
                             </td>
-                            @if($trip->user_id === Auth::user()->id && $tripUser->user_id !== Auth::user()->id)
+                            @if($trip->user_id === Auth::user()->id && $invitation->user_id !== Auth::user()->id)
                                 <td><button>xóa</button></td>
                             @endif
                         </tr>
