@@ -22,11 +22,6 @@ class InvitationController extends Controller
         $this->invitationRepo = $invitationRepo;
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function acceptOrReject(Request $request)
     {
         $userAuth = Auth::user();

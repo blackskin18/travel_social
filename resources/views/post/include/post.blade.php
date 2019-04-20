@@ -34,9 +34,11 @@
                     <div class="display_inline_block" style="padding-left: 5px">
                         <a class="post_setting_btn" data-post-id="{{$post->id}}"
                            data-trip-id = "{{$post->trip ? $post->trip->id : null}}"
+                           data-join-request-accepted="{{$post->trip ? $post->join_request_accepted : null}}"
                            data-post-owner="{{$post->user_id}}"
                            data-auth-user="{{Auth::user()->id}}">
                             <i class="material-icons" style="font-size:24px">settings</i>
+                        </a>
                         </a>
                     </div>
                     {{--@endif--}}

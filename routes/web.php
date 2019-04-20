@@ -38,25 +38,19 @@ Route::get('/post/detail/{id}', 'PostController@getDetailPost')->name('post.deta
 Route::delete('/post/delete/{id}', 'PostController@destroy')->name('post.destroy');
 Route::get('post/edit/{id}', 'PostController@edit')->name('post.edit');
 Route::post('post/update/{id}', 'PostController@update')->name('post.update');
-
-
 Route::post('/comment/send', 'CommentController@sendMessage')->name('comment.send');
 Route::get('/comment/get', 'CommentController@getCommentInPost')->name('comment.get');
-
-
 Route::post('/like', 'LikeController@addLike')->name('like.add');
-
-
 Route::get('storage/post/{postId}/{filename}', 'FileStorageController@getPostImage')->name('file.post_image');
 
 //trip
 Route::get('trip/follow_position/{tripId}', 'TripController@followPosition')->name('location.service');
-
 Route::get('trip/create', 'TripController@create')->name('trip.create');
 Route::get('trip/detail_info/{tripId}', 'TripController@showDetail')->name('trip.detail');
 Route::get('trip/list', 'TripController@showList')->name('trip.list');
 Route::post('trip/store', 'TripController@store')->name('trip.store');
 Route::delete('trip/delete', 'TripController@delete')->name('trip.delete');
-
 Route::post('trip/invitation/accept', 'InvitationController@acceptOrReject')->name('invitation.accept');
 Route::delete('trip/invitation/delete', 'InvitationController@delete')->name('invitation.delete');
+
+Route::get('trip/join-request', 'JoinRequestController@addRequest')->name('join_request.create');

@@ -51,7 +51,7 @@
             </form>
         </section>
     </div>
-
+    <script src="{{ url('js/include/create_post.js') }}"></script>
 @endsection
 @section('head')
     <script src="{{url('js/post/edit.js')}}"></script>

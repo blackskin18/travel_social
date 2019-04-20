@@ -6,6 +6,8 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class PostRepository extends BaseRepository
 {
+    protected $joinRequestRepo;
+
     /**
      * Specify Model class name
      *
@@ -16,6 +18,12 @@ class PostRepository extends BaseRepository
         return "App\\Model\\Post";
     }
 
+    public function __construct(\Illuminate\Container\Container $app, JoinRequestRepository $joinRequestRepo)
+    {
+        $this->joinRequestRepo = $joinRequestRepo;
+        parent::__construct($app);
+    }
+
     public function deletePost($postId)
     {
         return $postId;
@@ -23,8 +31,16 @@ class PostRepository extends BaseRepository
 
     public function getList($authUserId)
     {
+        $allJoinRequestsOfUser = $this->joinRequestRepo->findWhere(['user_id'=>$authUserId]);
         $posts = $this->with('position')->with('like')->with('user:id,avatar,name')->orderBy('id', 'desc')->all();
 
+        foreach ($posts as $post) {
+            foreach ($allJoinRequestsOfUser as $joinRequest) {
+                if ($post->trip && $post->trip->id === $joinRequest->trip_id) {
+                    $post->join_request_accepted = $joinRequest->accepted;
+                }
+            }
+        }
         return $this->checkBeLiked($posts, $authUserId);
     }
 

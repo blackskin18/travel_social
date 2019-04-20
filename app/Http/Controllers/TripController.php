@@ -90,7 +90,7 @@ class TripController extends Controller
     {
         try {
             $trip = $this->tripRepo->with('user')->find($tripId);
-            $invitations= $this->invitationRepo->with('user')->findWhere(['trip_id' => $tripId]);
+            $invitations = $this->invitationRepo->with('user')->findWhere(['trip_id' => $tripId]);
             return view('trip.detail')->with('trip', $trip)->with('invitations', $invitations);
         } catch (\Exception $e) {
             return $e->getMessage();

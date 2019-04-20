@@ -72,6 +72,13 @@ class Comment extends Firebase {
 
 var R = {}
 
+let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': CSRF_TOKEN
+    }
+});
+
 R.userName = $('meta[name="user-name"]').attr('content');
 R.userId = $('meta[name="user-id"]').attr('content');
 R.userAvatar = $('meta[name="user-avatar"]').attr('content');
