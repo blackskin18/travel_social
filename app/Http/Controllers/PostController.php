@@ -19,7 +19,7 @@ use App\Repository\PostImageRepository;
 
 class PostController extends Controller
 {
-    CONST NORMAL = 1;
+    CONST NORMAL    = 1;
     CONST WITH_TRIP = 2;
 
     protected $postRepo;
@@ -64,11 +64,12 @@ class PostController extends Controller
 
         if ($request->is_create_trip) {
             $trip = $this->tripRepo->create([
-                'user_id'    => $authUser->id,
-                'post_id'    => $post->id,
-                'title'      => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),
-                'time_start' => $request->time_start,
-                'time_end'   => $request->time_end
+                'user_id'     => $authUser->id,
+                'post_id'     => $post->id,
+                'title'       => $request->trip_title,
+                'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),
+                'time_start'  => $request->time_start,
+                'time_end'    => $request->time_end
             ]);
             $this->invitationRepo->createMulti($trip, $request->member);
         }

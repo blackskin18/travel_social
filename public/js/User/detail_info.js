@@ -57,14 +57,6 @@ $(function () {
             buttonEdit.css('display', 'block');
             buttonEdit.prop("disabled", false);
 
-            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN
-                }
-            });
-
             $.ajax({
                 url: '/user/edit/'+elementId,
                 type: 'post',

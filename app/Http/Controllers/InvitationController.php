@@ -42,13 +42,16 @@ class InvitationController extends Controller
     public function delete(Request $request)
     {
         $userAuth = Auth::user();
-        $invitation = $this->invitationRepo->findWhere(['trip_id' => $request->trip_id, 'user_id' => $userAuth->id])->first();
+        if($request->member_id) {
+            $invitation = $this->invitationRepo->findWhere(['trip_id' => $request->trip_id, 'user_id' => $request->member_id])->first();
+        } else {
+            $invitation = $this->invitationRepo->findWhere(['trip_id' => $request->trip_id, 'user_id' => $userAuth->id])->first();
+        }
         if ($invitation && Auth::user()->can('delete', $invitation)) {
             $this->invitationRepo->delete($invitation->id);
-            return redirect()->back()->with('message', 'Operation Successful !');
+            return ["code" => 200, "status" => "success"];
         }else {
             throw new \Exception("You can't delete this invitation");
         }
     }
-
 }

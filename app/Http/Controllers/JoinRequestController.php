@@ -23,10 +23,29 @@ class JoinRequestController extends Controller
         $this->joinRequestRepo = $joinRequestRepository;
     }
 
-    public function addRequest(Request $request) {
+    public function createOrDeleteRequest(Request $request) {
         $authUser = Auth::user();
         $joinRequest = $this->joinRequestRepo->createOrDeleteRequest($authUser->id, $request->trip_id);
 //            ->create(['trip_id'=>$request->trip_id, 'user_id' => $authUser->id, 'accepted' => 0]);
         return  $joinRequest;
+    }
+
+    public function acceptRequest(Request $request) {
+        $authUser = Auth::user();
+
+        try {
+            $joinRequest = $this->joinRequestRepo->findWhere(['user_id' => $request->user_join_id, 'trip_id' => $request->trip_id]);
+            if(Auth::user()->can('update', $joinRequest)) {
+//                $this->joinRequestRepo->delete($joinRequest);
+            } else {
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+    }
+
+    public function rejectRequest(Request $request) {
+
     }
 }

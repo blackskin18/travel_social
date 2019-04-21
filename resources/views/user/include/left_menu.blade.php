@@ -20,7 +20,7 @@
 		</div>
 		<div class="inner avatar_display">
             @include('user.include.upload_avatar')
-            <a href="{{route('personal.page', ['id' => $user->id])}}">
+            <a href="{{route('user.personal.page', ['id' => $user->id])}}">
                 <h1><strong>{{ $user->name  }}</strong></h1>
             </a>
 		</div>

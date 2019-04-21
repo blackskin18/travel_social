@@ -1,4 +1,12 @@
 $(function () {
+    $(".btn_show_map").click(function () {
+        let myMap = new MapCustom();
+        let articleId = $(this).data('post-id');
+        myMap.initMap();
+        myMap.addListenerShowMap("div#article_info_position_" + articleId);
+        $("div.map_box").css("display", "block");
+    });
+
     $(".post_setting_btn").click(function () {
         var postId = $(this).data('post-id');
         var authUser = $(this).data('auth-user');
@@ -64,8 +72,8 @@ $(function () {
                     var tripId = $(this).data('trip-id');
                     var element = $(this);
                         $.ajax({
-                            url: '/trip/join-request',
-                            type: 'get',
+                            url: '/trip/join-request/create_or_delete',
+                            type: 'post',
                             data: {trip_id: tripId},
                             success: function (response) {
                                 if(response.type === "delete_request") {
@@ -133,15 +141,7 @@ $(function () {
 
     $("div.btn_like").click(function () {
         var postId = $(this).data('post-id');
-        let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         var btnElement = $(this);
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': CSRF_TOKEN
-            }
-        });
-
         $.ajax({
             url: '/like',
             type: 'post',

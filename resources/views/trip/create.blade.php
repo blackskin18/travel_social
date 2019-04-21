@@ -8,6 +8,11 @@
                 <input type="text" name="title" class="form-control" id="title">
             </div>
             <div class="form-group">
+                <label for="email">Mô tả chuyến đi:</label>
+                <textarea class="input-border" id="post_description" name="description" cols="30"
+                          rows="3"></textarea>
+            </div>
+            <div class="form-group">
                 <label for="pwd"> Thời gian đi: </label>
                 <input type="date" name="time_start" class="form-control" id="pwd">
             </div>

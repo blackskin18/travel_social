@@ -74,7 +74,7 @@
                         </td>
                         <td>{{ $invitation->trip->created_at }}</td>
                         <td>
-                            <a href="{{ route('personal.page', $invitation->trip->user->id) }}">
+                            <a href="{{ route('user.personal.page', $invitation->trip->user->id) }}">
                                 {{ $invitation->trip->user->name }}
                             </a>
                         </td>

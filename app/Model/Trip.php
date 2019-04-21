@@ -16,7 +16,7 @@ class Trip extends Model
      */
 
     protected $fillable = [
-        'post_id', 'title', 'user_id', 'accepted'
+        'post_id', 'title', 'user_id', 'description'
     ];
 
     protected $visible = ['id'];
@@ -37,7 +37,7 @@ class Trip extends Model
         return $this->hasOne('App\Model\Post');
     }
 
-//    public function joinRequest() {
-//        return $this->belongsToMany('App\Model\User', 'join_requests');
-//    }
+    public function joinRequestUser() {
+        return $this->belongsToMany('App\Model\User', 'join_requests');
+    }
 }

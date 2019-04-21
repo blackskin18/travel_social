@@ -20,7 +20,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/user/personal-page/{id}', 'UserController@showPersonalPage')->name('personal.page');
+Route::get('/user/personal-page/{id}', 'UserController@showPersonalPage')->name('user.personal.page');
 Route::get('/user/detail-info/{id}', 'UserController@displayInfo')->name('detail.info');
 Route::post('/user/change_avatar', 'UserController@changeAvatar')->name('user.change_avatar');
 
@@ -51,6 +51,8 @@ Route::get('trip/list', 'TripController@showList')->name('trip.list');
 Route::post('trip/store', 'TripController@store')->name('trip.store');
 Route::delete('trip/delete', 'TripController@delete')->name('trip.delete');
 Route::post('trip/invitation/accept', 'InvitationController@acceptOrReject')->name('invitation.accept');
-Route::delete('trip/invitation/delete', 'InvitationController@delete')->name('invitation.delete');
+Route::get('trip/invitation/delete', 'InvitationController@delete')->name('invitation.delete');
 
-Route::get('trip/join-request', 'JoinRequestController@addRequest')->name('join_request.create');
+Route::post('trip/join-request/create_or_delete', 'JoinRequestController@createOrDeleteRequest')->name('join_request.create');
+Route::get('trip/join-request/accept', 'JoinRequestController@acceptRequest')->name('join_request.accept');
+Route::post('trip/join-request/reject', 'JoinRequestController@rejectRequest')->name('join_request.reject');

@@ -10,6 +10,10 @@
         <div id="create_trip_box" style="display: none">
             <input type="checkbox" name="is_create_trip" id="check_create_trip" value="1">
             <div class="form-group">
+                <label for="email">Tên chuyến đi:</label>
+                <input type="text" name="trip_title" class="form-control" id="title">
+            </div>
+            <div class="form-group">
                 <label for="pwd"> Thời gian đi: </label>
                 <input type="date" name="time_start" class="form-control" id="pwd">
             </div>

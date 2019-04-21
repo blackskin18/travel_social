@@ -56,7 +56,7 @@ class InvitationPolicy
     public function delete(User $user, Invitation $invitation)
     {
         //
-        return $user->id === $invitation->user_id;
+        return $user->id === $invitation->user_id || $user->id === $invitation->trip->user_id;
     }
 
     /**

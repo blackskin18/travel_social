@@ -60,6 +60,7 @@ class TripController extends Controller
         $trip = $this->tripRepo->create([
             'user_id'    => $authUser->id,
             'title'      => $request->title,
+            'description' => $request->description,
             'time_start' => $request->time_start,
             'time_end'   => $request->time_end
         ]);
