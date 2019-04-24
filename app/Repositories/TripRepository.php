@@ -10,6 +10,8 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class TripRepository extends BaseRepository
 {
+    protected $invitationRepo;
+    protected $tripUserRepo;
 
     /**
      * Specify Model class name
@@ -21,10 +23,19 @@ class TripRepository extends BaseRepository
         return "App\\Model\\Trip";
     }
 
-//    public function __construct(\Illuminate\Container\Container $app, PostRepository $postRepository)
-//    {
-//        $this->postRepository = $postRepository;
-//        parent::__construct($app);
-//    }
+    public function __construct(\Illuminate\Container\Container $app, InvitationRepository $invitationRepo, TripUserRepository $tripUserRepo)
+    {
+        $this->invitationRepo = $invitationRepo;
+        $this->tripUserRepo = $tripUserRepo;
+        parent::__construct($app);
+    }
+
+    public function addMemberToTrip($userId, $tripId)
+    {
+        //remove invitation
+        $this->invitationRepo->deleteWhere(['user_id'=> $userId, 'trip_id' => $tripId]);
+        //add member to trip_user
+        $this->tripUserRepo->firstOrCreate(['user_id'=> $userId, 'trip_id' => $tripId]);
+    }
 
 }

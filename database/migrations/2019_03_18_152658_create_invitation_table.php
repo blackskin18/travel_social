@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TripUser extends Migration
+class CreateInvitationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,14 @@ class TripUser extends Migration
     public function up()
     {
         //
-        Schema::create('trip_users', function (Blueprint $table) {
+        Schema::create('invitations', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedInteger('trip_id');
             $table->foreign('trip_id')->references('id')->on('trips');
+            $table->tinyInteger('accepted')->default(0);
 
             $table->timestamps();
         });

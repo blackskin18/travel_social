@@ -1,19 +1,17 @@
 window.onload = function () {
-    $(".btn_show_map").click(function () {
-        let myMap = new MapCustom();
-        let tripId = $(this).data('trip-id');
-        console.log(tripId);
-        myMap.initMap();
-        myMap.addListenerShowMap("div#trip_info_position_" + tripId);
-        $("div.map_box").css("display", "block");
+
+    //add listener for button invite friends
+    $("#btn_invite_friends").click(function () {
+
     });
 
+    // add listener for button delete join request of other user
     $(".delete_member_invited").click(function () {
         let memberId = $(this).data('member-id');
         let tripId = $(this).data('trip-id');
         $.ajax({
-            url: '/trip/invitation/delete',
-            type: 'get',
+            url: '/trip/invitation/reject_or_delete',
+            type: 'post',
             data: {
                 _method: "DELETE",
                 member_id: memberId,
@@ -28,6 +26,7 @@ window.onload = function () {
         });
     });
 
+    // add listener for button accept join request of other user
     $(".btn_accept_request_join").click(function () {
         let userJoinId = $(this).data('user-join-id');
         let tripId = $(this).data('trip-id');

@@ -40,4 +40,9 @@ class Trip extends Model
     public function joinRequestUser() {
         return $this->belongsToMany('App\Model\User', 'join_requests');
     }
+
+    public function tripUser() {
+        return $this->belongsToMany('App\Model\User', 'trip_users');
+    }
+
 }

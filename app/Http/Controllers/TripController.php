@@ -6,31 +6,37 @@ use App\Http\Requests\CreateTripRequest;
 use App\Repository\PositionRepository;
 use App\Repository\TripRepository;
 use App\Repository\InvitationRepository;
+use App\Repository\TripUserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
 
 use App\Repository\UserRepository;
 
 class TripController extends Controller
 {
     private $userRepo;
+
     private $tripRepo;
+
     private $invitationRepo;
+
     private $positionRepo;
+
+    private $tripUserRepo;
 
     public function __construct(
         UserRepository $userRepo,
         TripRepository $tripRepo,
         InvitationRepository $invitationRepo,
-        PositionRepository $positionRepo
-    )
-    {
+        PositionRepository $positionRepo,
+        TripUserRepository $tripUserRepo
+    ) {
         $this->middleware('auth');
         $this->userRepo = $userRepo;
         $this->tripRepo = $tripRepo;
         $this->invitationRepo = $invitationRepo;
         $this->positionRepo = $positionRepo;
+        $this->tripUserRepo = $tripUserRepo;
     }
 
     public function followPosition($tripId)
@@ -43,6 +49,7 @@ class TripController extends Controller
                 return view('trip.index')->with('user_join', $members)->with('trip', $trip);
             }
         }
+
         return "Error";
     }
 
@@ -50,23 +57,24 @@ class TripController extends Controller
     {
         $authUser = Auth::user();
         $users = $this->userRepo->findWhereNotIn('id', [$authUser->id]);
+
         return view('trip.create')->with('users', $users);
     }
 
-//    public function store(CreateTripRequest $request)
-    public function store(Request $request)
+    public function store(CreateTripRequest $request)
     {
         $authUser = Auth::user();
         $trip = $this->tripRepo->create([
-            'user_id'    => $authUser->id,
-            'title'      => $request->title,
+            'user_id' => $authUser->id,
+            'title' => $request->title,
             'description' => $request->description,
             'time_start' => $request->time_start,
-            'time_end'   => $request->time_end
+            'time_end' => $request->time_end,
         ]);
 
         $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, false, $trip->id);
         $this->invitationRepo->createMulti($trip, $request->member);
+
         return redirect()->route('trip.detail', ['tripId' => $trip->id]);
     }
 
@@ -78,6 +86,7 @@ class TripController extends Controller
                 $this->invitationRepo->deleteWhere(['trip_id' => $request->trip_id]);
                 $this->positionRepo->deleteWhere(['trip_id' => $request->trip_id]);
                 $this->tripRepo->delete($request->trip_id);
+
                 return redirect()->back()->with('message', 'Operation Successful !');
             } else {
                 throw new \Exception("You can't delete this trip");
@@ -90,9 +99,11 @@ class TripController extends Controller
     public function showDetail($tripId)
     {
         try {
-            $trip = $this->tripRepo->with('user')->find($tripId);
+            $trip = $this->tripRepo->with('tripUser')->with('user')->find($tripId);
             $invitations = $this->invitationRepo->with('user')->findWhere(['trip_id' => $tripId]);
-            return view('trip.detail')->with('trip', $trip)->with('invitations', $invitations);
+            $friends = $this->userRepo->findWhereNotIn('id', [Auth::user()->id]);
+
+            return view('trip.detail')->with('trip', $trip)->with('invitations', $invitations)->with('friends', $friends);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -104,11 +115,23 @@ class TripController extends Controller
             $authUser = Auth::user();
             $tripsCreateByUser = $this->tripRepo->findWhere(['user_id' => $authUser->id]);
             $invitations = $this->invitationRepo->getTripsUserFollow($authUser->id);
-            return view('trip.list')->with('tripsCreateByUser', $tripsCreateByUser)->with('invitations', $invitations);
+            $joiningTrips = $this->tripUserRepo->with('trip')->findWhere(['user_id' => $authUser->id]);
+
+            return view('trip.list')->with('tripsCreateByUser', $tripsCreateByUser)->with('invitations', $invitations)->with('joiningTrips', $joiningTrips);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
+    public function leave(Request $request)
+    {
+        try {
+            $authUser = Auth::user();
+            $this->tripUserRepo->deleteWhere(['trip_id' => $request->trip_id, 'user_id' => $authUser->id]);
 
+            return Response("leave successful", 200)->header('Content-Type', 'text/plain');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }

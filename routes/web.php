@@ -50,8 +50,13 @@ Route::get('trip/detail_info/{tripId}', 'TripController@showDetail')->name('trip
 Route::get('trip/list', 'TripController@showList')->name('trip.list');
 Route::post('trip/store', 'TripController@store')->name('trip.store');
 Route::delete('trip/delete', 'TripController@delete')->name('trip.delete');
-Route::post('trip/invitation/accept', 'InvitationController@acceptOrReject')->name('invitation.accept');
-Route::get('trip/invitation/delete', 'InvitationController@delete')->name('invitation.delete');
+
+Route::delete('trip/leave', 'TripController@leave')->name('trip.leave');
+
+Route::post('trip/invitation/add', 'InvitationController@inviteFriend')->name('invitation.add');
+
+Route::post('trip/invitation/accept', 'InvitationController@accept')->name('invitation.accept');
+Route::delete('trip/invitation/reject_or_delete', 'InvitationController@rejectOrDelete')->name('invitation.delete');
 
 Route::post('trip/join-request/create_or_delete', 'JoinRequestController@createOrDeleteRequest')->name('join_request.create');
 Route::get('trip/join-request/accept', 'JoinRequestController@acceptRequest')->name('join_request.accept');
