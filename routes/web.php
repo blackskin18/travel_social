@@ -46,15 +46,15 @@ Route::get('storage/post/{postId}/{filename}', 'FileStorageController@getPostIma
 //trip
 Route::get('trip/follow_position/{tripId}', 'TripController@followPosition')->name('location.service');
 Route::get('trip/create', 'TripController@create')->name('trip.create');
-Route::get('trip/detail_info/{tripId}', 'TripController@showDetail')->name('trip.detail');
+Route::get('trip/detail_info/{tripId}', 'TripController@show')->name('trip.show');
 Route::get('trip/list', 'TripController@showList')->name('trip.list');
 Route::post('trip/store', 'TripController@store')->name('trip.store');
 Route::delete('trip/delete', 'TripController@delete')->name('trip.delete');
-
+Route::get('trip/{trip_id}/edit', 'TripController@edit')->name('trip.edit');
+Route::put('trip/{trip_id}', 'TripController@update')->name('trip.update');
 Route::delete('trip/leave', 'TripController@leave')->name('trip.leave');
 
 Route::post('trip/invitation/add', 'InvitationController@inviteFriend')->name('invitation.add');
-
 Route::post('trip/invitation/accept', 'InvitationController@accept')->name('invitation.accept');
 Route::delete('trip/invitation/reject_or_delete', 'InvitationController@rejectOrDelete')->name('invitation.delete');
 

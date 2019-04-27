@@ -20,11 +20,13 @@
                 <label for="pwd"> Thời gian về: </label>
                 <input type="date" name="time_end" class="form-control" id="pwd">
             </div>
-            <div class="form-group form-check">
-                <label class="form-group"> Thành viên: </label>
-                <select name="member[]" multiple>
+            <div class="form-group">
+                <label for="member"> Mời bạn bè </label>
+                <select multiple class="selectpicker" data-show-subtext="true"
+                        data-live-search="true" name="member[]">
                     @foreach($users as $user)
-                        <option value="{{$user->id}}"> {{ $user->name }} </option>
+                    <option data-subtext="{{$user->email}}"
+                            value="{{$user->id}}"> {{ $user->name }} </option>
                     @endforeach
                 </select>
             </div>

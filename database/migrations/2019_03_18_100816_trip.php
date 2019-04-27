@@ -19,8 +19,8 @@ class Trip extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->longText('title')->nullable();
-            $table->dateTime('time_start')->nullable();
-            $table->dateTime('time_end')->nullable();
+            $table->date('time_start')->nullable();
+            $table->date('time_end')->nullable();
             $table->longText('type')->nullable();
 
             $table->timestamps();

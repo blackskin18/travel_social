@@ -14,7 +14,7 @@ class AddColumnInPositionTable extends Migration
     public function up()
     {
         Schema::table('positions', function (Blueprint $table) {
-            $table->string('trip_id')->references('id')->on('users')->nullable()->after('post_id');
+            $table->integer('trip_id')->references('id')->on('users')->nullable()->after('post_id');
         });
     }
 

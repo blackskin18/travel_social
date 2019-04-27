@@ -16,7 +16,7 @@ class Trip extends Model
      */
 
     protected $fillable = [
-        'post_id', 'title', 'user_id', 'description'
+        'post_id', 'title', 'user_id', 'description', 'time_start', 'time_end'
     ];
 
     protected $visible = ['id'];

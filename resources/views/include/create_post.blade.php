@@ -21,15 +21,16 @@
                 <label for="pwd"> Thời gian về: </label>
                 <input type="date" name="time_end" class="form-control" id="pwd">
             </div>
-            <div class="form-group form-check">
-                <label class="form-group"> Thành viên: </label>
-                <select name="member[]" multiple>
+            <div class="form-group">
+                <label for="member"> Thành viên: </label>
+                <select multiple class="selectpicker" data-show-subtext="true"
+                        data-live-search="true" name="member[]">
                     @foreach($allUser as $member)
-                        <option value="{{$member->id}}"> {{ $member->name }} </option>
+                        <option data-subtext="{{$member->email}}"
+                                value="{{$member->id}}">{{$member->name}}</option>
                     @endforeach
                 </select>
             </div>
-
         </div>
         <ul class="actions" style="margin-bottom: 0px; height: 50px">
             <li><a href="#" class="button" id="btn_create_map">Map</a></li>

@@ -46,8 +46,15 @@
                             <a class="dropdown-item" id="btn_show_member" data-toggle="modal"
                                data-target="#list_join_request_modal">
                                 Danh sách xin tham gia </a>
-                            <a class="dropdown-item" href="#"> Xửa </a>
-                            <a class="dropdown-item" href="#"> Xóa </a>
+                            <a class="dropdown-item" href="{{ route('trip.edit', ['trip_id' => $trip->id]) }}"> Sửa </a>
+                                <form id="delete_trip_{{$trip->id}}" method="post"
+                                      action="{{ route('trip.delete')  }}">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="trip_id" value="{{$trip->id}}">
+                                    <a onclick="document.getElementById('delete_trip_{{$trip->id}}').submit();"
+                                       class="dropdown-item">Xóa</a>
+                                </form>
                         </div>
 
                     </div>

@@ -15,8 +15,9 @@ class CreatePositionTable extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('post_id');
-            $table->foreign('post_id')->references('id')->on('posts');
+            //$table->unsignedInteger('post_id');
+            //$table->foreign('post_id')->references('id')->on('posts');
+            $table->integer('post_id')->nullable();
 
             $table->float('lat', 10, 6);
             $table->float('lng', 10, 6);

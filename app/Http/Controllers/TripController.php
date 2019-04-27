@@ -57,7 +57,6 @@ class TripController extends Controller
     {
         $authUser = Auth::user();
         $users = $this->userRepo->findWhereNotIn('id', [$authUser->id]);
-
         return view('trip.create')->with('users', $users);
     }
 
@@ -87,7 +86,7 @@ class TripController extends Controller
                 $this->positionRepo->deleteWhere(['trip_id' => $request->trip_id]);
                 $this->tripRepo->delete($request->trip_id);
 
-                return redirect()->back()->with('message', 'Operation Successful !');
+                return redirect()->route('trip.list');
             } else {
                 throw new \Exception("You can't delete this trip");
             }
@@ -96,13 +95,12 @@ class TripController extends Controller
         }
     }
 
-    public function showDetail($tripId)
+    public function show($tripId)
     {
         try {
             $trip = $this->tripRepo->with('tripUser')->with('user')->find($tripId);
             $invitations = $this->invitationRepo->with('user')->findWhere(['trip_id' => $tripId]);
             $friends = $this->userRepo->findWhereNotIn('id', [Auth::user()->id]);
-
             return view('trip.detail')->with('trip', $trip)->with('invitations', $invitations)->with('friends', $friends);
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -128,10 +126,36 @@ class TripController extends Controller
         try {
             $authUser = Auth::user();
             $this->tripUserRepo->deleteWhere(['trip_id' => $request->trip_id, 'user_id' => $authUser->id]);
-
             return Response("leave successful", 200)->header('Content-Type', 'text/plain');
         } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
+
+    public function edit($trip_id) {
+        try {
+            $authUser = Auth::user();
+            $trip = $this->tripRepo->with('position')->find($trip_id);;
+            if($trip && $authUser->can('update', $trip)) {
+                return view('trip.edit')->with('trip', $trip)->with('authUser', $authUser);
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function update(Request $request, $trip_id) {
+        $authUser = Auth::user();
+        $trip = $this->tripRepo->update([
+            'user_id' => $authUser->id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'time_start' => $request->time_start,
+            'time_end' => $request->time_end,
+        ], $trip_id);
+        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, false, $trip->id);
+        return redirect()->route('trip.show', ['trip_id'=> $trip_id]);
+    }
+
+
 }
