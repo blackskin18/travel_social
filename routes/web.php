@@ -61,3 +61,7 @@ Route::delete('trip/invitation/reject_or_delete', 'InvitationController@rejectOr
 Route::post('trip/join-request/create_or_delete', 'JoinRequestController@createOrDeleteRequest')->name('join_request.create');
 Route::get('trip/join-request/accept', 'JoinRequestController@acceptRequest')->name('join_request.accept');
 Route::post('trip/join-request/reject', 'JoinRequestController@rejectRequest')->name('join_request.reject');
+
+Route::post('friends/send-request', 'FriendController@sendRequest')->name('friend.send_request');
+Route::post('friends/cancel-request', 'FriendController@cancelRequest')->name('friend.cancel_request');
+Route::get('friends/accept-request', 'FriendController@acceptRequest')->name('friend.cancel_request');

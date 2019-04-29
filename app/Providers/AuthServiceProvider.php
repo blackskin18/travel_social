@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Model\Friend;
 use App\Model\JoinRequest;
+use App\Policies\FriendPolicy;
 use App\Policies\JoinRequestPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -25,7 +27,8 @@ class AuthServiceProvider extends ServiceProvider
         Post::class => PostPolicy::class,
         Trip::class => TripPolicy::class,
         Invitation::class => InvitationPolicy::class,
-        JoinRequest::class => JoinRequestPolicy::class
+        JoinRequest::class => JoinRequestPolicy::class,
+        Friend::class => FriendPolicy::class
     ];
 
     /**

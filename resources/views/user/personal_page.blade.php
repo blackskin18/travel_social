@@ -1,7 +1,7 @@
 @extends('common.master')
 
 @section('content')
-    @include('user.include.left_menu')
+    @include('user.include.left_menu', ['friendshipInfo', $friendshipInfo])
     <div id="main">
         @if($user->id === Auth::User()->id)
             <section id="one">
