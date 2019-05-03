@@ -7,94 +7,40 @@ $(function () {
         $("div.map_box").css("display", "block");
     });
 
-    $(".post_setting_btn").click(function () {
-        var postId = $(this).data('post-id');
-        var authUser = $(this).data('auth-user');
-        var postOwner = $(this).data('post-owner');
+    $(".btn_post_setting").click(function () {
         var tripId = $(this).data('trip-id');
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        var settingElement = $(this);
-
-        var popupSettingHtml = `<div class="popup_setting" style="width: 100%"><ul>`;
-        if (authUser !== postOwner && tripId) {
-            let joinRequestAccepted = $(this).data('join-request-accepted');
-            if (joinRequestAccepted === 0) {
-                popupSettingHtml += `<li id="join_btn"><form id="join_trip_${tripId}" method="post" action="/join-request/trip/create">
-                                        <input type="hidden" name="_token" value="${CSRF_TOKEN}" />
-                                        <input type="hidden" name="trip_id" value="${tripId}">
-<!--                                        <a onclick="document.getElementById('join_trip_${tripId}').submit();">Hủy</a>-->
-                                        <a class="button_join" data-trip-id="${tripId}">Hủy yêu cầu</a>
-                                    </form></li>`
-            } else if (joinRequestAccepted === 1) {
-                popupSettingHtml += `<li id="join_btn"><form id="join_trip_${tripId}" method="post" action="/join-request/trip/create">
-                                        <input type="hidden" name="_token" value="${CSRF_TOKEN}" />
-                                        <input type="hidden" name="trip_id" value="${tripId}">
-<!--                                        <a onclick="document.getElementById('join_trip_${tripId}').submit();">Xóa</a>-->
-                                        <a class="button_join" data-trip-id="${tripId}"> 
-                                            <p> Rời khỏi </p>
-                                            <p>(bạn đang ở trong chuyến đi này)</p>
-                                        </a>
-                                    </form></li>`
-            } else {
-                popupSettingHtml += `<li id="join_btn"><form id="join_trip_${tripId}" method="post" action="/join-request/trip/create">
-                                        <input type="hidden" name="_token" value="${CSRF_TOKEN}" />
-                                        <input type="hidden" name="trip_id" value="${tripId}">
-<!--                                        <a onclick="document.getElementById('join_trip_${tripId}').submit();">Tham Gia</a>-->
-                                        <a class="button_join" data-trip-id="${tripId}">Xin tham Gia</a>
-                                    </form></li>`
-            }
-        } else if (tripId) {
-            popupSettingHtml += `<li id="join_btn"><a href="/trip/detail_info/${tripId}">Xem chuyến đi</a></li>`
-        }
-
-        if (authUser === postOwner) {
-            popupSettingHtml += `<li><a href="/post/edit/${postId}"> Sửa bài viết </a></li>
-                                <li>
-                                    <form id="delete_post_${postId}" method="post" action="/post/delete/${postId}">
-                                        <input type="hidden" name="_token" value="${CSRF_TOKEN}" />
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <a onclick="document.getElementById('delete_post_${postId}').submit();">Xóa bài viết</a>
-                                    </form>
-                                </li>`
-        }
-        popupSettingHtml += `</ul></div>`;
-
-        $(this).popModal({
-            html: popupSettingHtml,
-            placement: 'rightTop',
-            showCloseBut: true,
-            onOkBut: function () {
+        var url = $(this).data('action');
+        var method = $(this).data('method') ? $(this).data('method') : "post";
+        console.log( $(this).data('method'));
+        var element = $(this);
+        $.ajax({
+            url: url,
+            type: 'post',
+            data: {trip_id: tripId, _method: method},
+            success: function (response) {
+                console.log(response);
+                let data = JSON.parse(response);
+                if(data.type === 'create_join_request') {
+                    element.css('display','none');
+                    $("#decline_join_request_"+tripId).css('display', 'block');
+                } else if (data.type === 'decline_join_request' || data.type === 'decline_invitation' || data.type === 'leave_the_trip') {
+                    element.css('display','none');
+                    $("#accept_invitation_"+tripId).css('display', 'none');
+                    $("#show_trip_"+tripId).css('display', 'none');
+                    $("#create_join_request_"+tripId).css('display', 'block');
+                } else if (data.type === 'accept_invitation') {
+                    element.css('display','none');
+                    $("#decline_invitation_"+tripId).css('display', 'none');
+                    $("#show_trip_"+tripId).css('display', 'block');
+                    $("#leave_trip_request_"+tripId).css('display', 'block');
+                }
             },
-            onCancelBut: function () {
-            },
-            onLoad: function () {
-                $(".button_join").click(function () {
-                    var tripId = $(this).data('trip-id');
-                    var element = $(this);
-                        $.ajax({
-                            url: '/trip/join-request/create_or_delete',
-                            type: 'post',
-                            data: {trip_id: tripId},
-                            success: function (response) {
-                                if(response.type === "delete_request") {
-                                    settingElement.data('join-request-accepted', null);
-                                    element.text("Xin tham gia");
-                                } else {
-                                    settingElement.data('join-request-accepted', 0);
-                                    element.text("Hủy yêu cầu");
-                                }
-                            },
-                            error: function () {
-                                alert('something error');
-                            }
-                        });
-                });
-            },
-            onClose: function () {
+            error: function () {
+                alert('something error');
             }
         });
     });
-
+    
     $("div.btn_comment").click(function () {
         var postId = $(this).data('article-id');
         $("div#comment_box_" + postId).css("display", "block");
@@ -118,7 +64,6 @@ $(function () {
                                 </div>
                             </div>
                     </div>`;
-            console.log(commentElement);
             $("div#comment_box_" + postId + ">.list_comment").prepend(commentElement);
         });
     });

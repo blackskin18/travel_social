@@ -21,6 +21,7 @@ class CreateJoinRequestTable extends Migration
             $table->unsignedInteger('trip_id');
             $table->foreign('trip_id')->references('id')->on('trips');
             $table->tinyInteger('accepted')->default(0);
+            $table->tinyInteger('seen')->default(0);
             $table->timestamps();
         });
     }

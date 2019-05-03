@@ -20,6 +20,11 @@ class CreateTableTripUser extends Migration
 
             $table->unsignedInteger('trip_id');
             $table->foreign('trip_id')->references('id')->on('trips');
+
+            $table->tinyInteger('type')->default(0)->comment('0:invitation, 1: join request');
+            $table->tinyInteger('status')->default(0)->comment('0: pending, 1:Accepted, 2:Declined');
+            $table->tinyInteger('seen')->default(0)->comment('0: not seen, 1: seen');
+
             $table->timestamps();
         });
     }

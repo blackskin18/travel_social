@@ -52,16 +52,21 @@ Route::post('trip/store', 'TripController@store')->name('trip.store');
 Route::delete('trip/delete', 'TripController@delete')->name('trip.delete');
 Route::get('trip/{trip_id}/edit', 'TripController@edit')->name('trip.edit');
 Route::put('trip/{trip_id}', 'TripController@update')->name('trip.update');
-Route::delete('trip/leave', 'TripController@leave')->name('trip.leave');
-
-Route::post('trip/invitation/add', 'InvitationController@inviteFriend')->name('invitation.add');
-Route::post('trip/invitation/accept', 'InvitationController@accept')->name('invitation.accept');
-Route::delete('trip/invitation/reject_or_delete', 'InvitationController@rejectOrDelete')->name('invitation.delete');
-
-Route::post('trip/join-request/create_or_delete', 'JoinRequestController@createOrDeleteRequest')->name('join_request.create');
-Route::get('trip/join-request/accept', 'JoinRequestController@acceptRequest')->name('join_request.accept');
-Route::post('trip/join-request/reject', 'JoinRequestController@rejectRequest')->name('join_request.reject');
-
+//invitation
+Route::post('trip/invitation/add', 'MemberTripController@inviteFriend')->name('invitation.add');
+Route::post('trip/invitation/accept', 'MemberTripController@acceptInvitation')->name('invitation.accept');
+Route::delete('trip/invitation/reject_or_delete', 'MemberTripController@rejectOrDeleteInvitation')->name('invitation.decline_or_cancel');
+//join request
+Route::post('trip/join-request/create', 'MemberTripController@createJoinRequest')->name('join_request.create');
+Route::get('trip/join-request/accept', 'MemberTripController@acceptJoinRequest')->name('join_request.accept');
+Route::delete('trip/join-request/reject_or_cancel', 'MemberTripController@rejectJoinRequest')->name('join_request.reject_or_cancel');
+//member
+Route::delete('trip/leave', 'MemberTripController@leave')->name('trip.leave');
+//friend
 Route::post('friends/send-request', 'FriendController@sendRequest')->name('friend.send_request');
 Route::post('friends/cancel-request', 'FriendController@cancelRequest')->name('friend.cancel_request');
-Route::get('friends/accept-request', 'FriendController@acceptRequest')->name('friend.cancel_request');
+Route::post('friends/accept-request', 'FriendController@acceptRequest')->name('friend.accept_request');
+
+//notification
+Route::get('notification/get-all', 'NotificationController@getAll')->name('notification.get_all');
+Route::post('notification/seen_all_friend_notification', 'NotificationController@setSeenAllForFriendNotify')->name('notification.friend.seen_all');

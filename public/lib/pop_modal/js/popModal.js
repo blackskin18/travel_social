@@ -112,7 +112,7 @@ $(function() {
                         }
 
                         if (tooltipContent[0].scrollWidth > tooltipContent[0].offsetWidth && _options.size == '') {
-                            tooltipContainer.css({maxWidth: '400px'});
+                            tooltipContainer.css({maxWidth: '800px', minWidth: '400px'});
                             tooltipContent.addClass(elemClass + '_contentOverflow');
                         }
                         if ($.isPlainObject(_options.size) || (/^{/i).test(_options.size)) {
@@ -703,10 +703,11 @@ $(function() {
                     dialogHeader.append(dialogCloseBut);
                     dialogBody.append(elem[currentDialog].innerHTML);
 
+                    parent = elem.parent();
                     elem.each(function() {
                         source_array.append($(this));
                     });
-                    elem.parent().append($('<div class="' + elemClass + '_source"></div>'));
+                    parent.append($('<div class="' + elemClass + '_source"></div>'));
 
                     if (maxDialog > 0) {
                         dialogHeader.append($('<div class="' + nextBut + '">&rsaquo;</div><div class="' + prevBut + ' notactive">&lsaquo;</div>'));
@@ -1051,10 +1052,11 @@ $(function() {
                     dialogMain.append(dialogBody);
                     dialogBody.append(elem[0].innerHTML);
 
+                    parent = elem.parent();
                     elem.each(function() {
                         source_array.append($(this));
                     });
-                    elem.parent().append($('<div class="' + elemClass + '_source"></div>'));
+                    parent.append($('<div class="' + elemClass + '_source"></div>'));
 
                     $('body').append(dialogMain).addClass(elemClass + 'Open');
 

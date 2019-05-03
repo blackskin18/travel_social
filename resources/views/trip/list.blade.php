@@ -23,7 +23,7 @@
                         @foreach($tripsCreateByUser as $tripCreateByUser)
                             <tr>
                                 <td>
-                                    <a href="{{route('trip.detail', $tripCreateByUser->id)}}">
+                                    <a href="{{route('trip.show', $tripCreateByUser->id)}}">
                                         {{ $tripCreateByUser->title }}
                                     </a>
                                 </td>
@@ -69,7 +69,7 @@
                             @foreach($invitations as $invitation)
                                 <tr id="invitation_trip_{{$invitation->trip_id}}">
                                     <td>
-                                        <a href="{{ route('trip.detail', $invitation->trip->id) }}">
+                                        <a href="{{ route('trip.show', $invitation->trip->id) }}">
                                             {{ $invitation->trip->title }}
                                         </a>
                                     </td>
@@ -117,7 +117,7 @@
                             @foreach($joiningTrips as $joiningTrip)
                                 <tr id="joining_trip_{{$joiningTrip->trip_id}}">
                                     <td>
-                                        <a href="{{ route('trip.detail', $joiningTrip->trip->id) }}">
+                                        <a href="{{ route('trip.show', $joiningTrip->trip->id) }}">
                                             {{ $joiningTrip->trip->title }}
                                         </a>
                                     </td>

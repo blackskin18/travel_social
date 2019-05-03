@@ -20,6 +20,7 @@ class CreateTableFriends extends Migration
             $table->foreign('user_two_id')->references('id')->on('users');
             $table->increments('id');
             $table->smallInteger('type')->default(0)->comment('0: pending, 1:Accepted, 2:Declined, 3:Blocked');
+            $table->tinyInteger('seen')->default(0);
             $table->timestamps();
         });
     }

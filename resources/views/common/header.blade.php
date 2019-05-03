@@ -29,6 +29,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
     <script src="{{url('lib/pop_modal/js/popModal.js')}}"></script>
     <script src="{{ url('js/common.js') }}"></script>
+    <script src="{{ url('js/notification.js') }}"></script>
     <script src="{{ url('js/map.js') }}"></script>
 
     @yield('head')
@@ -72,11 +73,21 @@
             </a>
         </div>
 
-        <div class="add-friend">
-			<span>
-				<img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">
-			</span>
+        <div class="add-friend" id="btn_show_friend_notify" data-size="{'width':'800'}">
+            <div>
+                <a class=" position-relative">
+                    <div class="position-absolute">
+                        <img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">
+                    </div>
+                    <div class="number_friend_notify"></div>
+                </a>
+                <div class="display_none" id="friend_notification_box">
+                    <div style="width: 450px">
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="messenger">
 			<span>
 				<img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">

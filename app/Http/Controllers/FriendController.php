@@ -33,9 +33,10 @@ class FriendController extends Controller
     public function sendRequest(Request $request)
     {
         $authUser = Auth::user();
-        $friendRequest = $this->friendRepo->createPendingRequest($authUser->id, $request->friend_id);
-
-        return Response($friendRequest, 200)->header('Content-Type', 'text/plain');
+        if($authUser->id != $request->friend_id) {
+            $friendRequest = $this->friendRepo->createPendingRequest($authUser->id, $request->friend_id);
+            return Response($friendRequest, 200)->header('Content-Type', 'text/plain');
+        }
     }
 
     public function cancelRequest(Request $request)

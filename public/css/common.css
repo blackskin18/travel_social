@@ -16,6 +16,21 @@ a {
     z-index: 100;
 }
 
+.number_friend_notify{
+    background: red;
+    position: absolute;
+    top: 3px;
+    left: 25px;
+    display: none;
+    color: white;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+}
+
 .popup {
     background: #5CC6A7;
     display: none;

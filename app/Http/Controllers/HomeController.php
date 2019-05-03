@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Repository\JoinRequestRepository;
+use App\Repository\NotificationRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
-use App\Repository\PositionRepository;
-use App\Repository\PostImageRepository;
 
 class HomeController extends Controller
 {
@@ -16,7 +14,7 @@ class HomeController extends Controller
 
     protected $userRepo;
 
-    protected $joinRequestRepo;
+    protected $notificationRepo;
 
     /**
      * Create a new controller instance.
@@ -26,13 +24,13 @@ class HomeController extends Controller
     public function __construct(
         PostRepository $postRepo,
         UserRepository $userRepo,
-        JoinRequestRepository $joinRequestRepo
+        NotificationRepository $notificationRepo
     )
     {
         $this->middleware('auth');
         $this->userRepo = $userRepo;
         $this->postRepo = $postRepo;
-        $this->joinRequestRepo = $joinRequestRepo;
+        $this->notificationRepo = $notificationRepo;
     }
 
     /**

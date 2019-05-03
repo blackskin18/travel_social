@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Model\Comment;
+use App\Model\Friend;
 use Illuminate\Container\Container as Application;
+use Illuminate\Database\Eloquent\Builder;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class FriendRepository extends BaseRepository
@@ -48,5 +50,26 @@ class FriendRepository extends BaseRepository
         }
 
         return $friendship;
+    }
+
+    public function getNotificationByUserId($userId)
+    {
+        $friendNotifications = Friend::where('user_two_id', $userId)->where('type', self::PENDING)->orWhere(function (Builder $query) use ($userId) {
+            $query->where('user_one_id', $userId)->where('type', self::ACCEPT)->where('seen', 0);
+        })->with(['userOne', 'userTwo'])->get();
+        $countNotifyNotSeen = 0;
+        foreach ($friendNotifications as $friendNotification) {
+            if ($friendNotification->seen === 0) {
+                $countNotifyNotSeen++;
+            }
+        }
+
+        return ['notifications' => $friendNotifications, 'count_notify_not_seen' => $countNotifyNotSeen];
+    }
+
+    public function setSeenForAllNotify($userId)
+    {
+        $friendRecord = Friend::where('seen', 0)->where('user_one_id', $userId)->orWhere('user_two_id', $userId)->where('seen', 0)->update(['seen'=> 1]);
+        return $friendRecord;
     }
 }

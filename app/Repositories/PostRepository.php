@@ -6,7 +6,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class PostRepository extends BaseRepository
 {
-    protected $joinRequestRepo;
+    private $tripUserRepo;
 
     /**
      * Specify Model class name
@@ -18,9 +18,9 @@ class PostRepository extends BaseRepository
         return "App\\Model\\Post";
     }
 
-    public function __construct(\Illuminate\Container\Container $app, JoinRequestRepository $joinRequestRepo)
+    public function __construct(\Illuminate\Container\Container $app, TripUserRepository $tripUserRepo)
     {
-        $this->joinRequestRepo = $joinRequestRepo;
+        $this->tripUserRepo = $tripUserRepo;
         parent::__construct($app);
     }
 
@@ -31,20 +31,20 @@ class PostRepository extends BaseRepository
 
     public function getList($authUserId)
     {
-        $allJoinRequestsOfUser = $this->joinRequestRepo->findWhere(['user_id'=>$authUserId]);
+        //$allJoinRequestsOfUser = $this->joinRequestRepo->findWhere(['user_id'=>$authUserId]);
+        $allJoinRequestsOfUser = $this->tripUserRepo->findWhere(['user_id'=>$authUserId]);
         $posts = $this->with('position')->with('like')->with('user:id,avatar,name')->orderBy('id', 'desc')->all();
-
         foreach ($posts as $post) {
             foreach ($allJoinRequestsOfUser as $joinRequest) {
                 if ($post->trip && $post->trip->id === $joinRequest->trip_id) {
-                    $post->join_request_accepted = $joinRequest->accepted;
+                    $post->member_info = $joinRequest;
                 }
             }
         }
         return $this->checkBeLiked($posts, $authUserId);
     }
 
-    public function getListOfUser($userId, $authUserId)
+    public function getListCreateByUser($userId, $authUserId)
     {
         $posts = $this->with('position')
             ->with('like')

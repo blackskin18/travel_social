@@ -36,7 +36,7 @@ $(function () {
         var buttonAcceptRequest = $(this);
         $.ajax({
             url: '/friends/accept-request',
-            type: 'get',
+            type: 'post',
             data: {friend_id: friendId},
             success: function (responese) {
                 $("#is_friend_box").css('display', 'inline-block');

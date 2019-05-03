@@ -23,9 +23,8 @@ class TripRepository extends BaseRepository
         return "App\\Model\\Trip";
     }
 
-    public function __construct(\Illuminate\Container\Container $app, InvitationRepository $invitationRepo, TripUserRepository $tripUserRepo)
+    public function __construct(\Illuminate\Container\Container $app, TripUserRepository $tripUserRepo)
     {
-        $this->invitationRepo = $invitationRepo;
         $this->tripUserRepo = $tripUserRepo;
         parent::__construct($app);
     }
@@ -37,5 +36,14 @@ class TripRepository extends BaseRepository
         //add member to trip_user
         $this->tripUserRepo->firstOrCreate(['user_id'=> $userId, 'trip_id' => $tripId]);
     }
+
+        public function getTripIdsUserCreated($userId) {
+            $trips = $this->visible(['id'])->findWhere(['user_id' => $userId]);
+            $tripIds = [];
+            foreach($trips as $trip) {
+                $tripIds[] = $trip->id;
+            }
+            return $tripIds;
+        }
 
 }

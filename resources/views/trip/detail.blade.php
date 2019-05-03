@@ -35,8 +35,6 @@
                             <a class="dropdown-item btn_show_map" data-trip-id="{{ $trip->id }}">
                                 show map
                             </a>
-                            <a class="dropdown-item" id="btn_invite_friends" data-toggle="modal" data-target="#myModal">
-                                Mời bạn bè </a>
                             <a class="dropdown-item" id="btn_show_member" data-toggle="modal"
                                data-target="#list_member_modal">
                                 Thành viên </a>
@@ -46,7 +44,10 @@
                             <a class="dropdown-item" id="btn_show_member" data-toggle="modal"
                                data-target="#list_join_request_modal">
                                 Danh sách xin tham gia </a>
-                            <a class="dropdown-item" href="{{ route('trip.edit', ['trip_id' => $trip->id]) }}"> Sửa </a>
+                            @if($trip->user_id === Auth::user()->id)
+                                <a class="dropdown-item" id="btn_invite_friends" data-toggle="modal" data-target="#myModal">
+                                    Mời bạn bè </a>
+                                <a class="dropdown-item" href="{{ route('trip.edit', ['trip_id' => $trip->id]) }}"> Sửa </a>
                                 <form id="delete_trip_{{$trip->id}}" method="post"
                                       action="{{ route('trip.delete')  }}">
                                     @csrf
@@ -55,6 +56,10 @@
                                     <a onclick="document.getElementById('delete_trip_{{$trip->id}}').submit();"
                                        class="dropdown-item">Xóa</a>
                                 </form>
+                            @else
+                                <a class="dropdown-item" id="btn_invite_friends" data-toggle="modal" data-target="#myModal">
+                                    Rời khỏi chuyến đi </a>
+                            @endif
                         </div>
 
                     </div>
@@ -108,33 +113,35 @@
                     <div class="modal-body">
                         <table class="table info">
                             <tbody>
-                            @foreach($trip->joinRequestUser as $joinRequestUser)
-                                <tr>
+                            @foreach($joinRequests as $joinRequests)
+                                <tr id="join_request_{{$joinRequests->user_id}}">
                                     <td  class="p-1">
-                                        <a href="{{route('user.personal.page', ['id' => $joinRequestUser->id])}}">
+                                        <a href="{{route('user.personal.page', ['id' => $joinRequests->user_id])}}">
                                             <div class="media">
                                                 <img
-                                                    src=" {{ $joinRequestUser->avatar ? url('asset/images/avatar/'.$joinRequestUser->id.'/'.$joinRequestUser->avatar) : url('asset/images/avatar/default/avatar_default.png') }}"
-                                                    alt="{{$joinRequestUser->name}}" class="mr-3 rounded-circle"
+                                                    src=" {{ $joinRequests->user->avatar ? url('asset/images/avatar/'.$joinRequests->user_id.'/'.$joinRequests->user->avatar) : url('asset/images/avatar/default/avatar_default.png') }}"
+                                                    alt="{{$joinRequests->user->name}}" class="mr-3 rounded-circle"
                                                     style="width:60px;">
                                                 <div class="media-body">
-                                                    <h4 class="p-3"> {{$joinRequestUser->name}} </h4>
+                                                    <h4 class="p-3"> {{$joinRequests->user->name}} </h4>
                                                 </div>
                                             </div>
                                         </a>
                                     </td>
-                                    <td>
-                                        <button class="btn btn-primary btn_accept_request_join"
-                                                data-user-join-id="{{$joinRequestUser->id}}"
-                                                data-trip-id="{{$trip->id}}"> Đồng ý
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger btn_reject_request_join"
-                                                data-user-join-id="{{$joinRequestUser->id}}"
-                                                data-trip-id="{{$trip->id}}"> Không đồng ý
-                                        </button>
-                                    </td>
+                                    @if($trip->user_id === Auth::user()->id)
+                                        <td>
+                                            <button class="btn btn-primary btn_accept_join_request"
+                                                    data-friend-id="{{$joinRequests->user_id}}"
+                                                    data-trip-id="{{$trip->id}}"> Đồng ý
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn_reject_request_join"
+                                                    data-friend-id="{{$joinRequests->user_id}}"
+                                                    data-trip-id="{{$trip->id}}"> Không đồng ý
+                                            </button>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>
@@ -178,7 +185,7 @@
                                         <td>
                                             {{$invitation->user->email}}
                                         </td>
-                                        @if($trip->user_id === Auth::user()->id && $invitation->user_id !== Auth::user()->id)
+                                        @if($trip->user_id === Auth::user()->id)
                                             <td>
                                                 <button class="delete_member_invited btn btn-danger"
                                                         data-member-id="{{$invitation->user_id}}"
@@ -209,25 +216,27 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <table>
-                            <tbody>
-                            @foreach($trip->tripUser as $member)
-                                <tr>
+                            <tbody id="table_list_member">
+                            @foreach($members as $member)
+                                <tr id="member_{{$member->user->id}}">
                                     <td class="p-1">
-                                        <a href="{{route('user.personal.page', ['id' => $member->id])}}">
+                                        <a href="{{route('user.personal.page', ['id' => $member->user->id])}}">
                                             <div class="media">
                                                 <img
-                                                    src="{{$member->avatar ? url('asset/images/avatar/'.$member->id.'/'.$member->avatar) : url('asset/images/avatar/default/avatar_default.png')}}"
-                                                    alt="{{$member->name}}" class="mr-3 rounded-circle"
+                                                    src="{{$member->user->avatar ? url('asset/images/avatar/'.$member->id.'/'.$member->avatar) : url('asset/images/avatar/default/avatar_default.png')}}"
+                                                    alt="{{$member->user->name}}" class="mr-3 rounded-circle"
                                                     style="width:60px;">
                                                 <div class="media-body">
-                                                    <h4 class="p-3"> {{$member->name}} </h4>
+                                                    <h4 class="p-3"> {{$member->user->name}} </h4>
                                                 </div>
                                             </div>
                                         </a>
                                     </td>
-                                    <td class="p-1">
-                                        <button class="btn btn-danger mb-4"> Xóa</button>
-                                    </td>
+                                    @if($trip->user_id === Auth::user()->id)
+                                        <td class="p-1">
+                                            <button class="btn btn-danger mb-4 btn_remove_member" data-member-id="{{$member->user->id}}" data-trip-id="{{$trip->id}}"> Xóa</button>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

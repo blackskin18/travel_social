@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Repository\CommentRepository;
 use App\Repository\LikeRepository;
 use App\Repository\TripRepository;
-use App\Repository\InvitationRepository;
+use App\Repository\TripUserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreatePostRequest;
@@ -28,7 +28,7 @@ class PostController extends Controller
     protected $postImageRepo;
     protected $commentRepo;
     protected $likeRepo;
-    protected $invitationRepo;
+    protected $tripUserRepo;
     protected $tripRepo;
 
     public function __construct(
@@ -39,7 +39,7 @@ class PostController extends Controller
         CommentRepository $commentRepo,
         LikeRepository $likeRepo,
         TripRepository $tripRepo,
-        InvitationRepository $invitationRepo
+        TripUserRepository $tripUserRepo
     )
     {
         $this->middleware('auth');
@@ -49,7 +49,7 @@ class PostController extends Controller
         $this->postImageRepo = $postImageRepo;
         $this->commentRepo = $commentRepo;
         $this->likeRepo = $likeRepo;
-        $this->invitationRepo = $invitationRepo;
+        $this->tripUserRepo = $tripUserRepo;
         $this->tripRepo = $tripRepo;
     }
 
@@ -71,7 +71,9 @@ class PostController extends Controller
                 'time_start'  => $request->time_start,
                 'time_end'    => $request->time_end
             ]);
-            $this->invitationRepo->createMulti($trip, $request->member);
+            if($request->member) {
+                $this->tripUserRepo->inviteFriends($trip->id, $request->member);
+            }
         }
 
         $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $post->id, $trip->id ?? null);
