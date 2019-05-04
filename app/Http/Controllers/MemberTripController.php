@@ -50,6 +50,7 @@ class MemberTripController extends Controller
             if ($request->member_id) {
                 $this->tripUserRepo->declinedInvitation($request->trip_id, $request->member_id, $userAuth);
             } else {
+
                 $this->tripUserRepo->declinedInvitation($request->trip_id, $userAuth->id, $userAuth);
             }
             $data = [

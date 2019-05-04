@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Repository\FriendRepository;
 use App\Repository\NotificationRepository;
+use App\Repository\TripUserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    protected $notificationRepo;
+    private $notificationRepo;
 
-    protected $friendRepo;
+    private $friendRepo;
+    private $tripUserRepo;
 
     /**
      * Create a new controller instance.
@@ -20,11 +22,13 @@ class NotificationController extends Controller
      */
     public function __construct(
         NotificationRepository $notificationRepo,
-        FriendRepository $friendRepo
+        FriendRepository $friendRepo,
+        TripUserRepository $tripUserRepo
     ) {
         $this->middleware('auth');
         $this->notificationRepo = $notificationRepo;
         $this->friendRepo = $friendRepo;
+        $this->tripUserRepo = $tripUserRepo;
     }
 
     public function getAll()
@@ -44,6 +48,16 @@ class NotificationController extends Controller
         try {
             $authUser = Auth::user();
             $this->friendRepo->setSeenForAllNotify($authUser->id);
+            return Response('successful', 200)->header('Content-Type', 'text/plain');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function setSeenAllForMemberNotify() {
+        try {
+            $authUser = Auth::user();
+            $this->notificationRepo->setSeenAllForMemberNotify($authUser->id);
             return Response('successful', 200)->header('Content-Type', 'text/plain');
         } catch (\Exception $e) {
             return $e->getMessage();

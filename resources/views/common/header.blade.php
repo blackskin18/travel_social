@@ -79,7 +79,7 @@
                     <div class="position-absolute">
                         <img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">
                     </div>
-                    <div class="number_friend_notify"></div>
+                    <div class="count_friend_notify count_notify"></div>
                 </a>
                 <div class="display_none" id="friend_notification_box">
                     <div style="width: 450px">
@@ -88,10 +88,19 @@
             </div>
         </div>
 
-        <div class="messenger">
-			<span>
-				<img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">
-			</span>
+        <div class="messenger" id="btn_show_trip_member_notify">
+            <div>
+                <a class=" position-relative">
+                    <div class="position-absolute">
+                        <img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">
+                    </div>
+                    <div class="count_member_notify count_notify"></div>
+                </a>
+                <div class="display_none" id="member_notification_box">
+                    <div style="width: 450px">
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="article-notify">
 			<span>

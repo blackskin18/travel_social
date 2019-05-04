@@ -58,7 +58,7 @@ Route::post('trip/invitation/accept', 'MemberTripController@acceptInvitation')->
 Route::delete('trip/invitation/reject_or_delete', 'MemberTripController@rejectOrDeleteInvitation')->name('invitation.decline_or_cancel');
 //join request
 Route::post('trip/join-request/create', 'MemberTripController@createJoinRequest')->name('join_request.create');
-Route::get('trip/join-request/accept', 'MemberTripController@acceptJoinRequest')->name('join_request.accept');
+Route::post('trip/join-request/accept', 'MemberTripController@acceptJoinRequest')->name('join_request.accept');
 Route::delete('trip/join-request/reject_or_cancel', 'MemberTripController@rejectJoinRequest')->name('join_request.reject_or_cancel');
 //member
 Route::delete('trip/leave', 'MemberTripController@leave')->name('trip.leave');
@@ -70,3 +70,4 @@ Route::post('friends/accept-request', 'FriendController@acceptRequest')->name('f
 //notification
 Route::get('notification/get-all', 'NotificationController@getAll')->name('notification.get_all');
 Route::post('notification/seen_all_friend_notification', 'NotificationController@setSeenAllForFriendNotify')->name('notification.friend.seen_all');
+Route::get('notification/seen_all_member_notification', 'NotificationController@setSeenAllForMemberNotify')->name('notification.member.seen_all');

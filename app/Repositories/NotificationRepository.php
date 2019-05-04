@@ -13,9 +13,9 @@ class NotificationRepository extends BaseRepository
 {
     private $friendRepo;
 
-    private $joinRequestRepo;
-
     private $tripRepo;
+
+    private $tripUserRepo;
 
     /**
      * Specify Model class name
@@ -24,26 +24,36 @@ class NotificationRepository extends BaseRepository
      */
     function model()
     {
-        return "App\\Model\\Comment";
+        return "App\\Model\\TripUser";
     }
 
     public function __construct(
         \Illuminate\Container\Container $app,
         FriendRepository $friendRepo,
-        TripRepository $tripRepo
+        TripRepository $tripRepo,
+        TripUserRepository $tripUserRepo
     ) {
         $this->friendRepo = $friendRepo;
         $this->tripRepo = $tripRepo;
+        $this->tripUserRepo = $tripUserRepo;
         parent::__construct($app);
     }
 
     public function getAllNotifyByUserId($userId)
     {
         $tripIds = $this->tripRepo->getTripIdsUserCreated($userId);
-        $friendNotification = $this->friendRepo->getNotificationByUserId($userId);
+        $friendNotifications = $this->friendRepo->getNotificationByUserId($userId);
+        $tripMemberNotifications = $this->tripUserRepo->getNotificationByUserId($userId, $tripIds);
 
         return [
-            'friend_notifications' => $friendNotification,
+            'friend_notifications' => $friendNotifications,
+            'trip_member_notification' => $tripMemberNotifications,
         ];
     }
+
+    public function setSeenAllForMemberNotify($userId) {
+        $tripIds = $this->tripRepo->getTripIdsUserCreated($userId);
+        $this->tripUserRepo->setSeenForAllNotify($userId, $tripIds);
+    }
+
 }

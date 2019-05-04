@@ -16,7 +16,7 @@ a {
     z-index: 100;
 }
 
-.number_friend_notify{
+.count_notify{
     background: red;
     position: absolute;
     top: 3px;

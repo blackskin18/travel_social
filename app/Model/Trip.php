@@ -19,7 +19,7 @@ class Trip extends Model
         'post_id', 'title', 'user_id', 'description', 'time_start', 'time_end'
     ];
 
-    protected $visible = ['id'];
+    protected $visible = ['id', 'user_id', 'user', 'title'];
 
     public function userJoin() {
         return $this->belongsToMany('App\Model\User', 'trip_users');
@@ -40,5 +40,4 @@ class Trip extends Model
     public function tripUser() {
         return $this->belongsToMany('App\Model\User', 'trip_users');
     }
-
 }

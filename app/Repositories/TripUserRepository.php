@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Model\Comment;
 use App\Model\TripUser;
 use Illuminate\Container\Container as Application;
+use Illuminate\Database\Eloquent\Builder;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 //use App\Repository\PostRepository;
@@ -44,6 +45,7 @@ class TripUserRepository extends BaseRepository
                     'user_id' => $friendIds[$i],
                     'type' => self::INVITATION,
                     'status' => self::PENDING,
+                    'seen' => self::NOT_SEEN,
                 ]);
             }
         }
@@ -59,6 +61,7 @@ class TripUserRepository extends BaseRepository
         ])->first();
         if ($invitation && $user->can('acceptInvitation', $invitation)) {
             $invitation->status = self::ACCEPT;
+            $invitation->seen = self::NOT_SEEN;
             $invitation->save();
 
             return $invitation;
@@ -103,6 +106,7 @@ class TripUserRepository extends BaseRepository
                 'user_id' => $userId,
                 'type' => self::JOIN_REQUEST,
                 'status' => self::PENDING,
+                'seen' => self::NOT_SEEN
             ]);
         }
     }
@@ -122,6 +126,7 @@ class TripUserRepository extends BaseRepository
         $joinRequest = $this->findWhere(['trip_id' => $tripId, 'user_id'=>$userId, 'type'=>self::JOIN_REQUEST, 'status'=>self::PENDING])->first();
         if($joinRequest && $authUser->can('acceptJoinRequest', $joinRequest)) {
             $joinRequest->status = self::ACCEPT;
+            $joinRequest->seen = self::NOT_SEEN;
             $joinRequest->save();
             return $joinRequest;
         } else {
@@ -141,4 +146,35 @@ class TripUserRepository extends BaseRepository
         return $this->with('user')->findWhere(['trip_id' => $tripId,'status'=>self::ACCEPT]);
     }
 
+    public function getNotificationByUserId($userId, $tripIds) {
+        $notifications = TripUser::where(function (Builder $query) use ($tripIds) {
+            return $query->whereIn('trip_id', $tripIds)->where('type',self::JOIN_REQUEST)->where('status', self::PENDING);
+        })->orWhere(function (Builder $query) use ($userId) {
+            return $query->where('user_id', $userId)->where('type',self::INVITATION)->where('status', self::PENDING);
+        })->orWhere(function (Builder $query) use ($userId) {
+            return $query->where('user_id', $userId)->where('type',self::JOIN_REQUEST)->where('status', self::ACCEPT)->where('seen',self::NOT_SEEN);
+        })->orWhere(function (Builder $query) use ($userId, $tripIds) {
+            return $query->whereIn('trip_id', $tripIds)->where('type',self::INVITATION)->where('status', self::ACCEPT)->where('seen',self::NOT_SEEN);
+        })->with(['user','trip.user'])->get();
+
+        $countNotifyNotSeen = 0;
+        foreach ($notifications as $notification) {
+            if ($notification->seen === 0) {
+                $countNotifyNotSeen++;
+            }
+        }
+        return ['notifications' => $notifications, 'count_notify_not_seen' => $countNotifyNotSeen];
+    }
+
+    public function setSeenForAllNotify($userId, $tripIds) {
+        TripUser::where(function (Builder $query) use ($tripIds) {
+            return $query->whereIn('trip_id', $tripIds)->where('type',self::JOIN_REQUEST)->where('status', self::PENDING);
+        })->orWhere(function (Builder $query) use ($userId) {
+            return $query->where('user_id', $userId)->where('type',self::INVITATION)->where('status', self::PENDING);
+        })->orWhere(function (Builder $query) use ($userId) {
+            return $query->where('user_id', $userId)->where('type',self::JOIN_REQUEST)->where('status', self::ACCEPT)->where('seen',self::NOT_SEEN);
+        })->orWhere(function (Builder $query) use ($userId, $tripIds) {
+            return $query->whereIn('trip_id', $tripIds)->where('type',self::INVITATION)->where('status', self::ACCEPT)->where('seen',self::NOT_SEEN);
+        })->update(['seen' => self::SEEN]);
+    }
 }
