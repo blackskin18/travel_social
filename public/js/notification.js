@@ -24,7 +24,6 @@ $(function () {
                 //trip member notification
                 let memberdNotifyBox = fetchTripMemberNotify(response.trip_member_notification.notifications);
                 $("#member_notification_box>div").append(memberdNotifyBox);
-                console.log(response.trip_member_notification.count_notify_not_seen);
                 if(parseInt(response.trip_member_notification.count_notify_not_seen) > 0) {
                     $("div.count_member_notify").text(response.trip_member_notification.count_notify_not_seen);
                     $("div.count_member_notify").css('display', 'block');
@@ -37,7 +36,6 @@ $(function () {
     };
 
     var fetchTripMemberNotify = function (notifications) {
-        console.log(notifications);
         let htmlElement = `<h5 class="dropdown-header text-center border-bottom"> Thông báo về chuyến đi </h5>`;
         for (let i in notifications) {
             // someone want to join your trip
@@ -188,13 +186,13 @@ $(function () {
 
     // SHOW FRIEND NOTIFICATION
     $("#btn_show_friend_notify").click(function () {
-        let numberNotification = parseInt($('div.number_friend_notify').text());
+        let numberNotification = parseInt($('div.count_friend_notify').text());
         if(numberNotification > 0) {
             $.ajax({
                 url: '/notification/seen_all_friend_notification',
                 type: 'post',
                 success: function (responese) {
-                    $('div.number_friend_notify').css('display', 'none');
+                    $('div.count_friend_notify').css('display', 'none');
                 },
                 error: function () {
                 }
@@ -340,8 +338,6 @@ $(function () {
             }
         });
     });
-
-
     // GET ALL NOTIFICATION
     getFriendNotify();
 });

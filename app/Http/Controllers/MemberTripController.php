@@ -107,16 +107,16 @@ class MemberTripController extends Controller
             $authUser = Auth::user();
             $trip = $this->tripRepo->find($request->trip_id);
             $friendId = $request->friend_id;
-            if ($friendId !== $trip->user_id) {
-                $this->tripUserRepo->rejectJoinRequest($friendId, $request->trip_id, $authUser);
-                $data = [
-                    "status" => 200,
-                    "type" => 'decline_join_request',
-                ];
-                return Response($data, 200)->header('Content-Type', 'text/plain');;
+            if (!$friendId) {
+                $this->tripUserRepo->rejectJoinRequest($authUser->id, $request->trip_id, $authUser);
             } else {
-                throw new \Exception("you can't join the trip what is created by you");
+                $this->tripUserRepo->rejectJoinRequest($friendId, $request->trip_id, $authUser);
             }
+            $data = [
+                "status" => 200,
+                "type" => 'decline_join_request',
+            ];
+            return Response($data, 200)->header('Content-Type', 'text/plain');;
         } catch (\Exception $e) {
             return $e->getMessage();
         }

@@ -110,7 +110,7 @@ class TripUserPolicy
      * @param  \App\Model\TripUser  $tripUser
      * @return mixed
      */
-    public function declineJoinRequest(User $user, TripUser $tripUser) {
+    public function rejectJoinRequest(User $user, TripUser $tripUser) {
         return $user->id === $tripUser->user_id || $user->id === $tripUser->trip->user_id;
     }
 

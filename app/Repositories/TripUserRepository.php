@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Model\Comment;
 use App\Model\TripUser;
+use App\Service\PushNotificationService;
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Builder;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -31,22 +32,33 @@ class TripUserRepository extends BaseRepository
 
     const DECLINED = 2;
 
+    private $pushNotificationService;
+
     function model()
     {
         return "App\\Model\\TripUser";
+    }
+
+    public function __construct(
+        \Illuminate\Container\Container $app,
+        PushNotificationService $pushNotificationService
+    ) {
+        $this->pushNotificationService = $pushNotificationService;
+        parent::__construct($app);
     }
 
     public function inviteFriends($tripId, $friendIds)
     {
         for ($i = 0; $i < count($friendIds); $i++) {
             if (! $this->findWhere(['trip_id' => $tripId, 'user_id' => $friendIds[$i]])->first()) {
-                $this->firstOrCreate([
+                $member = $this->firstOrCreate([
                     'trip_id' => $tripId,
                     'user_id' => $friendIds[$i],
                     'type' => self::INVITATION,
                     'status' => self::PENDING,
                     'seen' => self::NOT_SEEN,
                 ]);
+                $this->pushNotificationService->inviteFriendToTrip($member);
             }
         }
     }
@@ -63,7 +75,7 @@ class TripUserRepository extends BaseRepository
             $invitation->status = self::ACCEPT;
             $invitation->seen = self::NOT_SEEN;
             $invitation->save();
-
+            $this->pushNotificationService->acceptInvitation($invitation);
             return $invitation;
         } else {
             throw new \Exception("You can't update this invitation");
@@ -101,20 +113,22 @@ class TripUserRepository extends BaseRepository
         if ($requestRecord) {
             throw new \Exception("you sent the request to join this trip or someone invited you join this trip");
         } else {
-            return $this->create([
+            $joinRequest =  $this->create([
                 'trip_id' => $tripId,
                 'user_id' => $userId,
                 'type' => self::JOIN_REQUEST,
                 'status' => self::PENDING,
                 'seen' => self::NOT_SEEN
             ]);
+            $this->pushNotificationService->requestToJoinTrip($joinRequest);
+            return $joinRequest;
         }
     }
 
     public function rejectJoinRequest($userId, $tripId, $authUser)
     {
         $joinRequest = $this->findWhere(['trip_id' => $tripId, 'user_id'=>$userId, 'type'=>self::JOIN_REQUEST, 'status'=>self::PENDING])->first();
-        if($joinRequest && $authUser->can('declineJoinRequest', $joinRequest)) {
+        if($joinRequest && $authUser->can('rejectJoinRequest', $joinRequest)) {
             $this->delete($joinRequest->id);
             return "true";
         } else {
@@ -128,6 +142,8 @@ class TripUserRepository extends BaseRepository
             $joinRequest->status = self::ACCEPT;
             $joinRequest->seen = self::NOT_SEEN;
             $joinRequest->save();
+            $this->pushNotificationService->acceptJoinRequest($joinRequest);
+
             return $joinRequest;
         } else {
             throw new \Exception("You can't update this join request");

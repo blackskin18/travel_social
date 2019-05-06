@@ -71,3 +71,6 @@ Route::post('friends/accept-request', 'FriendController@acceptRequest')->name('f
 Route::get('notification/get-all', 'NotificationController@getAll')->name('notification.get_all');
 Route::post('notification/seen_all_friend_notification', 'NotificationController@setSeenAllForFriendNotify')->name('notification.friend.seen_all');
 Route::get('notification/seen_all_member_notification', 'NotificationController@setSeenAllForMemberNotify')->name('notification.member.seen_all');
+
+Route::get('test_firebase', 'CommentController@testFirebase');
+Route::get('comment/post', 'CommentController@storePostComment');

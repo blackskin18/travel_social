@@ -70,17 +70,21 @@ $(function () {
 
     $("input.comment_input").keypress(function (event) {
         if (event.which === 13) {
-            var articleId = $(this).data('article-id');
+            var postId  = $(this).data('article-id');
             var message = $(this).val();
-            var newPostKey = R.firebaseDB.ref().child('posts/' + articleId + '/comments').push().key;
-            var updates = {};
-            updates['posts/' + articleId + '/comments/' + newPostKey] = {
-                'avatar': R.userAvatar,
-                'user_id': R.userId,
-                'content': message,
-                'user_name': R.userName
-            };
-            R.firebaseDB.ref().update(updates)
+            var commentInput = $(this);
+            $.ajax({
+                url: '/comment/post',
+                type: 'get',
+                data: {post_id: postId , message: message},
+                success: function (response) {
+                    commentInput.val('');
+                    console.log("comment successful");
+                },
+                error: function () {
+                    alert('something error');
+                }
+            });
         }
     });
 

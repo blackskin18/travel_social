@@ -23,6 +23,18 @@
                                     </span>
                                 @endif
                             </div>
+                            <input type="hidden" name="device_token">
+                            <script>
+                                $(function () {
+                                    R.firebaseMessaging.getToken().then(function(currentToken) {
+                                        if (currentToken) {
+                                            $('input[name="device_token"]').val(currentToken);
+                                        }
+                                    }).catch(function(err) {
+                                        console.log('An error occurred while retrieving token. ', err);
+                                    });
+                                });
+                            </script>
                         </div>
 
                         <div class="form-group row">

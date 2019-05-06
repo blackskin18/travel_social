@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Model\Comment;
 use App\Model\Friend;
+use App\Service\PushNotificationService;
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Builder;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -18,6 +19,8 @@ class FriendRepository extends BaseRepository
 
     const BLOCK = 3;
 
+    private $pushNotificationService;
+
     /**
      * Specify Model class name
      *
@@ -28,13 +31,22 @@ class FriendRepository extends BaseRepository
         return "App\\Model\\Friend";
     }
 
+    public function __construct(
+        \Illuminate\Container\Container $app,
+        PushNotificationService $pushNotificationService
+    ) {
+        $this->pushNotificationService = $pushNotificationService;
+        parent::__construct($app);
+    }
+
     public function createPendingRequest($userId, $friendId)
     {
         $this->deleteWhere(['user_one_id' => $friendId, 'user_two_id' => $userId]);
         $addFriendRequest = $this->firstOrCreate(['user_one_id' => $userId, 'user_two_id' => $friendId]);
         $addFriendRequest->type = self::PENDING;
-        $addFriendRequest->save();
-
+        //if($addFriendRequest->save()) {
+            $this->pushNotificationService->addFriend($addFriendRequest);
+        //}
         return $addFriendRequest;
     }
 
