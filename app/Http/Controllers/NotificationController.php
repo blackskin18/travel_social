@@ -36,7 +36,6 @@ class NotificationController extends Controller
         try {
             $authUser = Auth::user();
             $allNotification = $this->notificationRepo->getAllNotifyByUserId($authUser->id);
-
             return $allNotification;
         } catch (\Exception $e) {
             return $e->getMessage();

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Repository\CommentRepository;
+use App\Repository\FollowRepository;
+use App\Repository\NotificationRepository;
+use App\Repository\PostRepository;
 use App\Service\DatabaseRealtimeService;
+use App\Service\PushNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
@@ -11,21 +14,35 @@ use App\Service\FirebaseService;
 
 class CommentController extends Controller
 {
-    private $commentRepository;
+    private $followRepo;
     private $DbRealtime;
+    private $notifyRepo;
+    private $postRepo;
 
-    public function __construct(CommentRepository $commentRepository, DatabaseRealtimeService $DbRealtime)
+    public function __construct(FollowRepository $followRepo, DatabaseRealtimeService $DbRealtime, NotificationRepository $notifyRepo, PostRepository $postRepo)
     {
         $this->middleware('auth');
         $this->DbRealtime = $DbRealtime;
-        $this->commentRepository = $commentRepository;
+
+        $this->followRepo = $followRepo;
+        $this->notifyRepo = $notifyRepo;
+        $this->postRepo = $postRepo;
     }
 
     public function storePostComment(Request $request) {
         $postId = $request->post_id;
+        $post = $this->postRepo->find($postId);
         $authUser = Auth::user();
         $commentContent = $request->message;
-        $newComment = $this->DbRealtime->storeComment($postId, $authUser, $commentContent);
-        return $newComment;
+        $this->DbRealtime->storeComment($postId, $authUser, $commentContent);
+        if( $post->user_id !== $authUser->id) {
+            $this->followRepo->followPost($authUser->id, $postId);
+        }
+        $this->notifyRepo->addCommentNotification($authUser->id, $post->user_id, $postId);
+        $data = [
+            "status" => 200,
+            "type" => 'comment_successful',
+        ];
+        return Response($data, 200)->header('Content-Type', 'text/plain');
     }
 }

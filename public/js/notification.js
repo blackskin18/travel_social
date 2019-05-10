@@ -7,8 +7,13 @@ $(function () {
     const PENDING = 0;
     const ACCEPT = 1;
     const DECLINED = 2;
+
+    const COMMENT_POST =0;
+    const COMMENT_TRIP =1;
+    const LIKE_POST =2;
+
     //FUNCTION GET ALL NOTIFICATION, CREATE HTML WHAT DISPLAY NOTIFICATIONS
-    var getFriendNotify = function () {
+    var getAllNotify = function () {
         $.ajax({
             url: '/notification/get-all',
             type: 'get',
@@ -28,12 +33,64 @@ $(function () {
                     $("div.count_member_notify").text(response.trip_member_notification.count_notify_not_seen);
                     $("div.count_member_notify").css('display', 'block');
                 }
+
+                //other notification
+                let otherNotifyBox = fetchOtherNotify(response.other_notification.notifications);
+                $("#other_notification_box>div").append(otherNotifyBox);
+                if(parseInt(response.other_notification.count_notify_not_seen) > 0) {
+                    $("div.count_other_notify").text(response.other_notification.count_notify_not_seen);
+                    $("div.count_other_notify").css('display', 'block');
+                }
             },
             error: function () {
                 alert('something error');
             }
         });
     };
+
+    var fetchOtherNotify = function(notifications) {
+        let htmlElement = `<h5 class="dropdown-header text-center border-bottom"> Thông báo </h5>`;
+        for (let i in notifications) {
+            // someone want to join your trip
+            if (notifications[i].type == COMMENT_POST) {
+                htmlElement += `<div class="dropdown-item border-bottom pl-0 pr-0" style="background: ${notifications[i].seen == 0 ? "#dddddd": "#ffffff"}">
+                                    <div class="media">
+                                        <a href="/user/personal-page/${notifications[i].user_send.id}">
+                                            <img
+                                                src="${notifications[i].user_send.avatar ? '/asset/images/avatar/' + notifications[i].user_send.id + '/' + notifications[i].user_send.avatar : '/asset/images/avatar/default/avatar_default.png'}"
+                                                alt="${notifications[i].user_send.name}" class="mr-3 rounded-circle"
+                                                style="width:60px;">
+                                        </a>                                    
+                                        <div class="media-body">
+                                            <div class="media-body">
+                                                <h3 class="mt-1 mb-0">${notifications[i].user_send.name}</h3>
+                                                <p class="mb-0 text-dark"> ${notifications[i].user_receive.id === notifications[i].post.user_id ? "Đã bình luận trong bài viết của bạn": "Đã bình luận trong bài viết mà bạn đang theo dõi"}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                             </div>`;
+            } else if (notifications[i].type == COMMENT_TRIP){
+            } else if (notifications[i].type == LIKE_POST) {
+            htmlElement += `<div class="dropdown-item border-bottom pl-0 pr-0" style="background: ${notifications[i].seen == 0 ? "#dddddd": "#ffffff"}">
+                                    <div class="media">
+                                        <a href="/user/personal-page/${notifications[i].user_send.id}">
+                                            <img
+                                                src="${notifications[i].user_send.avatar ? '/asset/images/avatar/' + notifications[i].user_send.id + '/' + notifications[i].user_send.avatar : '/asset/images/avatar/default/avatar_default.png'}"
+                                                alt="${notifications[i].user_send.name}" class="mr-3 rounded-circle"
+                                                style="width:60px;">
+                                        </a>                                    
+                                        <div class="media-body">
+                                            <div class="media-body">
+                                                <h3 class="mt-1 mb-0">${notifications[i].user_send.name}</h3>
+                                                <p class="mb-0 text-dark"> Đã thích bài viết của bạn</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                             </div>`;
+            }
+        }
+        return htmlElement;
+    }
 
     var fetchTripMemberNotify = function (notifications) {
         let htmlElement = `<h5 class="dropdown-header text-center border-bottom"> Thông báo về chuyến đi </h5>`;
@@ -338,6 +395,23 @@ $(function () {
             }
         });
     });
-    // GET ALL NOTIFICATION
-    getFriendNotify();
+
+    $("#btn_show_other_notify").click(function () {
+        $(this).popModal({
+            html: $('#other_notification_box').html(),
+            placement: 'bottomCenter',
+            showCloseBut: true,
+            onOkBut: function () {
+            },
+            onCancelBut: function () {
+            },
+            onLoad: function () {
+            },
+            onClose: function () {
+            }
+        });
+    });
+
+        // GET ALL NOTIFICATION
+    getAllNotify();
 });

@@ -37,6 +37,8 @@
                                         <i class="material-icons" style="font-size:24px">settings</i>
                                     </a>
                                     <div class="dropdown-menu">
+                                        <a class="dropdown-item btn_show_map" data-post-id="{{ $post->id }}"> show map
+                                        </a>
                                         @if($post->trip->user_id == Auth::user()->id)
                                             <a class="dropdown-item" href="/trip/detail_info/{{$post->trip->id}}">Xem chuyến đi</a>
                                             <a class="dropdown-item" href="/post/edit/{{$post->id}}">Xửa</a>
@@ -86,8 +88,7 @@
 
                         </article>
                         <article class="col-3 col-12-xsmall">
-                            <button class="button primary btn_show_map" data-post-id="{{ $post->id }}"> show map
-                            </button>
+
                         </article>
                     </div>
                     {{--end header--}}

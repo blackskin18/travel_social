@@ -26,7 +26,7 @@ class LikeController extends Controller
             $user = Auth::user();
             $post = $this->postRepository->find($request->post_id);
             if ($post) {
-                $message = $this->likeRepository->createOrDelete($user->id, $post->id);
+                $message = $this->likeRepository->createOrDelete($user->id, $post);
                 $data = ['code'   => 200,
                          'status' => 'success',
                          'data'     => ['message'    => $message,

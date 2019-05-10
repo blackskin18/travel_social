@@ -16,7 +16,14 @@ a {
     z-index: 100;
 }
 
-.count_notify{
+.notification_icon {
+    font-size: 40px;
+    color: #56a08a;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+.count_notify {
     background: red;
     position: absolute;
     top: 3px;
@@ -394,10 +401,10 @@ div.list_comment div.comment > a {
 }
 
 /*post*/
-.post_box{
+.post_box {
     padding-top: 10px;
     padding-left: 25px;
-    padding-right:35px;
+    padding-right: 35px;
     padding-bottom: 10px;
     border-radius: 30px;
 }
@@ -467,12 +474,12 @@ div.left-menu {
     height: 1000px;
 }
 
-div.left-menu>ul {
+div.left-menu > ul {
     list-style-type: none;
     padding: 0;
 }
 
-div.left-menu>ul>li{
+div.left-menu > ul > li {
     color: white;
     width: 15em;
     height: 3em;
@@ -480,6 +487,6 @@ div.left-menu>ul>li{
     padding-top: 7px;
 }
 
-div.left-menu>ul>li>a{
+div.left-menu > ul > li > a {
     color: white;
 }

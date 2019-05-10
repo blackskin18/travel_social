@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Repository\CommentRepository;
+use App\Repository\FollowRepository;
 use App\Repository\LikeRepository;
 use App\Repository\TripRepository;
 use App\Repository\TripUserRepository;
@@ -36,7 +36,7 @@ class PostController extends Controller
         UserRepository $userRepo,
         PositionRepository $positionRepo,
         PostImageRepository $postImageRepo,
-        CommentRepository $commentRepo,
+        FollowRepository $commentRepo,
         LikeRepository $likeRepo,
         TripRepository $tripRepo,
         TripUserRepository $tripUserRepo

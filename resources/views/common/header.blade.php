@@ -77,7 +77,7 @@
             <div>
                 <a class=" position-relative">
                     <div class="position-absolute">
-                        <img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">
+                        <i class="notification_icon fas">&#xf007;</i>
                     </div>
                     <div class="count_friend_notify count_notify"></div>
                 </a>
@@ -92,7 +92,7 @@
             <div>
                 <a class=" position-relative">
                     <div class="position-absolute">
-                        <img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">
+                        <i class="notification_icon fa fa-car"></i>
                     </div>
                     <div class="count_member_notify count_notify"></div>
                 </a>
@@ -102,10 +102,19 @@
                 </div>
             </div>
         </div>
-        <div class="article-notify">
-			<span>
-				<img class="icon" src="{{ url('asset/icon/logo.png') }}" alt="">
-			</span>
+        <div  class="article-notify" id="btn_show_other_notify" >
+            <div>
+                <a class=" position-relative">
+                    <div class="position-absolute">
+                        <i class="notification_icon material-icons">notifications</i>
+                    </div>
+                    <div class="count_other_notify count_notify"></div>
+                </a>
+                <div class="display_none" id="other_notification_box">
+                    <div style="width: 450px">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="setting_nav display_inline_block">
