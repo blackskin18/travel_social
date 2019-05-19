@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePositionTable extends Migration
+class CreateMyPositionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,13 @@ class CreatePositionTable extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->increments('id');
-            //$table->unsignedInteger('post_id');
-            //$table->foreign('post_id')->references('id')->on('posts');
-            $table->integer('post_id')->nullable();
+            $table->unsignedInteger('post_id');
+            //$table->integer('post_id');
+            $table->foreign('post_id')->references('id')->on('posts')->nullable();
+
+            $table->unsignedInteger('trip_id');
+            //$table->integer('trip_id');
+            $table->foreign('trip_id')->references('id')->on('trips')->nullable();
 
             $table->float('lat', 10, 6);
             $table->float('lng', 10, 6);
@@ -37,6 +41,6 @@ class CreatePositionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('position');
+        Schema::dropIfExists('positions');
     }
 }

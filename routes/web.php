@@ -66,11 +66,11 @@ Route::delete('trip/leave', 'MemberTripController@leave')->name('trip.leave');
 Route::post('friends/send-request', 'FriendController@sendRequest')->name('friend.send_request');
 Route::post('friends/cancel-request', 'FriendController@cancelRequest')->name('friend.cancel_request');
 Route::post('friends/accept-request', 'FriendController@acceptRequest')->name('friend.accept_request');
-
 //notification
 Route::get('notification/get-all', 'NotificationController@getAll')->name('notification.get_all');
-Route::post('notification/seen_all_friend_notification', 'NotificationController@setSeenAllForFriendNotify')->name('notification.friend.seen_all');
-Route::get('notification/seen_all_member_notification', 'NotificationController@setSeenAllForMemberNotify')->name('notification.member.seen_all');
+Route::post('notification/seen_all_friend_notification', 'NotificationController@seenAllForFriendNotify')->name('notification.friend.seen_all');
+Route::get('notification/seen_all_member_notification', 'NotificationController@seenAllForMemberNotify')->name('notification.member.seen_all');
+Route::get('notification/seen_all_other_notification', 'NotificationController@seenAllForOtherNotify')->name('notification.member.seen_all');
 
 Route::get('test_firebase', 'CommentController@testFirebase');
 Route::get('comment/post', 'CommentController@storePostComment');

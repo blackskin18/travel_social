@@ -37,49 +37,58 @@
                                         <i class="material-icons" style="font-size:24px">settings</i>
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item btn_show_map" data-post-id="{{ $post->id }}"> show map
+                                        <a class="dropdown-item btn_show_map" data-post-id="{{ $post->id }}"> Xem lịch trình
                                         </a>
-                                        @if($post->trip->user_id == Auth::user()->id)
-                                            <a class="dropdown-item" href="/trip/detail_info/{{$post->trip->id}}">Xem chuyến đi</a>
+                                        @if($post->trip)
+                                            @if($post->trip->user_id == Auth::user()->id)
+                                                <a class="dropdown-item" href="/trip/detail_info/{{$post->trip->id}}">Xem
+                                                    chuyến đi</a>
+                                            @else
+                                                <a class="dropdown-item btn_post_setting {{!$post->member_info? "": "display_none" }}"
+                                                   id="create_join_request_{{$post->trip->id}}"
+                                                   data-trip-id="{{$post->trip->id}}"
+                                                   data-post-id="{{$post->id}}"
+                                                   data-action="{{route('join_request.create')}}">Xin tham Gia</a>
+                                                <a class="dropdown-item btn_post_setting {{$post->member_info && $post->member_info->type === 1 && $post->member_info->status === 0? "": "display_none" }}"
+                                                   id="decline_join_request_{{$post->trip->id}}"
+                                                   data-trip-id="{{$post->trip->id}}"
+                                                   data-post-id="{{$post->id}}"
+                                                   data-method="DELETE"
+                                                   data-action="{{route('join_request.reject_or_cancel')}}">Hủy yêu
+                                                    cầu</a>
+                                                <a class="dropdown-item btn_post_setting {{$post->member_info && $post->member_info->type === 0 && $post->member_info->status === 0? "": "display_none" }}"
+                                                   id="accept_invitation_{{$post->trip->id}}"
+                                                   data-trip-id="{{$post->trip->id}}"
+                                                   data-post-id="{{$post->id}}"
+                                                   data-action="{{route('invitation.accept')}}">Đồng ý tham gia</a>
+                                                <a class="dropdown-item btn_post_setting {{$post->member_info && $post->member_info->type === 0 && $post->member_info->status === 0? "": "display_none" }}"
+                                                   id="decline_invitation_{{$post->trip->id}}"
+                                                   data-trip-id="{{$post->trip->id}}"
+                                                   data-post-id="{{$post->id}}"
+                                                   data-method="DELETE"
+                                                   data-action="{{route('invitation.decline_or_cancel')}}">Không tham
+                                                    gia</a>
+                                                <a class="dropdown-item {{$post->member_info && ($post->trip->user_id === Auth::user()->id || $post->member_info->status === 1) ? "": "display_none" }}"
+                                                   id="show_trip_{{$post->trip->id}}"
+                                                   href="/trip/detail_info/{{$post->trip->id}}">Xem chuyến đi</a>
+                                                <a class="dropdown-item btn_post_setting {{$post->member_info && $post->member_info->status === 1 ? "": "display_none" }}"
+                                                   id="leave_trip_request_{{$post->trip->id}}"
+                                                   data-trip-id="{{$post->trip->id}}"
+                                                   data-method="DELETE"
+                                                   data-action="{{route('trip.leave')}}">Rời khỏi</a>
+                                            @endif
+                                        @endif
+                                        @if($post->user_id == Auth::user()->id)
                                             <a class="dropdown-item" href="/post/edit/{{$post->id}}">Xửa</a>
                                             <div class="dropdown-item">
-                                                <form id="delete_post_{{$post->id}}" method="post" action="/post/delete/{{$post->id}}">
-                                                @csrf
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <a onclick="document.getElementById('delete_post_{{$post->id}}').submit();">Xóa bài viết</a>
+                                                <form class="mb-0" id="delete_post_{{$post->id}}" method="post"
+                                                      action="/post/delete/{{$post->id}}">
+                                                    @csrf
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <a onclick="document.getElementById('delete_post_{{$post->id}}').submit();">Xóa
+                                                        bài viết</a>
                                                 </form>
                                             </div>
-                                        @else
-                                            <a class="dropdown-item btn_post_setting {{!$post->member_info? "": "display_none" }}"
-                                               id="create_join_request_{{$post->trip->id}}"
-                                               data-trip-id="{{$post->trip->id}}"
-                                               data-post-id="{{$post->id}}"
-                                               data-action="{{route('join_request.create')}}">Xin tham Gia</a>
-                                            <a class="dropdown-item btn_post_setting {{$post->member_info && $post->member_info->type === 1 && $post->member_info->status === 0? "": "display_none" }}"
-                                               id="decline_join_request_{{$post->trip->id}}"
-                                               data-trip-id="{{$post->trip->id}}"
-                                               data-post-id="{{$post->id}}"
-                                               data-method="DELETE"
-                                               data-action="{{route('join_request.reject_or_cancel')}}">Hủy yêu cầu</a>
-                                            <a class="dropdown-item btn_post_setting {{$post->member_info && $post->member_info->type === 0 && $post->member_info->status === 0? "": "display_none" }}"
-                                               id="accept_invitation_{{$post->trip->id}}"
-                                               data-trip-id="{{$post->trip->id}}"
-                                               data-post-id="{{$post->id}}"
-                                               data-action="{{route('invitation.accept')}}">Đồng ý tham gia</a>
-                                            <a class="dropdown-item btn_post_setting {{$post->member_info && $post->member_info->type === 0 && $post->member_info->status === 0? "": "display_none" }}"
-                                               id="decline_invitation_{{$post->trip->id}}"
-                                               data-trip-id="{{$post->trip->id}}"
-                                               data-post-id="{{$post->id}}"
-                                               data-method="DELETE"
-                                               data-action="{{route('invitation.decline_or_cancel')}}">Không tham gia</a>
-                                            <a class="dropdown-item {{$post->member_info && ($post->trip->user_id === Auth::user()->id || $post->member_info->status === 1) ? "": "display_none" }}"
-                                               id="show_trip_{{$post->trip->id}}"
-                                               href="/trip/detail_info/{{$post->trip->id}}">Xem chuyến đi</a>
-                                            <a class="dropdown-item btn_post_setting {{$post->member_info && $post->member_info->status === 1 ? "": "display_none" }}"
-                                               id="leave_trip_request_{{$post->trip->id}}"
-                                               data-trip-id="{{$post->trip->id}}"
-                                               data-method="DELETE"
-                                               data-action="{{route('trip.leave')}}">Rời khỏi</a>
                                         @endif
                                     </div>
                                 </div>

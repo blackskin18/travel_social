@@ -19,16 +19,24 @@ use App\Repository\PostImageRepository;
 
 class PostController extends Controller
 {
-    CONST NORMAL    = 1;
+    CONST NORMAL = 1;
+
     CONST WITH_TRIP = 2;
 
     protected $postRepo;
+
     protected $userRepo;
+
     protected $positionRepo;
+
     protected $postImageRepo;
+
     protected $commentRepo;
+
     protected $likeRepo;
+
     protected $tripUserRepo;
+
     protected $tripRepo;
 
     public function __construct(
@@ -40,8 +48,7 @@ class PostController extends Controller
         LikeRepository $likeRepo,
         TripRepository $tripRepo,
         TripUserRepository $tripUserRepo
-    )
-    {
+    ) {
         $this->middleware('auth');
         $this->userRepo = $userRepo;
         $this->postRepo = $postRepo;
@@ -57,21 +64,21 @@ class PostController extends Controller
     {
         $authUser = Auth::user();
         $post = $this->postRepo->create([
-            'user_id'     => $authUser->id,
+            'user_id' => $authUser->id,
             'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),
-            'type'        => $request->is_create_trip ? self::WITH_TRIP : self::NORMAL,
+            'type' => $request->is_create_trip ? self::WITH_TRIP : self::NORMAL,
         ]);
 
         if ($request->is_create_trip) {
             $trip = $this->tripRepo->create([
-                'user_id'     => $authUser->id,
-                'post_id'     => $post->id,
-                'title'       => $request->trip_title,
+                'user_id' => $authUser->id,
+                'post_id' => $post->id,
+                'title' => $request->trip_title,
                 'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),
-                'time_start'  => $request->time_start,
-                'time_end'    => $request->time_end
+                'time_start' => $request->time_start,
+                'time_end' => $request->time_end,
             ]);
-            if($request->member) {
+            if ($request->member) {
                 $this->tripUserRepo->inviteFriends($trip->id, $request->member);
             }
         }
@@ -85,14 +92,14 @@ class PostController extends Controller
     public function getMapInfo(Request $request)
     {
         $postId = $request->post_id;
-        if (!is_numeric($postId)) {
+        if (! is_numeric($postId)) {
             return Response('Not found post Id', 204)->header('Content-Type', 'text/plain');
         }
 
         $positions = $this->positionRepo->findWhere(['post_id' => $postId]);
         $data = [
             'status' => 'success',
-            'data'   => $positions
+            'data' => $positions,
         ];
 
         return Response($data, 200)->header('Content-Type', 'text/plain');
@@ -116,6 +123,7 @@ class PostController extends Controller
                 $this->postImageRepo->deleteWhere(['post_id' => $post_id]);
                 $this->commentRepo->deleteWhere(['post_id' => $post_id]);
                 $this->postRepo->delete($post_id);
+
                 //return Response(['status' => 'success', 'code' => 200], 200)->header('Content-Type', 'text/plain');
                 return redirect()->back()->with('message', 'Operation Successful !');
             } else {
@@ -143,27 +151,24 @@ class PostController extends Controller
 
     public function update(Request $request, $post_id)
     {
-        try {
-            $post = $this->postRepo->with('position')->find($post_id);
-
-            if (Auth::user()->can('update', $post) && $post) {
-                if (count($request->lat) === count($request->lng) && count($request->lng) === count($request->marker_description)) {
-                    $this->positionRepo->deleteOldPositions($post->id);
-                    $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $post->id);
-
-                    $this->postImageRepo->deleteWithArrayOfId($request->delete_images, $post->id);
-                    $this->postImageRepo->createMulti($request->photos, $post->id);
-
-                    $post->description = $request->post_description;
-                    $post->save();
-                }
-
-                return redirect()->route('post.detail', ['id' => $post->id]);
-            } else {
-                return "you can't edit this post";
+        //try {
+        $post = $this->postRepo->with('position')->find($post_id);
+        if (Auth::user()->can('update', $post) && $post) {
+            if ($request->lat && $request->lng && $request->marker_description && count($request->lat) === count($request->lng) && count($request->lng) === count($request->marker_description)) {
+                $this->positionRepo->deleteOldPositions($post->id);
+                $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $post->id);
+                $post->description = $request->post_description;
+                $post->save();
             }
-        } catch (\Exception $e) {
-            return $e->getMessage();
+            $this->postImageRepo->deleteWithArrayOfId($request->delete_images, $post->id);
+            $this->postImageRepo->createMulti($request->photos, $post->id);
+
+            return redirect()->route('post.detail', ['id' => $post->id]);
+        } else {
+            return "you can't edit this post";
         }
+        //} catch (\Exception $e) {
+        //    return $e->getMessage();
+        //}
     }
 }

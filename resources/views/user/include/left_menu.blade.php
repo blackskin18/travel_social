@@ -1,6 +1,6 @@
 <style>
     #header {
-        background-image: url({{ url('asset/images/cover/'.$user->id.'/'.$user->cover) }}), url(../../images/bg.jpg);
+        background-image: url({{ url('asset/images/cover/'.$user->cover) }}), url(../../images/bg.jpg);
     }
 </style>
 <header id="header">
@@ -46,6 +46,16 @@
                            data-friend-id="{{$user->id}}">Hủy kết bạn</a>
                     </div>
                 </div>
+                <button class="btn btn-light">
+                    danh sách bạn bè
+                </button>
+                <button class="btn btn-light">
+                    Album ảnh
+                </button>
+                        <a class="btn btn-light" href="{{ route('detail.info', $user->id) }}">
+                                Thông tin
+                        </a>
+
             </div>
         @endif
     </div>
@@ -55,18 +65,18 @@
             <h1><strong>{{ $user->name  }}</strong></h1>
         </a>
     </div>
-    <div class="more-info">
-        <div class="album">
-            album
-        </div>
-        <a href="{{ route('detail.info', $user->id) }}">
-            <div class="detail-info">
-                Thông tin
-            </div>
-        </a>
-        <div class="list-friend">
-            Bạn bè
-        </div>
-    </div>
+{{--    <div class="more-info">--}}
+{{--        <div class="album">--}}
+{{--            album--}}
+{{--        </div>--}}
+{{--        <a href="{{ route('detail.info', $user->id) }}">--}}
+{{--            <div class="detail-info">--}}
+{{--                Thông tin--}}
+{{--            </div>--}}
+{{--        </a>--}}
+{{--        <div class="list-friend">--}}
+{{--            Bạn bè--}}
+{{--        </div>--}}
+{{--    </div>--}}
 </header>
 <script src="{{url('js/User/include/left_menu.js')}}"></script>

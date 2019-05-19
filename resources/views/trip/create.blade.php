@@ -24,6 +24,7 @@
                 <label for="member"> Mời bạn bè </label>
                 <select multiple class="selectpicker" data-show-subtext="true"
                         data-live-search="true" name="member[]">
+                    <option value="" selected class="display_none">bạn bè</option>
                     @foreach($users as $user)
                     <option data-subtext="{{$user->email}}"
                             value="{{$user->id}}"> {{ $user->name }} </option>
@@ -34,10 +35,14 @@
                 <div id="marker_info_box">
                 </div>
             </div>
-            <div>
-                <a href="#" class="btn btn-primary" id="btn_create_map">Map</a>
+            <div class="row">
+                <div class="col-lg-6">
+                    <a href="#" class="button w-100" id="btn_create_map">Tạo lịch trình</a>
+                </div>
+                <div class="col-lg-6">
+                    <button type="submit" class="button primary w-100">Submit</button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
     <script src="{{url("js/trip/create.js")}}"></script>

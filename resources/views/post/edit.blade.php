@@ -6,7 +6,7 @@
             <header class="major">
                 <h2> Sửa bài viết </h2>
             </header>
-            <form action="{{ route('post.update', ['id'=>$post->id])  }}" method="POST" id="edit_post"
+            <form action="{{ route('post.update', ['id'=>$post->id])  }}" method="POST" id="form_edit_post"
                   enctype="multipart/form-data">
                 @csrf
                 <div>
@@ -24,15 +24,7 @@
                 <div style="margin-bottom: 20px">
                     <textarea class="input-border" id="post_description" name="post_description" cols="30"
                               rows="3">{{$post->description}}</textarea>
-                    <ul class="actions" style="margin-bottom: 0px; height: 50px">
-                        <li><a href="#" class="button" id="btn_create_map">Map</a></li>
-                        <li>
-                            <div class="upload-btn-wrapper">
-                                <button class="button">Upload a file</button>
-                                <input type="file" name="photos[]" id="image_input" multiple accept="image/x-png,image/jpeg"/>
-                            </div>
-                        </li>
-                    </ul>
+
                 </div>
 
                 <div class="row image_list" id="image_list_{{$post->id}}">
@@ -47,11 +39,20 @@
                         </div>
                     @endforeach
                 </div>
-                <input type="submit" class="button primary" value="Đăng">
+                <ul class="actions" style="margin-bottom: 0px; height: 50px">
+                    <li><a href="#" class="button" id="btn_create_map">Map</a></li>
+                    <li>
+                        <div class="upload-btn-wrapper">
+                            <button class="button">Upload a file</button>
+                            <input type="file" name="photos[]" id="image_input" multiple accept="image/x-png,image/jpeg"/>
+                        </div>
+                    </li>
+                </ul>
             </form>
+            <button class="button primary" id="btn_submit_form"> Sửa bài viết </button>
+
         </section>
     </div>
-    <script src="{{ url('js/include/create_post.js') }}"></script>
 @endsection
 @section('head')
     <script src="{{url('js/post/edit.js')}}"></script>

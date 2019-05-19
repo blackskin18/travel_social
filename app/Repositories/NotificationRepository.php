@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Model\Comment;
 use App\Model\Friend;
+use App\Model\Notification;
 use Illuminate\Container\Container as Application;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -24,6 +25,10 @@ class NotificationRepository extends BaseRepository
     const COMMENT_TRIP = 1;
 
     const LIKE = 2;
+
+    const SEEN = 1;
+
+    const NOT_SEEN = 0;
 
     /**
      * Specify Model class name
@@ -85,6 +90,11 @@ class NotificationRepository extends BaseRepository
         $this->tripUserRepo->setSeenForAllNotify($userId, $tripIds);
     }
 
+    public function setSeenAllForOtherNotify($userId) {
+        Notification::where('user_receive', $userId)->update(['seen' => self::SEEN]);
+    }
+
+
     public function addCommentNotification($userSendId, $userOwnerId, $postId = null, $tripId = null)
     {
         if ($postId) {
@@ -119,4 +129,6 @@ class NotificationRepository extends BaseRepository
     function removeLikeNotification($userSendId, $post) {
         $this->deleteWhere(['user_send' => $userSendId, 'user_receive' => $post->user_id, 'post_id' => $post->id, 'type' =>self::LIKE]);
     }
+
+
 }

@@ -13,9 +13,10 @@ class AddColumnInPositionTable extends Migration
      */
     public function up()
     {
-        Schema::table('positions', function (Blueprint $table) {
-            $table->integer('trip_id')->references('id')->on('users')->nullable()->after('post_id');
-        });
+        //Schema::table('positions', function (Blueprint $table) {
+        //    $table->unsignedInteger('trip_id');
+        //    $table->integer('trip_id')->references('id')->on('trips')->nullable()->after('post_id');
+        //});
     }
 
     /**

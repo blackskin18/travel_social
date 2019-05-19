@@ -397,6 +397,20 @@ $(function () {
     });
 
     $("#btn_show_other_notify").click(function () {
+        let numberNotification = parseInt($('div.count_other_notify').text());
+        if(numberNotification > 0) {
+            $.ajax({
+                url: '/notification/seen_all_other_notification',
+                type: 'get',
+                success: function (responese) {
+                    console.log(responese);
+                    $('div.count_other_notify').css('display', 'none');
+                },
+                error: function () {
+                }
+            });
+        }
+
         $(this).popModal({
             html: $('#other_notification_box').html(),
             placement: 'bottomCenter',

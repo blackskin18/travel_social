@@ -90,18 +90,21 @@ MapCustom.prototype.makePostionMarker = function (location, infoBoxSelector, typ
         that.infoWindow.close();
 
         if (type === that.CREATE) {
-            var content = '<div>' +
-                '<textarea class="input-border" name="" id="infoWindow" cols="30" rows="3">' +
-                descriptionMarker +
-                '</textarea>' +
-                '</div>';
-
+            var content = `<div>
+                    <textarea class="input-border" name="" id="infoWindow" cols="30" rows="3">${descriptionMarker}</textarea><br>
+                    <label class="small">Thời gian bắt đầu:</label>
+                    <input type="datetime-local" class="form-control"><br>
+                    <label class="small">Thời gian kết thúc:</label>
+                    <input type="datetime-local" class="form-control">
+                </div>`;
         } else {
-            var content = '<div>' +
-                '<textarea class="input-border" name="" id="infoWindow" cols="30" rows="3" disabled>' +
-                descriptionMarker +
-                '</textarea>' +
-                '</div>';
+            var content = `<div>
+                    <textarea class="input-border" name="" id="infoWindow" cols="30" rows="3" disabled>${descriptionMarker}</textarea><br>
+                    <label class="small">Thời gian bắt đầu</label>
+                    <input type="datetime-local" class="form-control"><br>
+                    <label class="small">Thời gian kết thúc</label>
+                    <input type="datetime-local" class="form-control">
+                </div>`;
         }
 
         that.infoWindow.setContent(content);

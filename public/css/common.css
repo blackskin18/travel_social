@@ -9,7 +9,7 @@ a {
 .menu-header {
     background-color: #5CC6A7;
     width: 100%;
-    height: 3em;
+    height: 50px;
     position: fixed;
     top: 0;
     left: 0;
@@ -17,7 +17,7 @@ a {
 }
 
 .notification_icon {
-    font-size: 40px;
+    font-size: 30px;
     color: #56a08a;
     padding-top: 10px;
     cursor: pointer;
@@ -175,10 +175,10 @@ a {
 
 .menu-header .search-box .search {
     width: 300px;
-    height: 2em;
+    height: 35px;
     position: absolute;
-    top: -2.2em;
-    left: 1em;
+    top: -34px;
+    left: 50px;
 }
 
 .menu-header .notifycation {
@@ -207,18 +207,18 @@ div.avatar_nav_box {
 }
 
 div.info .image-nav .avatar-nav {
-    width: 2.5em;
-    height: 2.5em;
-    margin-top: 0.2em;
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
     border-radius: 50%;
 }
 
 div.info .username-nav {
     color: white;
-    width: 100px;
+    width: 200px;
     position: absolute;
-    top: 0.65em;
-    left: 3em;
+    top: 7px;
+    left: 60px;
 }
 
 #navbarDropdown {
@@ -264,6 +264,9 @@ li.dropdown:hover .dropdown-menu {
     left: 0;
 }
 
+header#header {
+    top: 50px;
+}
 header#header > div.more-info {
     width: 5em;
     height: 15em;
@@ -453,7 +456,8 @@ div.image_in_post > .btn_delete {
     cursor: pointer;
     position: absolute;
     top: 0;
-    left: 370px;
+    right: 10px;
+    text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
 }
 
 div.image_in_post > .btn_delete:hover > i {
@@ -468,10 +472,10 @@ div.content_container {
 
 div.left-menu {
     position: fixed;
-    top: 3.1em;
+    top: 51px;
     left: 0;
     background: #5CC6A7;
-    height: 1000px;
+    height: 1500px;
 }
 
 div.left-menu > ul {

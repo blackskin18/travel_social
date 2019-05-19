@@ -10,23 +10,28 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+{{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">--}}
+    <link rel="stylesheet" href="{{url('lib/bootstrap.min.css')}}">
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>--}}
+    <script src="{{url('lib/popper.min.js')}}"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css'
           integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+{{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">--}}
+    <link rel="stylesheet" href="{{url('lib/bootstrap-select.min.css')}}">
     <link rel="stylesheet" href="{{url('lib/pop_modal/css/popModal.css')}}">
     <link rel="stylesheet" href="{{ url('css/main.css') }}"/>
     <link rel="stylesheet" href="{{ url('css/common.css') }}"/>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+{{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+{{--    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>--}}
+{{--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>--}}
+{{--    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>--}}
+    <script src="{{url('lib/jquery.min.js')}}"></script>
+    <script src="{{url('lib/firebase.js')}}"></script>
+    <script src="{{url('lib/bootstrap.min.js')}}"></script>
+    <script src="{{url('lib/bootstrap-select.min.js')}}"></script>
+
     <script src="{{url('lib/pop_modal/js/popModal.js')}}"></script>
     <script src="{{ url('js/common.js') }}"></script>
     <script src="{{ url('js/notification.js') }}"></script>
@@ -45,7 +50,7 @@
 <nav class="menu-header">
     <a href="{{route('home')}}">
         <div class="logo image">
-            <img src="{{ url('asset/icon/logo.png') }}" alt="">
+            <i class='notification_icon fas fa-home' style='font-size:36px'></i>
         </div>
     </a>
 
@@ -77,7 +82,7 @@
             <div>
                 <a class=" position-relative">
                     <div class="position-absolute">
-                        <i class="notification_icon fas">&#xf007;</i>
+                        <i class="notification_icon fas fa-user"></i>
                     </div>
                     <div class="count_friend_notify count_notify"></div>
                 </a>
@@ -92,7 +97,7 @@
             <div>
                 <a class=" position-relative">
                     <div class="position-absolute">
-                        <i class="notification_icon fa fa-car"></i>
+                        <i class="notification_icon fas fa-car-alt"></i>
                     </div>
                     <div class="count_member_notify count_notify"></div>
                 </a>

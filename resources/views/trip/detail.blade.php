@@ -18,7 +18,7 @@
                         {{ $trip->user->name }}
                     </a>
                     đã đăng
-                    <a href="{{route('post.detail',['id'=>$trip->id])}}">bài viết</a>
+                    <a href="{{route('post.detail',['id'=>$trip->id])}}">Chuyến đi</a>
                 </h2>
                 <div class="row">
                     <div class="display_inline_block">
@@ -61,7 +61,6 @@
                                     Rời khỏi chuyến đi </a>
                             @endif
                         </div>
-
                     </div>
                 </div>
 

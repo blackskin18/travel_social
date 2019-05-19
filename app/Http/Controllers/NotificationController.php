@@ -42,7 +42,7 @@ class NotificationController extends Controller
         }
     }
 
-    public function setSeenAllForFriendNotify()
+    public function seenAllFriendNotify()
     {
         try {
             $authUser = Auth::user();
@@ -53,10 +53,20 @@ class NotificationController extends Controller
         }
     }
 
-    public function setSeenAllForMemberNotify() {
+    public function seenAllForMemberNotify() {
         try {
             $authUser = Auth::user();
             $this->notificationRepo->setSeenAllForMemberNotify($authUser->id);
+            return Response('successful', 200)->header('Content-Type', 'text/plain');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function seenAllForOtherNotify() {
+        try {
+            $authUser = Auth::user();
+            $this->notificationRepo->setSeenAllForOtherNotify($authUser->id);
             return Response('successful', 200)->header('Content-Type', 'text/plain');
         } catch (\Exception $e) {
             return $e->getMessage();
