@@ -17,11 +17,11 @@ class CreateMyPositionTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('post_id');
             //$table->integer('post_id');
-            $table->foreign('post_id')->references('id')->on('posts')->nullable();
+            $table->foreign('post_id')->references('id')->on('posts');
 
             $table->unsignedInteger('trip_id');
             //$table->integer('trip_id');
-            $table->foreign('trip_id')->references('id')->on('trips')->nullable();
+            $table->foreign('trip_id')->references('id')->on('trips');
 
             $table->float('lat', 10, 6);
             $table->float('lng', 10, 6);

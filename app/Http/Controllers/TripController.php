@@ -38,11 +38,14 @@ class TripController extends Controller
 
     public function followPosition($tripId)
     {
-        $trip = $this->tripRepo->with('userJoin')->find($tripId);
-        $user = Auth::user();
-        $members = $trip->userJoin;
+        $trip = $this->tripRepo->with('tripUser')->find($tripId);
+        $authUser = Auth::user();
+        $members = $trip->tripUser;
+        if($authUser->id === $trip->user_id) {
+            return view('trip.index')->with('user_join', $members)->with('trip', $trip);
+        }
         foreach ($members as $member) {
-            if ($member->id === $user->id) {
+            if ($member->id === $authUser->id) {
                 return view('trip.index')->with('user_join', $members)->with('trip', $trip);
             }
         }

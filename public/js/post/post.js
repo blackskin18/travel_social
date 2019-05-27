@@ -55,14 +55,25 @@ $(function () {
                         <div class="avatar_comment_box col-lg-1">
                             <img class="avatar_image" src="${avatarSrc}" alt="">
                         </div>
-                            <div class="comment">
-                                <a href="/user/personal-page/${comment.user_id}">
-                                    ${comment.user_name}
-                                </a>
-                                <div style="display: inline-block;">
-                                    <p>${comment.content}</p>
-                                </div>
+                        <div class="comment">
+                            <a href="/user/personal-page/${comment.user_id}">
+                                ${comment.user_name}
+                            </a>
+                            <div class="display_inline_block">
+                                ${comment.content}
                             </div>
+                        </div>
+                        <div class="display_inline_block comment_options">
+                            <div class="dropdown">
+                                <a class="" data-toggle="dropdown">
+                                    <i class="material-icons">settings_ethernet</i>
+                                </a>
+                                <div class="dropdown-menu">
+                                     <a class="dropdown-item"> Sửa </a>
+                                     <a class="dropdown-item"> Xóa </a>
+                                </div>
+                            </div>                            
+                        </div>
                     </div>`;
             $("div#comment_box_" + postId + ">.list_comment").prepend(commentElement);
         });

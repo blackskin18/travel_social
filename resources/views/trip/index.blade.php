@@ -2,10 +2,17 @@
 
 @section('content')
     <div class="content_container">
+        <div class="text-center">
+            <a href="{{Route('trip.show', ['id' => $trip->id])}}">
+                <h1>
+                    {{$trip->title}}
+                </h1>
+            </a>
+
+        </div>
         <div id="map" style="width: 100%; height: 500px;">
 
         </div>
-        <div>{{$trip->title}}</div>
         <div class="hidden_input" id="position_info">
             @foreach($trip->position as $key => $position)
                 <div class="marker_info">

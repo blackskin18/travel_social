@@ -378,11 +378,16 @@ div.list_comment > div {
 
 div.list_comment div.comment {
     display: inline-block;
-    margin-left: 2em;
+    margin-left: 50px;
     background: #F2F3F5;
-    border-radius: 100px;
-    height: 3em;
-    padding: 0.5em 0.5em 0.5em 0.5em;
+    border-radius: 50px;
+    max-width: 750px;
+    /*height: 3em;*/
+    padding: 20px 20px 20px;
+}
+
+div.list_comment .comment_options {
+    padding: 30px 20px 0 0;
 }
 
 div.list_comment div.comment > a {

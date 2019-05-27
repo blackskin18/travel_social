@@ -228,37 +228,51 @@ MapCustom.prototype.startFollowPosition = function() {
 
 MapCustom.prototype.makeMemberMaker = function(position) {
     var _this = this;
+    this.friend = {};
     var memberRef = R.firebaseDB.ref('trip/' + R.trip.id);
     memberRef.on('value', function (response) {
         let users = response.val().user;
         for(let i in users) {
-            if(i == R.trip.user_id){
-                // là host
-                if(i == R.userId) {
-                    // là user
-                    if(!_this.userMaker) {
-                        _this.userMaker = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "UH");
-                    }
+            if(i === R.userId) {
+                if(!_this.userMaker) {
+                    _this.userMaker = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "marker-current-user.png");
                 } else {
-                    if(!_this.host) {
-                        _this.host = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "H");
-                    } else {
-                        _this.host.setPosition({lat: users[i].lat, lng: users[i].lng});
-                    }
+                    _this.userMaker[i].setPosition({lat: users[i].lat, lng: users[i].lng});
                 }
             } else {
-                if(i == R.userId) {
-                    if(!_this.userMaker) {
-                        _this.userMaker = _this.makeMaker({lat: position.latitude, lng: position.longitude}, "UM");
-                    }
+                if(!_this.friend[i]) {
+                    _this.friend[i] = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "marker-friend-1.png");
                 } else {
-                    if(!_this.member[i]) {
-                        _this.member[i] = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "M");
-                    } else {
-                        _this.member[i].setPosition({lat: users[i].lat, lng: users[i].lng});
-                    }
+                    _this.friend[i].setPosition({lat: users[i].lat, lng: users[i].lng});
                 }
             }
+            // if(i == R.trip.user_id){
+            //     // là host
+            //     if(i == R.userId) {
+            //         // là user
+            //         if(!_this.userMaker) {
+            //             _this.userMaker = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "UH");
+            //         }
+            //     } else {
+            //         if(!_this.host) {
+            //             _this.host = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "H");
+            //         } else {
+            //             _this.host.setPosition({lat: users[i].lat, lng: users[i].lng});
+            //         }
+            //     }
+            // } else {
+            //     if(i == R.userId) {
+            //         if(!_this.userMaker) {
+            //             _this.userMaker = _this.makeMaker({lat: position.latitude, lng: position.longitude}, "UM");
+            //         }
+            //     } else {
+            //         if(!_this.member[i]) {
+            //             _this.member[i] = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "M");
+            //         } else {
+            //             _this.member[i].setPosition({lat: users[i].lat, lng: users[i].lng});
+            //         }
+            //     }
+            // }
         }
     });
 }
@@ -270,12 +284,15 @@ MapCustom.prototype.setUserMakerPosition = function(position) {
     }
 }
 
-MapCustom.prototype.makeMaker = function(position, label) {
+MapCustom.prototype.makeMaker = function(position, icon) {
+    let iconImage = window.location.origin + "/asset/icon/" + icon;
+
     let marker = new google.maps.Marker({position: position,
         map: this.map,
+        icon: iconImage,
         draggable: true
     });
-    marker.setLabel(label);
+    // marker.setLabel(label);
     return marker;
 }
 

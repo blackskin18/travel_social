@@ -2,4 +2,4 @@
     @include('post.include.post', ["post" => $post])
 @endforeach
 
-<script src="{{ url('js/User/Include/post.js') }}"></script>
+<script src="{{ url('js/post/post.js') }}"></script>

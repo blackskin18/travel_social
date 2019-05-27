@@ -27,7 +27,7 @@
                         </p>
                     </div>
                     {{--setting button--}}
-                    <div class="display_inline_block" style="padding-left: 5px">
+                    <div class="display_inline_block dropdown dropright" style="padding-left: 5px">
                         <a class="dropdown-toggle" data-toggle="dropdown">
                             <i class="material-icons" style="font-size:24px">settings</i>
                         </a>

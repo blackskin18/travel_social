@@ -21,7 +21,7 @@ class PositionRepository extends BaseRepository
         $this->deleteWhere(['post_id' => $post_id]);
     }
 
-    public function createPositions($lats, $lngs, $descriptions, $postId = false, $tripId = false)
+    public function createPositions($lats, $lngs, $descriptions, $postId = null, $tripId = null)
     {
         if(($postId || $tripId) && is_countable($lats) > 0) {
             for ($i = 0; $i < count($lats); $i++) {
