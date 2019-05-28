@@ -150,8 +150,16 @@ a {
     display: none;
 }
 
+.display_none_important {
+    display: none !important;
+}
+
 .display_inline_block {
     display: inline-block;
+}
+
+.display_block {
+    display: block;
 }
 
 .menu-header > div {

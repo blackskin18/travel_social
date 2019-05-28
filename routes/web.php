@@ -74,3 +74,5 @@ Route::get('notification/seen_all_other_notification', 'NotificationController@s
 
 Route::get('test_firebase', 'CommentController@testFirebase');
 Route::get('comment/post', 'CommentController@storePostComment');
+Route::get('comment/post/edit', 'CommentController@editPostComment');
+Route::get('comment/post/remove', 'CommentController@removePostComment');

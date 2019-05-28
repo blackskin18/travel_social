@@ -18,4 +18,21 @@ class DatabaseRealtimeService extends BaseFirebase
         return $comment;
     }
 
+    public function editComment($postId, $commentId, $authUser, $commentContent) {
+        $database = $this->firebase->getDatabase();
+        $comment = $database->getReference('posts/'.$postId.'/comments/'.$commentId)
+            ->update(
+                [
+                    'content'=> $commentContent,
+                ]
+            );
+        return $comment;
+    }
+
+    public function removeComment($postId, $commentId, $authUser) {
+        $database = $this->firebase->getDatabase();
+        $comment = $database->getReference('posts/'.$postId.'/comments/'.$commentId)->remove();
+        return $comment;
+    }
+
 }

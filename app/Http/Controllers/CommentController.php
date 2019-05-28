@@ -45,4 +45,30 @@ class CommentController extends Controller
         ];
         return Response($data, 200)->header('Content-Type', 'text/plain');
     }
+
+    public function editPostComment(Request $request) {
+        $postId = $request->post_id;
+        $commentId = $request->comment_id;
+        $authUser = Auth::user();
+        $commentContent = $request->message;
+        $this->DbRealtime->editComment($postId, $commentId, $authUser, $commentContent);
+        $data = [
+            "status" => 200,
+            "type" => 'comment_successful'
+        ];
+        return Response($data, 200)->header('Content-Type', 'text/plain');
+    }
+
+    public function removePostComment(Request $request) {
+        $postId = $request->post_id;
+        $commentId = $request->comment_id;
+        $authUser = Auth::user();
+        $this->DbRealtime->removeComment($postId, $commentId, $authUser);
+        $data = [
+            "status" => 200,
+            "type" => 'comment_successful'
+        ];
+        return Response($data, 200)->header('Content-Type', 'text/plain');
+    }
+
 }
