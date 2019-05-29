@@ -21,4 +21,10 @@ class BaseFirebase
             ->create();
         $this->firebase = $firebase;
     }
+
+    public function getFirebaseToken($tripId) {
+//        dd($this->firebase->getAuth()->createCustomToken($tripId));
+        return (string) $this->firebase->getAuth()->createCustomToken($tripId);
+    }
+
 }

@@ -41,7 +41,6 @@ class HomeController extends Controller
     public function index()
     {
         $authUser = Auth::user();
-
         $allUser = $this->userRepo->findWhereNotIn('id', [$authUser->id]);
         $posts = $this->postRepo->getList($authUser->id);
         return view('home.new_feed')->with('allUser', $allUser)->with('posts', $posts);

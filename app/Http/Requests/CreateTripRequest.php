@@ -27,8 +27,7 @@ class CreateTripRequest extends FormRequest
         return [
             'title'      => 'required',
             'time_start' => 'required|date',
-            'time_end'   => 'required|date',
-            'member'     => 'required'
+            'time_end'   => 'required|date'
         ];
     }
 }

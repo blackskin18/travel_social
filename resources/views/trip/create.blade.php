@@ -24,7 +24,6 @@
                 <label for="member"> Mời bạn bè </label>
                 <select multiple class="selectpicker" data-show-subtext="true"
                         data-live-search="true" name="member[]">
-                    <option value="" selected class="display_none">bạn bè</option>
                     @foreach($users as $user)
                     <option data-subtext="{{$user->email}}"
                             value="{{$user->id}}"> {{ $user->name }} </option>

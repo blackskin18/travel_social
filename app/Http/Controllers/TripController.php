@@ -6,6 +6,7 @@ use App\Http\Requests\CreateTripRequest;
 use App\Repository\PositionRepository;
 use App\Repository\TripRepository;
 use App\Repository\TripUserRepository;
+use App\Service\DatabaseRealtimeService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -23,13 +24,17 @@ class TripController extends Controller
 
     private $tripUserRepo;
 
+    private $dbRealtime;
+
     public function __construct(
         UserRepository $userRepo,
         TripRepository $tripRepo,
         PositionRepository $positionRepo,
-        TripUserRepository $tripUserRepo
+        TripUserRepository $tripUserRepo,
+        DatabaseRealtimeService $dbRealtime
     ) {
         $this->middleware('auth');
+        $this->dbRealtime = $dbRealtime;
         $this->userRepo = $userRepo;
         $this->tripRepo = $tripRepo;
         $this->positionRepo = $positionRepo;
@@ -42,14 +47,15 @@ class TripController extends Controller
         $authUser = Auth::user();
         $members = $trip->tripUser;
         if($authUser->id === $trip->user_id) {
-            return view('trip.index')->with('user_join', $members)->with('trip', $trip);
+            $firebaseToken = $this->dbRealtime->getFirebaseToken($trip->id);
+            return view('trip.index')->with('user_join', $members)->with('trip', $trip)->with('firebase_token', $firebaseToken);
         }
         foreach ($members as $member) {
             if ($member->id === $authUser->id) {
-                return view('trip.index')->with('user_join', $members)->with('trip', $trip);
+                $firebaseToken = $this->dbRealtime->getFirebaseToken($trip->id);
+                return view('trip.index')->with('user_join', $members)->with('trip', $trip)->with('firebase_token', $firebaseToken);
             }
         }
-
         return "Error";
     }
 
@@ -73,9 +79,10 @@ class TripController extends Controller
         ]);
 
         $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, false, $trip->id);
-        $this->tripUserRepo->inviteFriends($trip->id, $request->member);
-
-        return redirect()->route('trip.detail', ['tripId' => $trip->id]);
+        if($request->member) {
+            $this->tripUserRepo->inviteFriends($trip->id, $request->member);
+        }
+        return redirect()->route('trip.show', ['tripId' => $trip->id]);
     }
 
     public function delete(Request $request)

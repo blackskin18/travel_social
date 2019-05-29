@@ -229,15 +229,16 @@ MapCustom.prototype.startFollowPosition = function() {
 MapCustom.prototype.makeMemberMaker = function(position) {
     var _this = this;
     this.friend = {};
-    var memberRef = R.firebaseDB.ref('trip/' + R.trip.id);
+    var memberRef = R.firebaseDB.ref('trip/' + R.trip.id +'/user');
     memberRef.on('value', function (response) {
-        let users = response.val().user;
+        let users = response.val();
+        console.log(users);
         for(let i in users) {
             if(i === R.userId) {
                 if(!_this.userMaker) {
                     _this.userMaker = _this.makeMaker({lat: users[i].lat, lng: users[i].lng}, "marker-current-user.png");
                 } else {
-                    _this.userMaker[i].setPosition({lat: users[i].lat, lng: users[i].lng});
+                    _this.userMaker.setPosition({lat: users[i].lat, lng: users[i].lng});
                 }
             } else {
                 if(!_this.friend[i]) {
