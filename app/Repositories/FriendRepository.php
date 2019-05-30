@@ -7,6 +7,7 @@ use App\Model\Friend;
 use App\Service\PushNotificationService;
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Builder;
+use function PHPSTORM_META\type;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class FriendRepository extends BaseRepository
@@ -45,7 +46,8 @@ class FriendRepository extends BaseRepository
         $addFriendRequest = $this->firstOrCreate(['user_one_id' => $userId, 'user_two_id' => $friendId]);
         $addFriendRequest->type = self::PENDING;
         //if($addFriendRequest->save()) {
-            $this->pushNotificationService->addFriend($addFriendRequest);
+        $this->pushNotificationService->addFriend($addFriendRequest);
+
         //}
         return $addFriendRequest;
     }
@@ -66,7 +68,9 @@ class FriendRepository extends BaseRepository
 
     public function getNotificationByUserId($userId)
     {
-        $friendNotifications = Friend::where('user_two_id', $userId)->where('type', self::PENDING)->orWhere(function (Builder $query) use ($userId) {
+        $friendNotifications = Friend::where('user_two_id', $userId)->where('type', self::PENDING)->orWhere(function (
+            Builder $query
+        ) use ($userId) {
             $query->where('user_one_id', $userId)->where('type', self::ACCEPT)->where('seen', 0);
         })->with(['userOne', 'userTwo'])->get();
         $countNotifyNotSeen = 0;
@@ -81,20 +85,34 @@ class FriendRepository extends BaseRepository
 
     public function setSeenForAllNotify($userId)
     {
-        $friendRecord = Friend::where('seen', 0)->where('user_one_id', $userId)->orWhere('user_two_id', $userId)->where('seen', 0)->update(['seen'=> 1]);
+        $friendRecord = Friend::where('seen', 0)->where('user_one_id', $userId)->orWhere('user_two_id', $userId)->where('seen', 0)->update(['seen' => 1]);
+
         return $friendRecord;
     }
 
-    public function getAllFriendIdOfUser($userId) {
+    public function getAllFriendIdOfUser($userId)
+    {
         $friends = Friend::where('user_two_id', $userId)->orWhere('user_one_id', $userId)->get();
         $friendIds = [];
+        $userSentFriendRequest = [];
+        $userReceiveFriendRequest = [];
         foreach ($friends as $friend) {
-            if($friend->user_one_id === $userId) {
-                array_push($friendIds, $friend->user_two_id);
-            } elseif($friend->user_two_id === $userId) {
-                array_push($friendIds, $friend->user_one_id);
+            if ($friend->type === self::ACCEPT) {
+                array_push($friendIds, $friend->user_one_id === $userId ? $friend->user_two_id : $friend->user_one_id);
+            } elseif ($friend->type === self::PENDING) {
+                if ($friend->user_one_id === $userId) {
+                    array_push($userReceiveFriendRequest, $friend->user_two_id);
+                } else {
+                    if ($friend->user_two_id === $userId) {
+                        array_push($userSentFriendRequest, $friend->user_one_id);
+                    }
+                }
             }
         }
-        return $friendIds;
+        return [
+            'friend' => $friendIds,
+            'user_sent_request' => $userSentFriendRequest,
+            'user_receive_request' => $userReceiveFriendRequest,
+        ];
     }
 }

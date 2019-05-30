@@ -34,13 +34,20 @@ class UserRepository extends BaseRepository {
                 ->get();
         $users = $users->except([$authUserId]);
 
-        $friendIds = $this->friendRepo->getAllFriendIdOfUser($authUserId);
-        $friendInSearchResult = $users->intersect(User::whereIn('id', $friendIds)->get());
+        $friendshipIds = $this->friendRepo->getAllFriendIdOfUser($authUserId);
+        $friendInSearchResult = $users->intersect(User::whereIn('id', $friendshipIds['friend'])->get());
 
-        $users = $users->except($friendIds);
+        $userSentInSearchResult = $users->intersect(User::whereIn('id', $friendshipIds['user_sent_request'])->get());
+        $userReceiveSearchResult = $users->intersect(User::whereIn('id', $friendshipIds['user_receive_request'])->get());
+
+        $users = $users->except($friendshipIds['friend']);
+        $users = $users->except($friendshipIds['user_sent_request']);
+        $users = $users->except($friendshipIds['user_receive_request']);
         return [
             'users' => $users,
             'friends' => $friendInSearchResult,
+            'user_sent_request' => $userSentInSearchResult,
+            'user_receive_request' => $userReceiveSearchResult,
         ];
     }
 }

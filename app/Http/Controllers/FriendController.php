@@ -45,8 +45,8 @@ class FriendController extends Controller
         $friendshipInfo = $this->friendRepo->getFriendshipInfo($authUser->id, $request->friend_id);
 
         if($friendshipInfo && $authUser->can('cancel', $friendshipInfo)) {
-            $friendshipInfo->type = self::DECLINED;
-            $friendshipInfo->save();
+            //$friendshipInfo->type = self::DECLINED;
+            $friendshipInfo->delete();
             return Response($friendshipInfo, 200)->header('Content-Type', 'text/plain');
         } else {
             return Response("you can cancel this request", 400)->header('Content-Type', 'text/plain');

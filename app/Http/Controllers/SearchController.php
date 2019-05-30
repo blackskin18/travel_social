@@ -24,10 +24,11 @@ class SearchController extends Controller
         $authUser = Auth::user();
         $searchText = $request->search_text;
         $usersResult = $this->userRepo->searchUser($searchText, $authUser->id);
-
         return view('search.friend')
             ->with('users', $usersResult['users'])
-            ->with('friends', $usersResult['friends']);
+            ->with('friends', $usersResult['friends'])
+            ->with('users_sent_request', $usersResult['user_sent_request'])
+            ->with('users_receive_request', $usersResult['user_receive_request']);
 
     }
 

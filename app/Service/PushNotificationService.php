@@ -29,7 +29,7 @@ class PushNotificationService extends BaseFirebase
     public function addFriend($friendRecord)
     {
         $messaging = $this->firebase->getMessaging();
-        if (count($friendRecord->userOne->device) > 0) {
+        if (count($friendRecord->userTwo->device) > 0) {
             $message = CloudMessage::withTarget('token', $friendRecord->userTwo->device[0]->device_token)->withNotification([
                 'title' => self::FRIEND_TITLE,
                 'body' => $friendRecord->userOne->name.self::ADD_FRIEND_BODY,
