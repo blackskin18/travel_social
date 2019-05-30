@@ -168,7 +168,7 @@ a {
 
 .menu-header .logo {
     width: 2%;
-    margin: 0 0 0 2.5em;
+    margin: 0 0 0 125px;
 }
 
 .menu-header .logo > img {
@@ -176,17 +176,21 @@ a {
 }
 
 .menu-header .search-box {
-    width: 30%;
+    width: 400px;
     padding: 0;
-    position: relative;
+    position: absolute;
+    top: 6px;
+    left: 320px;
 }
 
 .menu-header .search-box .search {
     width: 300px;
     height: 35px;
-    position: absolute;
-    top: -34px;
-    left: 50px;
+    margin: 0;
+    display: inline-block !important;
+    /*position: absolute;*/
+    /*top: -34px;*/
+    /*left: 50px;*/
 }
 
 .menu-header .notifycation {
@@ -498,8 +502,8 @@ div.left-menu > ul {
 
 div.left-menu > ul > li {
     color: white;
-    width: 15em;
-    height: 3em;
+    width: 320px;
+    height: 60px;
     border-bottom: 1px solid white;
     padding-top: 7px;
 }

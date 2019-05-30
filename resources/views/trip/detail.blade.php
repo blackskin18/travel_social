@@ -1,6 +1,7 @@
 @extends('common.master')
 @section('content')
     <div class="content_container">
+        <input type="hidden" id="trip_id" value="{{$trip->id}}">
         <div class="row">
             <article class="col-2 col-12-xsmall" style="padding: 0 0 0 2.5em">
                 @if($trip->user->avatar)
@@ -95,6 +96,8 @@
                 </tr>
                 </tbody>
             </table>
+            <hr>
+            @include('trip.include.comment', ['trip'=>$trip])
         </div>
     </div>
 
@@ -279,6 +282,7 @@
             </div>
         </div>
     </div>
+
     <script src="{{ url('js/trip/detail.js') }}"></script>
 @endsection
 @section('map')

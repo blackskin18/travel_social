@@ -55,7 +55,14 @@
     </a>
 
     <div class="search-box">
-        <input class="search" type="text">
+        <input class="search" type="text" id="search_input">
+        <div class="dropdown display_inline_block">
+            <button class="btn btn-light dropdown-toggle" data-toggle="dropdown">search</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" id="btn_search_friend">Tìm bạn bè</a>
+                <a class="dropdown-item" id="btn_search_post">Tìm bài viết</a>
+            </div>
+        </div>
     </div>
     <div class="notifycation">
         <div class="avatar_nav_box">

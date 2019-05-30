@@ -4,34 +4,50 @@ namespace App\Service;
 
 class DatabaseRealtimeService extends BaseFirebase
 {
-    public function storeComment($postId, $authUser, $commentContent) {
+    public function storeComment($postId, $tripId, $authUser, $commentContent)
+    {
         $database = $this->firebase->getDatabase();
-        $comment = $database->getReference('posts/'.$postId.'/comments')
-            ->push(
-                [
-                    'avatar'=> $authUser->avatar,
-                    'user_id'=> $authUser->id,
-                    'content'=> $commentContent,
-                    'user_name'=> $authUser->name
-                ]
-            );
-        return $comment;
+        if ($postId) {
+            $comment = $database->getReference('comments/posts/' . $postId);
+        } elseif ($tripId) {
+            $comment = $database->getReference('comments/trips/' . $tripId);
+        }
+        return $comment->push(
+            [
+                'avatar' => $authUser->avatar,
+                'user_id' => $authUser->id,
+                'content' => $commentContent,
+                'user_name' => $authUser->name
+            ]
+        );
+
     }
 
-    public function editComment($postId, $commentId, $authUser, $commentContent) {
+    public function editComment($postId, $tripId, $commentId, $authUser, $commentContent)
+    {
         $database = $this->firebase->getDatabase();
-        $comment = $database->getReference('posts/'.$postId.'/comments/'.$commentId)
-            ->update(
-                [
-                    'content'=> $commentContent,
-                ]
-            );
-        return $comment;
+
+        if ($postId) {
+            $comment = $database->getReference('comments/posts/' . $postId. '/' . $commentId);
+        } elseif ($tripId) {
+            $comment = $database->getReference('comments/trips/' . $tripId . '/' . $commentId);
+        }
+        return $comment->update(
+            [
+                'content' => $commentContent,
+            ]
+        );
     }
 
-    public function removeComment($postId, $commentId, $authUser) {
+    public function removeComment($postId, $tripId, $commentId, $authUser)
+    {
         $database = $this->firebase->getDatabase();
-        $comment = $database->getReference('posts/'.$postId.'/comments/'.$commentId)->remove();
+        if ($postId) {
+            $comment = $database->getReference('comments/posts/' . $postId . '/' . $commentId)->remove();
+        } elseif
+        ($tripId) {
+            $comment = $database->getReference('comments/trips/' . $tripId . '/' . $commentId)->remove();
+        }
         return $comment;
     }
 

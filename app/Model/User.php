@@ -42,5 +42,4 @@ class User extends Authenticatable
     public function device() {
         return $this->hasMany('App\Model\UserDevice');
     }
-
 }

@@ -45,7 +45,7 @@ $(function () {
         var postId = $(this).data('article-id');
         $("div#comment_box_" + postId).css("display", "block");
         $("div#comment_box_" + postId + ">.list_comment").html("");
-        var Ref = R.firebaseDB.ref('posts/' + postId + '/comments');
+        var Ref = R.firebaseDB.ref('comments/posts/' + postId);
         var avatarSrc;
         Ref.on('child_added', function (firebaseResponse) {
             var comment = firebaseResponse.val();

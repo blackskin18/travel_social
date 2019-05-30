@@ -76,3 +76,10 @@ Route::get('test_firebase', 'CommentController@testFirebase');
 Route::get('comment/post', 'CommentController@storePostComment');
 Route::get('comment/post/edit', 'CommentController@editPostComment');
 Route::get('comment/post/remove', 'CommentController@removePostComment');
+
+Route::get('comment/trip', 'CommentController@storeTripComment');
+Route::get('comment/trip/edit', 'CommentController@editTripComment');
+Route::get('comment/trip/remove', 'CommentController@removeTripComment');
+
+
+Route::get('search/friend', 'SearchController@searchFriend');

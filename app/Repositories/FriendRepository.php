@@ -84,4 +84,17 @@ class FriendRepository extends BaseRepository
         $friendRecord = Friend::where('seen', 0)->where('user_one_id', $userId)->orWhere('user_two_id', $userId)->where('seen', 0)->update(['seen'=> 1]);
         return $friendRecord;
     }
+
+    public function getAllFriendIdOfUser($userId) {
+        $friends = Friend::where('user_two_id', $userId)->orWhere('user_one_id', $userId)->get();
+        $friendIds = [];
+        foreach ($friends as $friend) {
+            if($friend->user_one_id === $userId) {
+                array_push($friendIds, $friend->user_two_id);
+            } elseif($friend->user_two_id === $userId) {
+                array_push($friendIds, $friend->user_one_id);
+            }
+        }
+        return $friendIds;
+    }
 }

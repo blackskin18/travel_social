@@ -28,4 +28,10 @@ $(function () {
     $(".popup_opacity").click(function () {
         $("div.popup").css("display", "none");
     });
+
+    $("#btn_search_friend").click(function () {
+        let searchText = $("#search_input").val();
+        window.location.href = window.location.origin + '/search/friend?search_text='+searchText;
+    });
+
 });

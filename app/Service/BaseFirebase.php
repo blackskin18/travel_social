@@ -18,12 +18,12 @@ class BaseFirebase
         $firebase 		  = (new Factory)
             ->withServiceAccount($serviceAccount)
             ->withDatabaseUri('https://my-project-1500357993095.firebaseio.com')
+            ->asUser('my-service-worker')
             ->create();
         $this->firebase = $firebase;
     }
 
     public function getFirebaseToken($tripId) {
-//        dd($this->firebase->getAuth()->createCustomToken($tripId));
         return (string) $this->firebase->getAuth()->createCustomToken($tripId);
     }
 

@@ -1,7 +1,7 @@
 @extends('common.master')
 
 @section('content')
-    <input type="hidden" id="firebase_token" value="{{ $firebase_token }}">
+    <input type="hidden" id="firebase_token" value="111">
     <div class="content_container">
         <div class="text-center">
             <a href="{{Route('trip.show', ['id' => $trip->id])}}">

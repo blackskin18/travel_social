@@ -29,13 +29,14 @@ class CommentController extends Controller
         $this->postRepo = $postRepo;
     }
 
-    public function storePostComment(Request $request) {
+    public function storePostComment(Request $request)
+    {
         $postId = $request->post_id;
         $post = $this->postRepo->find($postId);
         $authUser = Auth::user();
         $commentContent = $request->message;
-        $this->DbRealtime->storeComment($postId, $authUser, $commentContent);
-        if( $post->user_id !== $authUser->id) {
+        $this->DbRealtime->storeComment($postId, null, $authUser, $commentContent);
+        if ($post->user_id !== $authUser->id) {
             $this->followRepo->followPost($authUser->id, $postId);
         }
         $this->notifyRepo->addCommentNotification($authUser->id, $post->user_id, $postId);
@@ -46,12 +47,13 @@ class CommentController extends Controller
         return Response($data, 200)->header('Content-Type', 'text/plain');
     }
 
-    public function editPostComment(Request $request) {
+    public function editPostComment(Request $request)
+    {
         $postId = $request->post_id;
         $commentId = $request->comment_id;
         $authUser = Auth::user();
         $commentContent = $request->message;
-        $this->DbRealtime->editComment($postId, $commentId, $authUser, $commentContent);
+        $this->DbRealtime->editComment($postId, null, $commentId, $authUser, $commentContent);
         $data = [
             "status" => 200,
             "type" => 'comment_successful'
@@ -59,11 +61,53 @@ class CommentController extends Controller
         return Response($data, 200)->header('Content-Type', 'text/plain');
     }
 
-    public function removePostComment(Request $request) {
+    public function removePostComment(Request $request)
+    {
         $postId = $request->post_id;
         $commentId = $request->comment_id;
         $authUser = Auth::user();
-        $this->DbRealtime->removeComment($postId, $commentId, $authUser);
+        $this->DbRealtime->removeComment($postId, null, $commentId, $authUser);
+        $data = [
+            "status" => 200,
+            "type" => 'comment_successful'
+        ];
+        return Response($data, 200)->header('Content-Type', 'text/plain');
+    }
+
+
+    public function storeTripComment(Request $request)
+    {
+        $tripId = $request->trip_id;
+        $authUser = Auth::user();
+        $commentContent = $request->message;
+        $this->DbRealtime->storeComment(null, $tripId, $authUser, $commentContent);
+        $data = [
+            "status" => 200,
+            "type" => 'comment_successful',
+        ];
+        return Response($data, 200)->header('Content-Type', 'text/plain');
+    }
+
+    public function editTripComment(Request $request)
+    {
+        $tripId = $request->trip_id;
+        $commentId = $request->comment_id;
+        $authUser = Auth::user();
+        $commentContent = $request->message;
+        $this->DbRealtime->editComment(null, $tripId, $commentId, $authUser, $commentContent);
+        $data = [
+            "status" => 200,
+            "type" => 'comment_successful'
+        ];
+        return Response($data, 200)->header('Content-Type', 'text/plain');
+    }
+
+    public function removeTripComment(Request $request)
+    {
+        $tripId = $request->trip_id;
+        $commentId = $request->comment_id;
+        $authUser = Auth::user();
+        $this->DbRealtime->removeComment(null, $tripId, $commentId, $authUser);
         $data = [
             "status" => 200,
             "type" => 'comment_successful'
