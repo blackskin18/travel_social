@@ -2,6 +2,7 @@ $(function () {
     var lastEdit = null;
     $(".edit_info_btn").click(function () {
         var elementId =$(this).prop('id');
+        console.log(elementId);
         var valuePanel = $(this).parent().parent().children().eq(1);
         var oldValue = valuePanel.text();
         var buttonEdit = $(this);
@@ -21,7 +22,6 @@ $(function () {
         }
 
         lastEdit = elementId;
-
 
         $(this).css('display', 'none');
         $(this).prop("disabled", true);

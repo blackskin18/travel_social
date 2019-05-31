@@ -18,7 +18,7 @@ class BaseFirebase
         $firebase 		  = (new Factory)
             ->withServiceAccount($serviceAccount)
             ->withDatabaseUri('https://my-project-1500357993095.firebaseio.com')
-            ->asUser('my-service-worker')
+            ->asUser('admin')
             ->create();
         $this->firebase = $firebase;
     }

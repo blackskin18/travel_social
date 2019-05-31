@@ -50,4 +50,53 @@ class UserRepository extends BaseRepository {
             'user_receive_request' => $userReceiveSearchResult,
         ];
     }
+
+//    public function getAllFriendOfUser($userId, $authUserId) {
+//        // bạn bè của người dùng
+//        $friendShipsOfUser = $this->friendRepo->getAllFriendOfUser($userId);
+//        // bạn bè của người đang đăng nhập
+//        $friendshipIdsOfAuthUser = $this->friendRepo->getAllFriendIdOfUser($authUserId);
+//
+//        $users = [];
+//        $friends = [];
+//        $userSentRequest = [];
+//        $userReceivedRequest = [];
+//
+//        $friendKeyToRemove = [];
+//
+//        foreach ($friendShipsOfUser as $key => $friendShipOfUser) {
+//            $flag = false;
+//            if(!$flag) {
+//                foreach ($friendshipIdsOfAuthUser['friend'] as $friend) {
+//                    if($friendShipOfUser->user_one_id === $friend->id || $friendShipOfUser->user_two_id === $friend->id) {
+//                        array_push($friends, $friendShipOfUser);
+//                        array_push($friendKeyToRemove, $key);
+//                        $flag = true;
+//                        break;
+//                    }
+//                }
+//            }
+//            if(!$flag) {
+//                foreach ($friendshipIdsOfAuthUser['user_sent_request'] as $userSentRequest) {
+//                    if ($friendShipOfUser->user_one_id === $friend->id || $friendShipOfUser->user_two_id === $friend->id) {
+//                        array_push($userSentRequest, $friendShipOfUser);
+//                        array_push($friendKeyToRemove, $key);
+//                        $flag = true;
+//                        break;
+//                    }
+//                }
+//            }
+//            if(!$flag) {
+//                foreach ($friendshipIdsOfAuthUser['user_receive_request'] as $userReceiveRequest) {
+//                    if ($friendShipOfUser->user_one_id === $userReceiveRequest->id || $friendShipOfUser->user_two_id === $userReceiveRequest->id) {
+//                        array_push($userReceivedRequest, $friendShipOfUser);
+//                        array_push($friendKeyToRemove, $key);
+//                        $flag = true;
+//                        break;
+//                    }
+//                }
+//            }
+//
+//        }
+//    }
 }

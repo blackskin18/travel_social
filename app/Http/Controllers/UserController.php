@@ -45,9 +45,11 @@ class UserController extends Controller
 
     public function displayInfo($id)
     {
+        $authUser = Auth::user();
         $user = $this->userRepository->find($id);
+        $friendshipInfo = $this->friendRepo->getFriendshipInfo($authUser->id, $user->id);
 
-        return view('user.detail_info')->with('user', $user);
+        return view('user.detail_info')->with('user', $user)->with('friendshipInfo', $friendshipInfo);
     }
 
     public function changeAvatar(Request $request)
@@ -170,5 +172,16 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    public function showListFriend($userId) {
+        return "1";
+//        $authUser = Auth::user();
+//        $allFriends = $this->userRepository->getAllFriendOfUser($userId, $authUser->id);
+//        return view('search.friend')
+//            ->with('users', $allFriends['users'])
+//            ->with('friends', $allFriends['friends'])
+//            ->with('users_sent_request', $allFriends['user_sent_request'])
+//            ->with('users_receive_request', $allFriends['user_receive_request']);
     }
 }

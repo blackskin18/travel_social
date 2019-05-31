@@ -115,4 +115,8 @@ class FriendRepository extends BaseRepository
             'user_receive_request' => $userReceiveFriendRequest,
         ];
     }
+
+    public function getAllFriendOfUser($userId) {
+        return Friend::where('user_two_id', $userId)->orWhere('user_one_id', $userId)->get();
+    }
 }

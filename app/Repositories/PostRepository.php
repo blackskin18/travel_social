@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Model\Post;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class PostRepository extends BaseRepository
@@ -32,15 +33,15 @@ class PostRepository extends BaseRepository
     public function getList($authUserId)
     {
         //$allJoinRequestsOfUser = $this->joinRequestRepo->findWhere(['user_id'=>$authUserId]);
-        $allJoinRequestsOfUser = $this->tripUserRepo->findWhere(['user_id'=>$authUserId]);
+//        $allJoinRequestsOfUser = $this->tripUserRepo->findWhere(['user_id'=>$authUserId]);
         $posts = $this->with('position')->with('like')->with('user:id,avatar,name')->orderBy('id', 'desc')->all();
-        foreach ($posts as $post) {
-            foreach ($allJoinRequestsOfUser as $joinRequest) {
-                if ($post->trip && $post->trip->id === $joinRequest->trip_id) {
-                    $post->member_info = $joinRequest;
-                }
-            }
-        }
+//        foreach ($posts as $post) {
+//            foreach ($allJoinRequestsOfUser as $joinRequest) {
+//                if ($post->trip && $post->trip->id === $joinRequest->trip_id) {
+//                    $post->member_info = $joinRequest;
+//                }
+//            }
+//        }
         return $this->checkBeLiked($posts, $authUserId);
     }
 
@@ -91,4 +92,10 @@ class PostRepository extends BaseRepository
 
         return $posts;
     }
+
+    public function searchPost($searchText, $authUserId) {
+        $posts = Post::where('description', 'like', '%'.$searchText.'%')->get();
+        return $this->checkBeLiked($posts, $authUserId);
+    }
+
 }

@@ -34,4 +34,8 @@ $(function () {
         window.location.href = window.location.origin + '/search/friend?search_text='+searchText;
     });
 
+    $("#btn_search_post").click(function () {
+        let searchText = $("#search_input").val();
+        window.location.href = window.location.origin + '/search/post?search_text='+searchText;
+    });
 });
