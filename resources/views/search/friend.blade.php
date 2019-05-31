@@ -1,7 +1,7 @@
 @extends('common.master')
 @section('content')
     <div id="main" style="margin: auto">
-        <h1 class="text-center">
+        <h1 class="text-center text-info">
             Kết quả tìm kiếm người dùng
         </h1>
         @foreach($friends as $friend)

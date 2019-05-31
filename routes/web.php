@@ -24,6 +24,8 @@ Route::get('/user/personal-page/{id}', 'UserController@showPersonalPage')->name(
 Route::get('/user/detail-info/{id}', 'UserController@displayInfo')->name('detail.info');
 Route::post('/user/change_avatar', 'UserController@changeAvatar')->name('user.change_avatar');
 
+Route::get('/user/{user_id}/list_friend', 'UserController@showListFriend')->name('user.list_friend');
+
 Route::post('/user/edit/edit_name', 'UserController@updateName')->name('user.update.name');
 Route::post('/user/edit/edit_nick_name', 'UserController@updateNickName')->name('user.update.nick_name');
 Route::post('/user/edit/edit_phone', 'UserController@updatePhone')->name('user.update.phone');
@@ -83,3 +85,4 @@ Route::get('comment/trip/remove', 'CommentController@removeTripComment');
 
 
 Route::get('search/friend', 'SearchController@searchFriend');
+Route::get('search/post', 'SearchController@searchPost');

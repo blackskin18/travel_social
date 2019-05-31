@@ -29,10 +29,12 @@ class SearchController extends Controller
             ->with('friends', $usersResult['friends'])
             ->with('users_sent_request', $usersResult['user_sent_request'])
             ->with('users_receive_request', $usersResult['user_receive_request']);
-
     }
 
-    public function searchPost() {
-
+    public function searchPost(Request $request) {
+        $authUser = Auth::user();
+        $searchText = $request->search_text;
+        $postResult = $this->postRepo->searchPost($searchText, $authUser->id);
+        return view('search.post')->with('posts', $postResult);
     }
 }

@@ -12,11 +12,11 @@
 						<td class="user_info">{{ $user->name }}</td>
 						@include('user.include.btn_edit', ['id' => 'edit_name'])
 					</tr>
-                    <tr>
-                        <td class="" style="width:20%">Tên phụ</td>
-                        <td class="user_info">{{ $user->nick_name }}</td>
-                        @include('user.include.btn_edit', ['id' => 'edit_nick_name'])
-                    </tr>
+                    {{--<tr>--}}
+                        {{--<td class="" style="width:20%">Tên phụ</td>--}}
+                        {{--<td class="user_info">{{ $user->nick_name }}</td>--}}
+                        {{--@include('user.include.btn_edit', ['id' => 'edit_nick_name'])--}}
+                    {{--</tr>--}}
 					<tr>
 						<td >Số điện thoại</td>
 						<td>{{ $user->phone }}</td>

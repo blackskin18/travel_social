@@ -7,55 +7,53 @@
     <div>
         @if($user->id !== Auth::user()->id)
             <div style="display: inline-block; position: absolute; top: 0; left: 2.5em;">
-                <button class="btn btn-light {{!$friendshipInfo || $friendshipInfo->type === 2 ? : "display_none"}} "
-                        id="btn_add_friend" data-friend-id="{{$user->id}}">
-                    Thêm bạn
-                </button>
-                <div
-                    class="dropdown {{$friendshipInfo && $friendshipInfo->type === 0 &&  $friendshipInfo->user_one_id === Auth::user()->id ? : "display_none"}}"
-                    id="sent_request_box">
-                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-                        Đã gửi lời mời kêt bạn
+                <div class="display_inline_block">
+                    <button class="btn btn-info {{!$friendshipInfo || $friendshipInfo->type === 2 ? : "display_none"}} "
+                            id="btn_add_friend" data-friend-id="{{$user->id}}">
+                        Thêm bạn
                     </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item btn_cancel_request_add_friend" href="#"
-                           data-friend-id="{{$user->id}}">Hủy</a>
+                    <div
+                        class="dropdown {{$friendshipInfo && $friendshipInfo->type === 0 &&  $friendshipInfo->user_one_id === Auth::user()->id ? : "display_none"}}"
+                        id="sent_request_box">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                            Đã gửi lời mời kêt bạn
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item btn_cancel_request_add_friend" href="#"
+                               data-friend-id="{{$user->id}}">Hủy</a>
+                        </div>
+                    </div>
+                    <div
+                        class="dropdown {{$friendshipInfo && $friendshipInfo->type === 0 &&  $friendshipInfo->user_two_id === Auth::user()->id ? : "display_none"}}"
+                        id="reply_friend_request_box">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                            Trả lời lời mời kết bạn
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item btn_accept_add_friend_request" href="#"
+                               data-friend-id="{{$user->id}}">Đồng ý</a>
+                            <a class="dropdown-item btn_cancel_request_add_friend" href="#"
+                               data-friend-id="{{$user->id}}">Không đồng ý</a>
+                        </div>
+                    </div>
+                    <div
+                        class="dropdown {{$friendshipInfo && $friendshipInfo->type === 1 ? : "display_none"}}"
+                        id="is_friend_box">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                            Bạn bè
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item btn_cancel_request_add_friend" href="#"
+                               data-friend-id="{{$user->id}}">Hủy kết bạn</a>
+                        </div>
                     </div>
                 </div>
-                <div
-                    class="dropdown {{$friendshipInfo && $friendshipInfo->type === 0 &&  $friendshipInfo->user_two_id === Auth::user()->id ? : "display_none"}}"
-                    id="reply_friend_request_box">
-                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-                        Trả lời lời mời kết bạn
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item btn_accept_add_friend_request" href="#"
-                           data-friend-id="{{$user->id}}">Đồng ý</a>
-                        <a class="dropdown-item btn_cancel_request_add_friend" href="#"
-                           data-friend-id="{{$user->id}}">Không đồng ý</a>
-                    </div>
-                </div>
-                <div
-                    class="dropdown {{$friendshipInfo && $friendshipInfo->type === 1 ? : "display_none"}}"
-                    id="is_friend_box">
-                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-                        Bạn bè
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item btn_cancel_request_add_friend" href="#"
-                           data-friend-id="{{$user->id}}">Hủy kết bạn</a>
-                    </div>
-                </div>
-                <button class="btn btn-light">
+                <a class="btn btn-info" href="{{ route('user.list_friend', $user->id) }}">
                     danh sách bạn bè
-                </button>
-                <button class="btn btn-light">
-                    Album ảnh
-                </button>
-                        <a class="btn btn-light" href="{{ route('detail.info', $user->id) }}">
-                                Thông tin
-                        </a>
-
+                </a>
+                <a class="btn btn-info" href="{{ route('detail.info', $user->id) }}">
+                        Thông tin
+                </a>
             </div>
         @endif
     </div>
