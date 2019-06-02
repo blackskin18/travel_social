@@ -5,9 +5,9 @@
 </style>
 <header id="header">
     <div>
-        @if($user->id !== Auth::user()->id)
-            <div style="display: inline-block; position: absolute; top: 0; left: 2.5em;">
-                <div class="display_inline_block">
+        <div style="display: inline-block; position: absolute; top: 0; left: 2.5em;">
+            <div class="display_inline_block">
+                @if($user->id !== Auth::user()->id)
                     <button class="btn btn-info {{!$friendshipInfo || $friendshipInfo->type === 2 ? : "display_none"}} "
                             id="btn_add_friend" data-friend-id="{{$user->id}}">
                         Thêm bạn
@@ -48,33 +48,21 @@
                         </div>
                     </div>
                 </div>
-                <a class="btn btn-info" href="{{ route('user.list_friend', $user->id) }}">
-                    danh sách bạn bè
-                </a>
-                <a class="btn btn-info" href="{{ route('detail.info', $user->id) }}">
-                        Thông tin
-                </a>
-            </div>
-        @endif
+            @endif
+
+            <a class="btn btn-info" href="{{ route('user.list_friend', $user->id) }}">
+                danh sách bạn bè
+            </a>
+            <a class="btn btn-info" href="{{ route('detail.info', $user->id) }}">
+                    Thông tin
+            </a>
+        </div>
     </div>
     <div class="inner avatar_display">
         @include('user.include.upload_avatar')
-        <a href="{{route('user.personal.page', ['id' => $user->id])}}">
+        <a href="{{route('user.personal_page', ['id' => $user->id])}}">
             <h1><strong>{{ $user->name  }}</strong></h1>
         </a>
     </div>
-{{--    <div class="more-info">--}}
-{{--        <div class="album">--}}
-{{--            album--}}
-{{--        </div>--}}
-{{--        <a href="{{ route('detail.info', $user->id) }}">--}}
-{{--            <div class="detail-info">--}}
-{{--                Thông tin--}}
-{{--            </div>--}}
-{{--        </a>--}}
-{{--        <div class="list-friend">--}}
-{{--            Bạn bè--}}
-{{--        </div>--}}
-{{--    </div>--}}
 </header>
 <script src="{{url('js/User/include/left_menu.js')}}"></script>

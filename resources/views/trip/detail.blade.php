@@ -14,7 +14,7 @@
             </article>
             <article class="col-7 col-12-xsmall" style="padding: 0">
                 <h2 class="none-padding none-margin">
-                    <a href="{{route('user.personal.page', ['id'=>$trip->user_id])}}"
+                    <a href="{{route('user.personal_page', ['id'=>$trip->user_id])}}"
                        style="color: #5cc6a7; text-decoration: none">
                         {{ $trip->user->name }}
                     </a>
@@ -118,7 +118,7 @@
                             @foreach($joinRequests as $joinRequests)
                                 <tr id="join_request_{{$joinRequests->user_id}}">
                                     <td  class="p-1">
-                                        <a href="{{route('user.personal.page', ['id' => $joinRequests->user_id])}}">
+                                        <a href="{{route('user.personal_page', ['id' => $joinRequests->user_id])}}">
                                             <div class="media">
                                                 <img
                                                     src=" {{ $joinRequests->user->avatar ? url('asset/images/avatar/'.$joinRequests->user_id.'/'.$joinRequests->user->avatar) : url('asset/images/avatar/default/avatar_default.png') }}"
@@ -172,7 +172,7 @@
                                 @if($invitation->user_id !== $trip->user_id)
                                     <tr id="user_invited_{{$invitation->user_id}}">
                                         <td  class="p-1">
-                                            <a href="{{route('user.personal.page', ['id' => $invitation->user->id])}}">
+                                            <a href="{{route('user.personal_page', ['id' => $invitation->user->id])}}">
                                                 <div class="media">
                                                     <img
                                                         src=" {{ $invitation->user->avatar ? url('asset/images/avatar/'.$invitation->user->id.'/'.$invitation->user->avatar) : url('asset/images/avatar/default/avatar_default.png') }}"
@@ -222,7 +222,7 @@
                             @foreach($members as $member)
                                 <tr id="member_{{$member->user->id}}">
                                     <td class="p-1">
-                                        <a href="{{route('user.personal.page', ['id' => $member->user->id])}}">
+                                        <a href="{{route('user.personal_page', ['id' => $member->user->id])}}">
                                             <div class="media">
                                                 <img
                                                     src="{{$member->user->avatar ? url('asset/images/avatar/'.$member->id.'/'.$member->avatar) : url('asset/images/avatar/default/avatar_default.png')}}"

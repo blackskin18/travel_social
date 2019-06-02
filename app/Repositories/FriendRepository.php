@@ -59,10 +59,8 @@ class FriendRepository extends BaseRepository
             return $friendship;
         } else {
             $friendship = $this->findWhere(['user_one_id' => $userTwo, 'user_two_id' => $userOne])->first();
-
             return $friendship;
         }
-
         return $friendship;
     }
 

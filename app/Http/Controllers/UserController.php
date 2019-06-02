@@ -175,13 +175,16 @@ class UserController extends Controller
     }
 
     public function showListFriend($userId) {
-        return "1";
-//        $authUser = Auth::user();
-//        $allFriends = $this->userRepository->getAllFriendOfUser($userId, $authUser->id);
-//        return view('search.friend')
-//            ->with('users', $allFriends['users'])
-//            ->with('friends', $allFriends['friends'])
-//            ->with('users_sent_request', $allFriends['user_sent_request'])
-//            ->with('users_receive_request', $allFriends['user_receive_request']);
+        $authUser = Auth::user();
+        $user = $this->userRepository->find($userId);
+        $allFriends = $this->userRepository->getAllFriendOfUser($userId, $authUser->id);
+        $friendShipWithCurrentUser = $this->friendRepo->getFriendshipInfo($userId, $authUser->id);
+        return view('user.list_friend')
+            ->with('friend_ship_with_current_user' , $friendShipWithCurrentUser)
+            ->with('user_showing', $user)
+            ->with('users', $allFriends['users'])
+            ->with('friends', $allFriends['friends'])
+            ->with('users_sent_request', $allFriends['users_sent_request'])
+            ->with('users_receive_request', $allFriends['users_receive_request']);
     }
 }

@@ -66,7 +66,7 @@
     </div>
     <div class="notifycation">
         <div class="avatar_nav_box">
-            <a href="{{ route('user.personal.page', Auth::user()->id) }}">
+            <a href="{{ route('user.personal_page', Auth::user()->id) }}">
                 <div class="info">
                     <div class="image-nav avatar">
                         @if(Auth::user()->avatar)

@@ -1,10 +1,18 @@
 @extends('common.master')
 @section('content')
-    <div id="main" style="margin: auto">
+    @include('user.include.left_menu', ['friendshipInfo' => $friend_ship_with_current_user, 'user' =>$user_showing])
+    <div id="main">
         <h1 class="text-center text-info">
-            Kết quả tìm kiếm người dùng
+            Danh sách bạn bè
         </h1>
-        @foreach($friends as $friend)
+        @foreach($friends as $friendShip)
+            @php
+                if($friendShip->user_one_id === $user_showing->id) {
+                    $friend = $friendShip->userTwo;
+                } else {
+                    $friend = $friendShip->userOne;
+                }
+            @endphp
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 position-relative">
                     <div>
@@ -47,7 +55,14 @@
             </div>
         @endforeach
 
-        @foreach($users_sent_request as $user)
+        @foreach($users_sent_request as $friendShip)
+            @php
+                if($friendShip->user_one_id === $user_showing->id) {
+                    $user = $friendShip->userTwo;
+                } else {
+                    $user = $friendShip->userOne;
+                }
+            @endphp
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 position-relative">
                     <div>
@@ -101,7 +116,14 @@
             </div>
         @endforeach
 
-        @foreach($users_receive_request as $user)
+        @foreach($users_receive_request as $friendShip)
+            @php
+                if($friendShip->user_one_id === $user_showing->id) {
+                    $user = $friendShip->userTwo;
+                } else {
+                    $user = $friendShip->userOne;
+                }
+            @endphp
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 position-relative">
                     <div>
@@ -135,7 +157,14 @@
             </div>
         @endforeach
 
-        @foreach($users as $user)
+        @foreach($users as $friendShip)
+            @php
+                if($friendShip->user_one_id === $user_showing->id) {
+                    $user = $friendShip->userTwo;
+                } else {
+                    $user = $friendShip->userOne;
+                }
+            @endphp
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 position-relative">
                     <div>
@@ -150,6 +179,7 @@
                             </div>
                         </a>
                     </div>
+                    @if($user->id !== Auth::user()->id)
                     <div class="position-absolute" style="top: 40px; right: 50px">
                         <button class="btn btn-info btn_add_friend"
                                 id="btn_add_friend_{{$user->id}}" data-friend-id="{{$user->id}}">
@@ -165,6 +195,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         @endforeach

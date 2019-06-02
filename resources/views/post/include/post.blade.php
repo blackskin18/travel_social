@@ -18,7 +18,7 @@
                         </article>
                         <article class="col-7 col-12-xsmall" style="padding: 0">
                             <h2 class="none-padding none-margin">
-                                <a href="{{route('user.personal.page', ['id'=>$post->user_id])}}"
+                                <a href="{{route('user.personal_page', ['id'=>$post->user_id])}}"
                                    style="color: #5cc6a7; text-decoration: none">
                                     {{ $post->user->name }}
                                 </a>

@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Repository;
 
 use App\Model\User;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class UserRepository extends BaseRepository {
-
+class UserRepository extends BaseRepository
+{
     private $friendRepo;
 
     /**
@@ -26,12 +27,9 @@ class UserRepository extends BaseRepository {
         parent::__construct($app);
     }
 
-    public function searchUser($searchText, $authUserId) {
-        $users = User::where('name', 'like', '%'.$searchText.'%')
-                ->orWhere('email', 'like', '%' . $searchText . '%')
-                ->orWhere('description', 'like', '%' . $searchText . '%')
-                ->orWhere('phone', '=', $searchText)
-                ->get();
+    public function searchUser($searchText, $authUserId)
+    {
+        $users = User::where('name', 'like', '%'.$searchText.'%')->orWhere('email', 'like', '%'.$searchText.'%')->orWhere('description', 'like', '%'.$searchText.'%')->orWhere('phone', '=', $searchText)->get();
         $users = $users->except([$authUserId]);
 
         $friendshipIds = $this->friendRepo->getAllFriendIdOfUser($authUserId);
@@ -43,6 +41,7 @@ class UserRepository extends BaseRepository {
         $users = $users->except($friendshipIds['friend']);
         $users = $users->except($friendshipIds['user_sent_request']);
         $users = $users->except($friendshipIds['user_receive_request']);
+
         return [
             'users' => $users,
             'friends' => $friendInSearchResult,
@@ -51,52 +50,73 @@ class UserRepository extends BaseRepository {
         ];
     }
 
-//    public function getAllFriendOfUser($userId, $authUserId) {
-//        // bạn bè của người dùng
-//        $friendShipsOfUser = $this->friendRepo->getAllFriendOfUser($userId);
-//        // bạn bè của người đang đăng nhập
-//        $friendshipIdsOfAuthUser = $this->friendRepo->getAllFriendIdOfUser($authUserId);
-//
-//        $users = [];
-//        $friends = [];
-//        $userSentRequest = [];
-//        $userReceivedRequest = [];
-//
-//        $friendKeyToRemove = [];
-//
-//        foreach ($friendShipsOfUser as $key => $friendShipOfUser) {
-//            $flag = false;
-//            if(!$flag) {
-//                foreach ($friendshipIdsOfAuthUser['friend'] as $friend) {
-//                    if($friendShipOfUser->user_one_id === $friend->id || $friendShipOfUser->user_two_id === $friend->id) {
-//                        array_push($friends, $friendShipOfUser);
-//                        array_push($friendKeyToRemove, $key);
-//                        $flag = true;
-//                        break;
-//                    }
-//                }
-//            }
-//            if(!$flag) {
-//                foreach ($friendshipIdsOfAuthUser['user_sent_request'] as $userSentRequest) {
-//                    if ($friendShipOfUser->user_one_id === $friend->id || $friendShipOfUser->user_two_id === $friend->id) {
-//                        array_push($userSentRequest, $friendShipOfUser);
-//                        array_push($friendKeyToRemove, $key);
-//                        $flag = true;
-//                        break;
-//                    }
-//                }
-//            }
-//            if(!$flag) {
-//                foreach ($friendshipIdsOfAuthUser['user_receive_request'] as $userReceiveRequest) {
-//                    if ($friendShipOfUser->user_one_id === $userReceiveRequest->id || $friendShipOfUser->user_two_id === $userReceiveRequest->id) {
-//                        array_push($userReceivedRequest, $friendShipOfUser);
-//                        array_push($friendKeyToRemove, $key);
-//                        $flag = true;
-//                        break;
-//                    }
-//                }
-//            }
-//
-//        }
-//    }
+    /**
+     *
+     * $userId: get list friend of this user
+     * $authUserId: id of user who is login
+     *
+     */
+    public function getAllFriendOfUser($userId, $authUserId)
+    {
+        //user's friends
+        $friendShipsOfUser = $this->friendRepo->getAllFriendOfUser($userId);
+        //auth user's friends
+        $allFriendshipIdsOfAuthUser = $this->friendRepo->getAllFriendIdOfUser($authUserId);
+        // friends of auth user and user
+        $friendsOfAuthUser = [];
+        // list user who is friend of USER and was received request by auth user
+        $userReceivedRequestByAuthUser = [];
+        // list user who is friend of USER and sent request to auth user
+        $userSentRequestToAuthUser = [];
+
+        $friendKeyToRemove = [];
+
+        foreach ($friendShipsOfUser as $key => $friendShipOfUser) {
+            $flag = false;
+            if (! $flag) {
+                foreach ($allFriendshipIdsOfAuthUser['friend'] as $friend) {
+                    if (($friendShipOfUser->user_one_id === $friend && $friend != $userId) ||
+                        ($friendShipOfUser->user_two_id === $friend && $friend != $userId)) {
+                        array_push($friendsOfAuthUser, $friendShipOfUser);
+                        array_push($friendKeyToRemove, $key);
+                        $flag = true;
+                        break;
+                    }
+                }
+            }
+            if (! $flag) {
+                foreach ($allFriendshipIdsOfAuthUser['user_sent_request'] as $userSentRequest) {
+                    if (($friendShipOfUser->user_one_id === $userSentRequest && $userSentRequest != $userId) ||
+                        ($friendShipOfUser->user_two_id === $userSentRequest && $userSentRequest != $userId)) {
+                        array_push($userSentRequestToAuthUser, $friendShipOfUser);
+                        array_push($friendKeyToRemove, $key);
+                        $flag = true;
+                        break;
+                    }
+                }
+            }
+            if (! $flag) {
+                foreach ($allFriendshipIdsOfAuthUser['user_receive_request'] as $userReceiveRequest) {
+                    if (($friendShipOfUser->user_one_id === $userReceiveRequest && $userReceiveRequest != $userId) ||
+                        ($friendShipOfUser->user_two_id === $userReceiveRequest && $userReceiveRequest != $userId)) {
+                        array_push($userReceivedRequestByAuthUser, $friendShipOfUser);
+                        array_push($friendKeyToRemove, $key);
+                        $flag = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        foreach ($friendKeyToRemove as $key) {
+            unset($friendShipsOfUser[$key]);
+        }
+
+        return [
+            "users" => $friendShipsOfUser,
+            "friends" => $friendsOfAuthUser,
+            "users_sent_request" => $userSentRequestToAuthUser,
+            "users_receive_request" => $userReceivedRequestByAuthUser,
+        ];
+    }
 }

@@ -20,7 +20,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/user/personal-page/{id}', 'UserController@showPersonalPage')->name('user.personal.page');
+Route::get('/user/personal-page/{id}', 'UserController@showPersonalPage')->name('user.personal_page');
 Route::get('/user/detail-info/{id}', 'UserController@displayInfo')->name('detail.info');
 Route::post('/user/change_avatar', 'UserController@changeAvatar')->name('user.change_avatar');
 
