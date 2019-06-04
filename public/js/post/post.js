@@ -65,8 +65,9 @@ $(function () {
                                 </div>
                             </div>
                             <input type="text" class="edit_comment_input display_none_important" id="edit_comment_input_${firebaseResponse.key}" value="${comment.content}" data-comment-id="${firebaseResponse.key}" data-post-id="${postId}">
-                        </div>
-                        <div class="display_inline_block comment_options">
+                        </div>`;
+            if(comment.user_id == R.userId) {
+                commentElement += `<div class="display_inline_block comment_options">
                             <div class="dropdown">
                                 <a class="" data-toggle="dropdown">
                                     <i class="material-icons">settings_ethernet</i>
@@ -76,8 +77,9 @@ $(function () {
                                      <a class="dropdown-item" id="remove_comment_${firebaseResponse.key}" data-comment-id="${firebaseResponse.key}"> Xóa </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
+            };
+            commentElement += `</div>`;
             $("div#comment_box_" + postId + ">.list_comment").prepend(commentElement);
 
             $("#remove_comment_" + firebaseResponse.key).click(function () {

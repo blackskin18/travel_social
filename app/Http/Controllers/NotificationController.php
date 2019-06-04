@@ -53,7 +53,7 @@ class NotificationController extends Controller
         }
     }
 
-    public function seenAllForMemberNotify() {
+    public function seenAllMemberNotify() {
         try {
             $authUser = Auth::user();
             $this->notificationRepo->setSeenAllForMemberNotify($authUser->id);
@@ -63,7 +63,7 @@ class NotificationController extends Controller
         }
     }
 
-    public function seenAllForOtherNotify() {
+    public function seenAllOtherNotify() {
         try {
             $authUser = Auth::user();
             $this->notificationRepo->setSeenAllForOtherNotify($authUser->id);

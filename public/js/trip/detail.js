@@ -136,7 +136,6 @@ window.onload = function () {
     // onListener add comment
     Ref.on('child_added', function (firebaseResponse) {
         var comment = firebaseResponse.val();
-        console.log(comment);
         avatarSrc = comment.avatar ? `${window.location.origin}/asset/images/avatar/${comment.user_id}/${comment.avatar}` : `${window.location.origin}/asset/images/avatar/default/avatar_default.png`;
         var commentElement = `
                     <div class="row" id="comment_box_${firebaseResponse.key}">
@@ -153,8 +152,9 @@ window.onload = function () {
                                 </div>
                             </div>
                             <input type="text" class="edit_comment_input display_none_important" id="edit_comment_input_${firebaseResponse.key}" value="${comment.content}" data-comment-id="${firebaseResponse.key}" data-post-id="${tripId}">
-                        </div>
-                        <div class="display_inline_block comment_options">
+                        </div>`;
+        if(comment.user_id == R.userId) {
+            commentElement += `<div class="display_inline_block comment_options">
                             <div class="dropdown">
                                 <a class="" data-toggle="dropdown">
                                     <i class="material-icons">settings_ethernet</i>
@@ -164,8 +164,10 @@ window.onload = function () {
                                      <a class="dropdown-item" id="remove_comment_${firebaseResponse.key}" data-comment-id="${firebaseResponse.key}"> Xóa </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`
+        }
+        commentElement += `</div>`;
+
         $("div#comment_box_" + tripId + ">.list_comment").prepend(commentElement);
 
         $("#remove_comment_" + firebaseResponse.key).click(function () {
@@ -223,13 +225,6 @@ window.onload = function () {
             var tripId  = $(this).data('article-id');
             var message = $(this).val();
             var commentInput = $(this);
-            // var Ref = R.firebaseDB.ref('comments/trips/'+tripId).push();
-            // Ref.set({
-            //     username: "khanh",
-            //     content: message,
-            //     avatar: "",
-            //     id: 1
-            // });
             $.ajax({
                 url: '/comment/trip',
                 type: 'get',

@@ -78,7 +78,7 @@ class TripController extends Controller
             'time_end' => $request->time_end,
         ]);
 
-        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, false, $trip->id);
+        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $request->time_arrive, $request->time_leave, null, $trip->id);
         if($request->member) {
             $this->tripUserRepo->inviteFriends($trip->id, $request->member);
         }

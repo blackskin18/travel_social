@@ -63,6 +63,7 @@ class PostController extends Controller
     public function create(CreatePostRequest $request)
     {
         $authUser = Auth::user();
+
         $post = $this->postRepo->create([
             'user_id' => $authUser->id,
             'description' => preg_replace("/\r\n|\r|\n/", '<br/>', $request->post_description),
@@ -83,7 +84,7 @@ class PostController extends Controller
             }
         }
 
-        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $post->id, $trip->id ?? null);
+        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $request->time_arrive, $request->time_leave, $post->id, $trip->id ?? null);
         $this->postImageRepo->createMulti($request->photos, $post->id);
 
         return redirect()->back()->with('message', 'Operation Successful !');

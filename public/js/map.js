@@ -45,6 +45,8 @@ MapCustom.prototype.addListenerCreatePost = function (infoBoxSelector) {
                             <input type="hidden" name="lat[]" class="lat_position" value="${marker.getPosition().lat()}">
                             <input type="hidden" name="lng[]" class="lng_position" value="${marker.getPosition().lng()}">
                             <input type="hidden" name="marker_description[]" class="marker_description">
+                            <input type="hidden" name="time_arrive[]" class="time_arrive">
+                            <input type="hidden" name="time_leave[]" class="time_leave">
                             </div>`;
         $("div#marker_info_box").append(markerInfoHtml);
     });
@@ -80,31 +82,33 @@ MapCustom.prototype.makePostionMarker = function (location, infoBoxSelector, typ
 
     marker.addListener('click', function () {
         var index = that.findIndexOfMarker(location);
-        // console.log(index);
-        // var index = that.markerArray.findIndex(function (marker) {
-        //     return marker.getPosition().lat() === location.lat && marker.getPosition().lng() === location.lng
-        // });
-        console.log(parseFloat(that.markerArray[0].getPosition().lng().toFixed(6)) , parseFloat(location.lng.toFixed(6)));
-        // console.log(index);
+
         var descriptionMarker = $(infoBoxSelector + ">div.marker_info").eq(index).find(".marker_description").val();
+        var timeArrivePosition = $(infoBoxSelector + ">div.marker_info").eq(index).find(".time_arrive").val();
+        var timeLeavePosition = $(infoBoxSelector + ">div.marker_info").eq(index).find(".time_leave").val();
+        console.log(timeArrivePosition, timeLeavePosition);
         that.infoWindow.close();
 
         if (type === that.CREATE) {
             var content = `<div>
                     <textarea class="input-border" name="" id="infoWindow" cols="30" rows="3">${descriptionMarker}</textarea><br>
                     <label class="small">Thời gian bắt đầu:</label>
-                    <input type="datetime-local" class="form-control"><br>
+                    <input type="datetime-local" class="form-control" id="info_window_time_arrive" value="${timeArrivePosition}"><br>
                     <label class="small">Thời gian kết thúc:</label>
-                    <input type="datetime-local" class="form-control">
+                    <input type="datetime-local" class="form-control" id="info_window_time_leave" value="${timeLeavePosition}">
                 </div>`;
         } else {
             var content = `<div>
-                    <textarea class="input-border" name="" id="infoWindow" cols="30" rows="3" disabled>${descriptionMarker}</textarea><br>
-                    <label class="small">Thời gian bắt đầu</label>
-                    <input type="datetime-local" class="form-control"><br>
-                    <label class="small">Thời gian kết thúc</label>
-                    <input type="datetime-local" class="form-control">
-                </div>`;
+                    <textarea class="input-border" name="" id="infoWindow" cols="30" rows="3" disabled>${descriptionMarker}</textarea><br>`;
+            if(timeArrivePosition) {
+                content += `<label class="small">Thời gian bắt đầu</label>
+                <input type="datetime-local" name="time_arrive" class="form-control" id="info_window_time_arrive" value="${timeArrivePosition}" disabled><br>`
+            }
+            if(timeLeavePosition) {
+                content += `<label class="small">Thời gian kết thúc</label>
+                    <input type="datetime-local" name="time_leave" class="form-control" id="info_window_time_leave" value="${timeLeavePosition}" disabled>`
+            };
+            content += `</div>`;
         }
 
         that.infoWindow.setContent(content);
@@ -142,23 +146,36 @@ MapCustom.prototype.makePostionMarker = function (location, infoBoxSelector, typ
 
 MapCustom.prototype.makeInfoWindow = function () {
     var that = this;
-    var htmlAppend = '<div>' +
-        '<textarea class="input-border" name="" id="infoWindow" cols="30" rows="3"></textarea>' +
-        '</div>';
+    var htmlAppend = `<div>
+                    <textarea class="input-border" name="" id="infoWindow" cols="30" rows="3" disabled></textarea><br>
+                    <label class="small">Thời gian bắt đầu</label>
+                    <input type="datetime-local" name="time_arrive" id="info_window_time_arrive" ><br>
+                    <label class="small">Thời gian kết thúc</label>
+                    <input type="datetime-local" name="time_leave" id="info_window_time_leave">
+                </div>`;
     var localInfoWindow = new google.maps.InfoWindow({
         content: htmlAppend
     });
 
-    localInfoWindow.addListener('domready', function () {
-        $("#infoWindow").change(function () {
-            var index = that.findIndexOfMarker({
-                lat: localInfoWindow.getPosition().lat(),
-                lng: localInfoWindow.getPosition().lng()
-            });
-            var infoValue = $("#infoWindow").val();
-
-            $("div#marker_info_box > div.marker_info").eq(index).find(".marker_description").val(infoValue);
+    var infoWindowListener = function() {
+        var index = that.findIndexOfMarker({
+            lat: localInfoWindow.getPosition().lat(),
+            lng: localInfoWindow.getPosition().lng()
         });
+        var infoValue = $("#infoWindow").val();
+        var timeArrive = $("#info_window_time_arrive").val();
+        var timeLeave = $("#info_window_time_leave").val();
+
+        $("div#marker_info_box > div.marker_info").eq(index).find(".marker_description").val(infoValue);
+        $("div#marker_info_box > div.marker_info").eq(index).find(".time_arrive").val(timeArrive);
+        console.log($("div#marker_info_box > div.marker_info").eq(index).find(".time_arrive"));
+        $("div#marker_info_box > div.marker_info").eq(index).find(".time_leave").val(timeLeave);
+    };
+
+    localInfoWindow.addListener('domready', function () {
+        $("#infoWindow").change(infoWindowListener);
+        $("#info_window_time_arrive").change(infoWindowListener);
+        $("#info_window_time_leave").change(infoWindowListener);
     });
 
     return localInfoWindow;

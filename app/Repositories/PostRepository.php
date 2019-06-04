@@ -94,7 +94,7 @@ class PostRepository extends BaseRepository
     }
 
     public function searchPost($searchText, $authUserId) {
-        $posts = Post::where('description', 'like', '%'.$searchText.'%')->get();
+        $posts = Post::where('description', 'like', '%'.$searchText.'%')->orderBy('created_at', 'desc')->get();
         return $this->checkBeLiked($posts, $authUserId);
     }
 

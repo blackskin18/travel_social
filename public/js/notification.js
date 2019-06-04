@@ -247,7 +247,7 @@ $(function () {
         if(numberNotification > 0) {
             $.ajax({
                 url: '/notification/seen_all_friend_notification',
-                type: 'post',
+                type: 'get',
                 success: function (responese) {
                     $('div.count_friend_notify').css('display', 'none');
                 },
