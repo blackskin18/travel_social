@@ -156,8 +156,8 @@ class PostController extends Controller
         $post = $this->postRepo->with('position')->find($post_id);
         if (Auth::user()->can('update', $post) && $post) {
             if ($request->lat && $request->lng && $request->marker_description && count($request->lat) === count($request->lng) && count($request->lng) === count($request->marker_description)) {
-                $this->positionRepo->deleteOldPositions($post->id);
-                $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $post->id);
+                $this->positionRepo->deleteOldPositions($post->id, null);
+                $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $request->time_arrive, $request->time_leave, $post->id);
                 $post->description = $request->post_description;
                 $post->save();
             }

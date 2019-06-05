@@ -59,7 +59,7 @@ class UserRepository extends BaseRepository
     public function getAllFriendOfUser($userId, $authUserId)
     {
         //user's friends
-        $friendShipsOfUser = $this->friendRepo->getAllFriendOfUser($userId);
+        $friendShipsOfUser = $this->friendRepo->getAllFriendShipOfUser($userId);
         //auth user's friends
         $allFriendshipIdsOfAuthUser = $this->friendRepo->getAllFriendIdOfUser($authUserId);
         // friends of auth user and user

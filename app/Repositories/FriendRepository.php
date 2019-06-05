@@ -114,7 +114,20 @@ class FriendRepository extends BaseRepository
         ];
     }
 
+    public function getAllFriendShipOfUser($userId) {
+        return Friend::where('user_two_id', $userId)->where('type', self::ACCEPT)->orWhere('user_one_id', $userId)->where('type', self::ACCEPT)->get();
+    }
+
     public function getAllFriendOfUser($userId) {
-        return Friend::where('user_two_id', $userId)->orWhere('user_one_id', $userId)->get();
+        $allFriendShip =  Friend::where('user_two_id', $userId)->where('type', self::ACCEPT)->orWhere('user_one_id', $userId)->where('type', self::ACCEPT)->get();
+        $userFriends = [];
+        foreach ($allFriendShip as $friendShip) {
+            if ($friendShip->user_one_id === $userId) {
+                array_push($userFriends, $friendShip->userTwo);
+            } elseif($friendShip->user_two_id === $userId) {
+                array_push($userFriends, $friendShip->userOne);
+            }
+        }
+        return $userFriends;
     }
 }

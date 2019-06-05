@@ -38,4 +38,14 @@ $(function () {
         let searchText = $("#search_input").val();
         window.location.href = window.location.origin + '/search/post?search_text='+searchText;
     });
+
+    $("#btn_show_menu").click(function () {
+        var displayType = $(".left-menu").css('display');
+        if(displayType == 'none') {
+            $(".left-menu").css('display', 'block');
+        } else {
+            $(".left-menu").css('display', 'none');
+        }
+    });
+
 });

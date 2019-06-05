@@ -34,7 +34,7 @@
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item btn_show_map" data-trip-id="{{ $trip->id }}">
-                                show map
+                                Xem lịch trình
                             </a>
                             <a class="dropdown-item" id="btn_show_member" data-toggle="modal"
                                data-target="#list_member_modal">
@@ -71,15 +71,7 @@
 
         {{--position info--}}
         <div class="hidden_input" id="trip_info_position_{{$trip->id}}">
-            @foreach($trip->position as $key => $position)
-                <div class="marker_info">
-                    <input type="" class="lat_position" value="{{ $position->lat }}">
-                    <input type="" class="lng_position" value="{{ $position->lng }}">
-                    <input type="" class="marker_description" value="{{ $position->description }}">
-                    <input type="datetime-local" class="time_arrive" value="{{ $position->time_arrive ? date('Y-m-d\TH:i:s', strtotime($position->time_arrive)) : ''}}">
-                    <input type="datetime-local" class="time_leave" value="{{ $position->time_arrive ? date('Y-m-d\TH:i:s', strtotime($position->time_leave)) : ''}}">
-                </div>
-            @endforeach
+            @include('utils.position_info', ['post' => $trip] )
         </div>
         <div>
             <h1> {{ $trip->title }} </h1>
@@ -288,5 +280,5 @@
     <script src="{{ url('js/trip/detail.js') }}"></script>
 @endsection
 @section('map')
-    @include('user.include.map')
+    @include('utils.map')
 @endsection

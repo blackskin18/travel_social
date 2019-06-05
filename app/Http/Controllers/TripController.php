@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTripRequest;
+use App\Repository\FriendRepository;
 use App\Repository\PositionRepository;
 use App\Repository\TripRepository;
 use App\Repository\TripUserRepository;
@@ -25,13 +26,15 @@ class TripController extends Controller
     private $tripUserRepo;
 
     private $dbRealtime;
+    private $friendRepo;
 
     public function __construct(
         UserRepository $userRepo,
         TripRepository $tripRepo,
         PositionRepository $positionRepo,
         TripUserRepository $tripUserRepo,
-        DatabaseRealtimeService $dbRealtime
+        DatabaseRealtimeService $dbRealtime,
+        FriendRepository $friendRepo
     ) {
         $this->middleware('auth');
         $this->dbRealtime = $dbRealtime;
@@ -39,6 +42,7 @@ class TripController extends Controller
         $this->tripRepo = $tripRepo;
         $this->positionRepo = $positionRepo;
         $this->tripUserRepo = $tripUserRepo;
+        $this->friendRepo = $friendRepo;
     }
 
     public function followPosition($tripId)
@@ -48,12 +52,12 @@ class TripController extends Controller
         $members = $trip->tripUser;
         if($authUser->id === $trip->user_id) {
             $firebaseToken = $this->dbRealtime->getFirebaseToken($trip->id);
-            return view('trip.index')->with('user_join', $members)->with('trip', $trip)->with('firebase_token', $firebaseToken);
+            return view('trip.follow_position')->with('user_join', $members)->with('trip', $trip)->with('firebase_token', $firebaseToken);
         }
         foreach ($members as $member) {
             if ($member->id === $authUser->id) {
                 $firebaseToken = $this->dbRealtime->getFirebaseToken($trip->id);
-                return view('trip.index')->with('user_join', $members)->with('trip', $trip)->with('firebase_token', $firebaseToken);
+                return view('trip.follow_position')->with('user_join', $members)->with('trip', $trip)->with('firebase_token', $firebaseToken);
             }
         }
         return "Error";
@@ -62,7 +66,7 @@ class TripController extends Controller
     public function create()
     {
         $authUser = Auth::user();
-        $users = $this->userRepo->findWhereNotIn('id', [$authUser->id]);
+        $users = $this->friendRepo->getAllFriendOfUser($authUser->id);
 
         return view('trip.create')->with('users', $users);
     }
@@ -106,12 +110,13 @@ class TripController extends Controller
     public function show($tripId)
     {
         try {
+            $authUser = Auth::user();
             $trip = $this->tripRepo->with('tripUser')->with('user')->find($tripId);
             //$invitations = $this->tripUserRepo->with('user')->findWhere(['trip_id' => $tripId]);
             $invitations = $this->tripUserRepo->getAllInvitationOfTrip($tripId);
             $members = $this->tripUserRepo->getAllMemberOfTrip($tripId);
             $joinRequests = $this->tripUserRepo->getAllJoinRequestOfTrip($tripId);
-            $friends = $this->userRepo->findWhereNotIn('id', [Auth::user()->id]);
+            $friends = $this->friendRepo->getAllFriendOfUser($authUser->id);
 
             return view('trip.detail')->with([
                 'trip' => $trip,
@@ -184,7 +189,8 @@ class TripController extends Controller
             'time_start' => $request->time_start,
             'time_end' => $request->time_end,
         ], $trip_id);
-        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, false, $trip->id);
+        $this->positionRepo->deleteOldPositions(null, $trip->id);
+        $this->positionRepo->createPositions($request->lat, $request->lng, $request->marker_description, $request->time_arrive, $request->time_leave, false, $trip->id);
 
         return redirect()->route('trip.show', ['trip_id' => $trip_id]);
     }

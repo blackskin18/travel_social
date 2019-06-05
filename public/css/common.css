@@ -2,6 +2,14 @@ a {
     border-bottom-color: transparent;
 }
 
+.login_link, .register_link {
+    color: white;
+}
+
+.login_link:hover, .register_link:hover {
+    color: white !important;
+}
+
 .pointer {
     cursor: pointer;
 }
@@ -510,4 +518,64 @@ div.left-menu > ul > li {
 
 div.left-menu > ul > li > a {
     color: white;
+}
+
+#map_search_position_panel {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
+div.show_menu_icon {
+    display: none;
+    width: 2%;
+    margin: 0 0 0 20px;
+}
+
+@media screen and (max-width: 360px) {
+    .left-menu {
+        z-index: 10;
+        display: none;
+    }
+    div.content_container {
+        width: 100%;
+    }
+
+    #map_search_position_panel{
+        top: 40px;
+        left: 10%;
+    }
+
+    .menu-header .logo {
+        display: none;
+    }
+
+    div.show_menu_icon {
+        display: block;
+    }
+
+    div.search-box {
+        display: none;
+    }
+
+    div.avatar_nav_box {
+        display: none;
+    }
+
+    #btn_show_friend_notify{
+        left: 40%;
+    }
+    #btn_show_trip_member_notify{
+        left: 50%;
+    }
+    #btn_show_other_notify{
+        left: 60%;
+    }
 }

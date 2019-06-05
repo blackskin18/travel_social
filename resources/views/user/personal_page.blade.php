@@ -8,12 +8,12 @@
                 <header class="major">
                     <h2> Tạo bài viết của bạn</h2>
                 </header>
-                @include('include.create_post')
+                @include('post.create_post')
             </section>
         @endif
-        @include('post.include.list_post', ["$posts" => $posts])
+        @include('post.list_post', ["$posts" => $posts])
     </div>
 @endsection
 @section('map')
-    @include('user.include.map')
+    @include('utils.map')
 @endsection

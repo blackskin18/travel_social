@@ -1,6 +1,6 @@
 @include('common.header')
 
-@include('common.menu')
+@include('utils.menu')
 
 @yield('content')
 

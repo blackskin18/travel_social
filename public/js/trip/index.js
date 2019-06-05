@@ -1,8 +1,8 @@
 window.onload = function () {
     var firebaseToken = $("input#firebase_token").val();
+    console.log(firebaseToken);
 
     R.firebase.auth().signInWithCustomToken(firebaseToken).then(function (respone) {
-        console.log(respone);
         var map = new MapCustom();
         map.initMap();
         map.startFollowPosition();

@@ -10,13 +10,15 @@
                   enctype="multipart/form-data">
                 @csrf
                 <div>
-                    <div id="marker_info_box">
+                    <div id="marker_info_box" class="display_none">
                         @foreach($post->position as $key => $position)
                             <div class="marker_info">
                                 <input type="hidden" name="lat[]" class="lat_position" value="{{$position->lat}}">
                                 <input type="hidden" name="lng[]" class="lng_position" value="{{$position->lng}}">
                                 <input type="hidden" name="marker_description[]" class="marker_description"
                                        value="{{$position->description}}">
+                                <input type="datetime-local" name="time_arrive[]" class="time_arrive" value="{{ $position->time_arrive ? date('Y-m-d\TH:i:s', strtotime($position->time_arrive)) : ''}}">
+                                <input type="datetime-local" name="time_leave[]" class="time_leave" value="{{ $position->time_arrive ? date('Y-m-d\TH:i:s', strtotime($position->time_leave)) : ''}}">
                             </div>
                         @endforeach
                     </div>
@@ -24,7 +26,6 @@
                 <div style="margin-bottom: 20px">
                     <textarea class="input-border" id="post_description" name="post_description" cols="30"
                               rows="3">{{$post->description}}</textarea>
-
                 </div>
 
                 <div class="row image_list" id="image_list_{{$post->id}}">
@@ -58,5 +59,5 @@
     <script src="{{url('js/post/edit.js')}}"></script>
 @endsection
 @section('map')
-    @include('user.include.map')
+    @include('utils.map')
 @endsection

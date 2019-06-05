@@ -11,6 +11,7 @@ function MapCustom() {
 }
 
 MapCustom.prototype.initMap = function () {
+    var that = this;
     this.map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 21.0245, lng: 105.84117},
         zoom: 10
@@ -18,6 +19,11 @@ MapCustom.prototype.initMap = function () {
 
     // var trafficLayer = new google.maps.TrafficLayer();
     // trafficLayer.setMap(this.map);
+
+    var geocoder = new google.maps.Geocoder();
+    document.getElementById('map_search_position').addEventListener('click', function() {
+        that.geocodeAddress(geocoder, that.map);
+    });
 
     for (var i = 0; i < this.markerArray.length; i++) {
         this.markerArray[i].setMap(null);
@@ -37,6 +43,17 @@ MapCustom.prototype.initMap = function () {
     this.geocoder = new google.maps.Geocoder();
 };
 
+MapCustom.prototype.geocodeAddress = function(geocoder, resultsMap) {
+    var address = document.getElementById('address').value;
+    geocoder.geocode({'address': address}, function(results, status) {
+        if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
 MapCustom.prototype.addListenerCreatePost = function (infoBoxSelector) {
     var that = this;
     this.listener = this.map.addListener('click', function (event) {
@@ -49,6 +66,7 @@ MapCustom.prototype.addListenerCreatePost = function (infoBoxSelector) {
                             <input type="hidden" name="time_leave[]" class="time_leave">
                             </div>`;
         $("div#marker_info_box").append(markerInfoHtml);
+        console.log(markerInfoHtml)
     });
 
     var sumMarkers = $("div#marker_info_box > div").length;
@@ -79,6 +97,8 @@ MapCustom.prototype.makePostionMarker = function (location, infoBoxSelector, typ
         map: this.map,
         draggable: true
     });
+
+    console.log("1111");
 
     marker.addListener('click', function () {
         var index = that.findIndexOfMarker(location);

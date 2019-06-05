@@ -31,6 +31,8 @@
                             <input type="hidden" name="lng[]" class="lng_position" value="{{$position->lng}}">
                             <input type="hidden" name="marker_description[]" class="marker_description"
                                    value="{{$position->description}}">
+                            <input type="datetime-local" name="time_arrive[]" class="time_arrive" value="{{ $position->time_arrive ? date('Y-m-d\TH:i:s', strtotime($position->time_arrive)) : ''}}">
+                            <input type="datetime-local" name="time_leave[]" class="time_leave" value="{{ $position->time_arrive ? date('Y-m-d\TH:i:s', strtotime($position->time_leave)) : ''}}">
                         </div>
                     @endforeach
                 </div>
@@ -44,5 +46,5 @@
     <script src="{{url("js/trip/edit.js")}}"></script>
 @endsection
 @section('map')
-    @include('user.include.map')
+    @include('utils.map')
 @endsection

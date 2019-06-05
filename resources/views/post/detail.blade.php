@@ -7,11 +7,11 @@
 
     {{--comment real time--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-    <script src="{{ url('js/User/Include/post.js') }}"></script>
+    <script src="{{ url('js/post/post.js') }}"></script>
 @endsection
 @section('head')
 
 @endsection
 @section('map')
-    @include('user.include.map')
+    @include('utils.map')
 @endsection

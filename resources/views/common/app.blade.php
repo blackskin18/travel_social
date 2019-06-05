@@ -12,7 +12,6 @@
           integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous'>
     <link rel="stylesheet" href="{{ url('css/main.css') }}"/>
     <link rel="stylesheet" href="{{ url('css/common.css') }}"/>
-
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -39,14 +38,15 @@
         </div>
         <div class="col-lg-8 display_inline_block">
         </div>
-        <div class="col-lg-2 display_inline_block">
+        <div class="col-lg-2 display_inline_block" style="bottom: 10px">
             <div class="row">
-                <a href="" class="col-lg-6 text-white text-center"> Đăng nhập</a>
-                <a href="" class="col-lg-6 text-white text-center"> Đăng ký</a>
+                <a href="{{ route('login') }}" class="col-lg-6 login_link nav-link"> Đăng nhập </a>
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="col-lg-6 register_link nav-link"> Đăng ký </a>
+                @endif
             </div>
         </div>
     </div>
-
 </nav>
 @yield('content')
 </body>

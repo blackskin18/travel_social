@@ -1,11 +1,11 @@
 @extends('common.master')
 @section('content')
     <div class="content_container">
-        <form action="{{ route('trip.store') }}" method="POST">
+        <form action="{{ route('trip.store') }}" method="POST" id="form_create_trip">
             @csrf
             <div class="form-group">
                 <label for="email">Tên chuyến đi:</label>
-                <input type="text" name="title" class="form-control" id="title">
+                <input type="text" name="title" class="form-control"  id="trip_title_input">
             </div>
             <div class="form-group">
                 <label for="email">Mô tả chuyến đi:</label>
@@ -14,11 +14,11 @@
             </div>
             <div class="form-group">
                 <label for="pwd"> Thời gian đi: </label>
-                <input type="date" name="time_start" class="form-control" id="pwd">
+                <input type="date" name="time_start" class="form-control"  id="time_start_input">
             </div>
             <div class="form-group">
                 <label for="pwd"> Thời gian về: </label>
-                <input type="date" name="time_end" class="form-control" id="pwd">
+                <input type="date" name="time_end" class="form-control" id="time_end_input">
             </div>
             <div class="form-group">
                 <label for="member"> Mời bạn bè </label>
@@ -34,18 +34,19 @@
                 <div id="marker_info_box">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <a href="#" class="button w-100" id="btn_create_map">Tạo lịch trình</a>
-                </div>
-                <div class="col-lg-6">
-                    <button type="submit" class="button primary w-100">Submit</button>
-                </div>
-            </div>
         </form>
+        <div class="row">
+            <div class="col-lg-6">
+                <a href="#" class="button w-100" id="btn_create_map">Tạo lịch trình</a>
+            </div>
+            <div class="col-lg-6">
+                <button id="btn_create_trip" class="button primary w-100">Submit</button>
+            </div>
+        </div>
     </div>
+
     <script src="{{url("js/trip/create.js")}}"></script>
 @endsection
 @section('map')
-    @include('user.include.map')
+    @include('utils.map')
 @endsection

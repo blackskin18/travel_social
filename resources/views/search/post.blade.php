@@ -6,7 +6,7 @@
         <h1 class="text-center text-info">
             Kết quả tìm kiếm bài viết
         </h1>
-        @include('post.include.list_post', ["$posts" => $posts])
+        @include('post.list_post', ["$posts" => $posts])
     </div>
 
 @endsection
@@ -14,5 +14,5 @@
 
 @endsection
 @section('map')
-    @include('user.include.map')
+    @include('utils.map')
 @endsection

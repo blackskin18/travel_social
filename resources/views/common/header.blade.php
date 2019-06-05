@@ -53,7 +53,9 @@
             <i class='notification_icon fas fa-home' style='font-size:36px'></i>
         </div>
     </a>
-
+    <div class="show_menu_icon" >
+        <i class="notification_icon material-icons" id="btn_show_menu">menu</i>
+    </div>
     <div class="search-box">
         <input class="search" type="text" id="search_input">
         <div class="dropdown display_inline_block">

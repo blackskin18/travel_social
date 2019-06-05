@@ -34,7 +34,7 @@ class UserController extends Controller
         $friendshipInfo = $this->friendRepo->getFriendshipInfo($authUser->id, $user->id);
         if ($user) {
             $posts = $this->postRepository->getListCreateByUser($user->id, $authUser->id);
-            $allUser = $this->userRepository->findWhereNotIn('id', [$authUser->id]);
+            $allUser = $this->friendRepo->getAllFriendOfUser($authUser->id);
             return view('user.personal_page')
                 ->with('user', $user)
                 ->with('allUser', $allUser)

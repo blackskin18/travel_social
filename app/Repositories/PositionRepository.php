@@ -16,9 +16,14 @@ class PositionRepository extends BaseRepository
         return "App\\Model\\Position";
     }
 
-    public function deleteOldPositions($post_id)
+    public function deleteOldPositions($postId, $tripId)
     {
-        $this->deleteWhere(['post_id' => $post_id]);
+        if($postId) {
+            $this->deleteWhere(['post_id' => $postId]);
+        }
+        if($tripId) {
+            $this->deleteWhere(['trip_id' => $tripId]);
+        }
     }
 
     public function createPositions(
