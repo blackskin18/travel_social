@@ -36,6 +36,16 @@
                             <a class="dropdown-item btn_show_map" data-trip-id="{{ $trip->id }}">
                                 Xem lịch trình
                             </a>
+                            @if( (new DateTime($trip->time_start))->getTimestamp() <= (new DateTime())->getTimestamp() &&
+                                (new DateTime($trip->time_end))->getTimestamp() >= (new DateTime())->getTimestamp())
+                                <a href="{{ route('trip.follow_position', ['trip_id' =>$trip->id])  }}" class="dropdown-item">
+                                    Theo dõi chuyến đi
+                                </a>
+                            @else
+                                <a class="dropdown-item bg-danger">
+                                    Theo dõi chuyến đi
+                                </a>
+                            @endif
                             <a class="dropdown-item" id="btn_show_member" data-toggle="modal"
                                data-target="#list_member_modal">
                                 Thành viên </a>
@@ -64,7 +74,6 @@
                         </div>
                     </div>
                 </div>
-
             </article>
         </div>
         {{--end header--}}
@@ -76,7 +85,7 @@
         <div>
             <h1> {{ $trip->title }} </h1>
 
-            <p>{{ $trip->description }}</p>
+            <p>{!! $trip->description !!}</p>
 
             <table class="table table-striped">
                 <tbody>

@@ -2,15 +2,13 @@ $(function () {
     var lastEdit = null;
     $(".edit_info_btn").click(function () {
         var elementId =$(this).prop('id');
-        console.log(elementId);
         var valuePanel = $(this).parent().parent().children().eq(1);
         var oldValue = valuePanel.text();
         var buttonEdit = $(this);
 
-
         $(".submit").remove();
         $(".cancel").remove();
-        $(".edit_info_btn").css('display', 'block')
+        $(".edit_info_btn").css('display', 'block');
         $(".edit_info_btn").prop("disabled", false);
         if(lastEdit) {
             if($("#"+lastEdit).parent().parent().children().eq(1).children().eq(0)) {
@@ -33,6 +31,8 @@ $(function () {
                                                             <option value="Nữ">Nữ</option>
                                                             <option value="Khác">Khác</option>
                                                     </select> `);
+        } else if(elementId === 'edit_phone'){
+            $(this).parent().parent().children().eq(1).html(`<input type="number" class="content" value="${oldValue}" style="border: 1px solid #b0d4f1">`);
         } else {
             $(this).parent().parent().children().eq(1).html(`<input type="text" class="content" value="${oldValue}" style="border: 1px solid #b0d4f1">`);
         }
@@ -51,6 +51,8 @@ $(function () {
         $("button.submit").click(function () {
             var that = $(this);
             var value = $(this).parent().parent().children().eq(1).children().eq(0).val();
+            console.log(typeof value);
+            // if(elementId === 'edit_phone' &&)
 
             $(this).parent().children().eq(2).remove();
             $(this).parent().children().eq(1).remove();

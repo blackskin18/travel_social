@@ -46,7 +46,7 @@ Route::post('/like', 'LikeController@addLike')->name('like.add');
 Route::get('storage/post/{postId}/{filename}', 'FileStorageController@getPostImage')->name('file.post_image');
 
 //trip
-Route::get('trip/follow_position/{tripId}', 'TripController@followPosition')->name('location.service');
+Route::get('trip/follow_position/{tripId}', 'TripController@followPosition')->name('trip.follow_position');
 Route::get('trip/create', 'TripController@create')->name('trip.create');
 Route::get('trip/detail_info/{tripId}', 'TripController@show')->name('trip.show');
 Route::get('trip/list', 'TripController@showList')->name('trip.list');

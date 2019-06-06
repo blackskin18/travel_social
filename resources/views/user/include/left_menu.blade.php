@@ -1,6 +1,6 @@
 <style>
     #header {
-        background-image: url({{ url('asset/images/cover/'.$user->cover) }}), url(../../images/bg.jpg);
+        background-image: url({{ url('asset/images/cover/'.$user->cover) }}), url({{url('asset/images/cover/cover_default.jpg')}});
     }
 </style>
 <header id="header">

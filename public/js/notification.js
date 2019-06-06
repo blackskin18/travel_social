@@ -54,39 +54,43 @@ $(function () {
             // someone want to join your trip
             if (notifications[i].type == COMMENT_POST) {
                 htmlElement += `<div class="dropdown-item border-bottom pl-0 pr-0" style="background: ${notifications[i].seen == 0 ? "#dddddd": "#ffffff"}">
-                                    <div class="media">
-                                        <a href="/user/personal-page/${notifications[i].user_send.id}">
-                                            <img
-                                                src="${notifications[i].user_send.avatar ? '/asset/images/avatar/' + notifications[i].user_send.id + '/' + notifications[i].user_send.avatar : '/asset/images/avatar/default/avatar_default.png'}"
-                                                alt="${notifications[i].user_send.name}" class="mr-3 rounded-circle"
-                                                style="width:60px;">
-                                        </a>                                    
-                                        <div class="media-body">
-                                            <div class="media-body">
-                                                <h3 class="mt-1 mb-0">${notifications[i].user_send.name}</h3>
-                                                <p class="mb-0 text-dark"> ${notifications[i].user_receive.id === notifications[i].post.user_id ? "Đã bình luận trong bài viết của bạn": "Đã bình luận trong bài viết mà bạn đang theo dõi"}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                             </div>`;
+                    <div class="media">
+                        <a href="/user/personal-page/${notifications[i].user_send.id}">
+                            <img
+                                src="${notifications[i].user_send.avatar ? '/asset/images/avatar/' + notifications[i].user_send.id + '/' + notifications[i].user_send.avatar : '/asset/images/avatar/default/avatar_default.png'}"
+                                alt="${notifications[i].user_send.name}" class="mr-3 rounded-circle"
+                                style="width:60px;">
+                        </a>                                    
+                        <div class="media-body">
+                            <div class="media-body">
+                                <a href="/post/detail/${notifications[i].post_id}">
+                                    <h3 class="mt-1 mb-0">${notifications[i].user_send.name}</h3>
+                                    <p class="mb-0 text-dark"> ${notifications[i].user_receive.id === notifications[i].post.user_id ? "Đã bình luận trong bài viết của bạn": "Đã bình luận trong bài viết mà bạn đang theo dõi"}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                 </div>`;
             } else if (notifications[i].type == COMMENT_TRIP){
             } else if (notifications[i].type == LIKE_POST) {
             htmlElement += `<div class="dropdown-item border-bottom pl-0 pr-0" style="background: ${notifications[i].seen == 0 ? "#dddddd": "#ffffff"}">
-                                    <div class="media">
-                                        <a href="/user/personal-page/${notifications[i].user_send.id}">
-                                            <img
-                                                src="${notifications[i].user_send.avatar ? '/asset/images/avatar/' + notifications[i].user_send.id + '/' + notifications[i].user_send.avatar : '/asset/images/avatar/default/avatar_default.png'}"
-                                                alt="${notifications[i].user_send.name}" class="mr-3 rounded-circle"
-                                                style="width:60px;">
-                                        </a>                                    
-                                        <div class="media-body">
-                                            <div class="media-body">
-                                                <h3 class="mt-1 mb-0">${notifications[i].user_send.name}</h3>
-                                                <p class="mb-0 text-dark"> Đã thích bài viết của bạn</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                             </div>`;
+                    <div class="media">
+                        <a href="/user/personal-page/${notifications[i].user_send.id}">
+                            <img
+                                src="${notifications[i].user_send.avatar ? '/asset/images/avatar/' + notifications[i].user_send.id + '/' + notifications[i].user_send.avatar : '/asset/images/avatar/default/avatar_default.png'}"
+                                alt="${notifications[i].user_send.name}" class="mr-3 rounded-circle"
+                                style="width:60px;">
+                        </a>                                    
+                        <div class="media-body">
+                            <div class="media-body">
+                                <a href="/post/detail/${notifications[i].post_id}">
+                                    <h3 class="mt-1 mb-0">${notifications[i].user_send.name}</h3>
+                                    <p class="mb-0 text-dark"> Đã thích bài viết của bạn</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+             </div>`;
             }
         }
         return htmlElement;
@@ -98,102 +102,111 @@ $(function () {
             // someone want to join your trip
             if (notifications[i].type == JOIN_REQUEST && notifications[i].status == PENDING) {
                 htmlElement += `<div class="dropdown-item border-bottom pl-0 pr-0" style="background: ${notifications[i].seen == 0 ? "#dddddd": "#ffffff"}">
-                                     <a href="/trip/detail_info/${notifications[i].trip_id}">
-                                          <h3 class="text-center">
-                                                ${notifications[i].trip.title}
-                                          </h3>
-                                     </a>
-                                    <div class="media">
-                                        <a href="/user/personal-page/${notifications[i].user_id}">
-                                            <img
-                                                src="${notifications[i].user.avatar ? '/asset/images/avatar/' + notifications[i].user.id + '/' + notifications[i].user.avatar : '/asset/images/avatar/default/avatar_default.png'}"
-                                                alt="${notifications[i].user.name}" class="mr-3 rounded-circle"
-                                                style="width:60px;">
-                                        </a>                                    
-                                        <div class="media-body">
-                                            <div class="media-body">
-                                                <h3 class="mt-1 mb-0">${notifications[i].user.name}</h3>
-                                                <p class="mb-0 text-dark"> Muốn tham gia vào chuyến đi của bạn </p>
-                                            </div>
-                                        </div>
-                                        <div class="ml-4">
-                                            <button class="btn btn-primary w-100 btn_accept_join_request" 
-                                                data-trip-id="${notifications[i].trip_id}"
-                                                data-friend-id="${notifications[i].user.id}"> Đồng ý </button><br>
-                                            <button class="btn btn-danger w-100 btn_reject_request_join" 
-                                                data-trip-id="${notifications[i].trip_id}"
-                                                data-friend-id="${notifications[i].user.id}">Hủy</button>
-                                        </div>
-                                    </div>
-                             </div>`;
+                     <a href="/trip/list">
+                          <h3 class="text-center">
+                                ${notifications[i].trip.title}
+                          </h3>
+                     </a>
+                    <div class="media">
+                        <a href="/user/personal-page/${notifications[i].user_id}">
+                            <img
+                                src="${notifications[i].user.avatar ? '/asset/images/avatar/' + notifications[i].user.id + '/' + notifications[i].user.avatar : '/asset/images/avatar/default/avatar_default.png'}"
+                                alt="${notifications[i].user.name}" class="mr-3 rounded-circle"
+                                style="width:60px;">
+                        </a>         
+                            <div class="media-body">
+                                <div class="media-body">
+                                    <a href="/trip/list">
+                                        <h3 class="mt-1 mb-0">${notifications[i].user.name}</h3>
+                                        <p class="mb-0 text-dark"> Muốn tham gia vào chuyến đi của bạn </p>
+                                    </a>                           
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <button class="btn btn-primary w-100 btn_accept_join_request" 
+                                    data-trip-id="${notifications[i].trip_id}"
+                                    data-friend-id="${notifications[i].user.id}"> Đồng ý </button><br>
+                                <button class="btn btn-danger w-100 btn_reject_request_join" 
+                                    data-trip-id="${notifications[i].trip_id}"
+                                    data-friend-id="${notifications[i].user.id}">Hủy</button>
+                            </div>
+
+                    </div>
+                 </div>`;
             }
             // your join request was accepted
             if (notifications[i].type == JOIN_REQUEST && notifications[i].status == ACCEPT) {
                 htmlElement += `<div class="dropdown-item border-bottom pl-0 pr-0" style="background: ${notifications[i].seen == 0 ? "#dddddd": "#ffffff"}">
-                                     <a href="/trip/detail_info/${notifications[i].trip_id}">
-                                          <h3 class="text-center">
-                                                ${notifications[i].trip.title}
-                                          </h3>
-                                     </a>
-                                     <div class="media">
-                                            <img
-                                                src="${notifications[i].trip.user.avatar ? '/asset/images/avatar/' + notifications[i].trip.user.id + '/' + notifications[i].trip.user.avatar : '/asset/images/avatar/default/avatar_default.png'}"
-                                                alt="${notifications[i].trip.user.name}" class="mr-3 rounded-circle"
-                                                style="width:60px;">
-                                            <div class="media-body">
-                                                <h3 class="mt-1 mb-0">${notifications[i].trip.user.name}</h3>
-                                                <p class="mb-0 text-dark">Đã chấp nhận yêu cầu tham gia chuyến đi của bạn </p>
-                                            </div>
-                                        </div>
-                                </div>`;
+                     <a href="/trip/list">
+                          <h3 class="text-center">
+                                ${notifications[i].trip.title}
+                          </h3>
+                     </a>
+                     <div class="media">
+                        <img
+                            src="${notifications[i].trip.user.avatar ? '/asset/images/avatar/' + notifications[i].trip.user.id + '/' + notifications[i].trip.user.avatar : '/asset/images/avatar/default/avatar_default.png'}"
+                            alt="${notifications[i].trip.user.name}" class="mr-3 rounded-circle"
+                            style="width:60px;">
+                            <div class="media-body">
+                                <a href="/trip/list">
+                                    <h3 class="mt-1 mb-0">${notifications[i].trip.user.name}</h3>
+                                    <p class="mb-0 text-dark">Đã chấp nhận yêu cầu tham gia chuyến đi của bạn </p>
+                                </a>
+                            </div>
+                        </div>
+                </div>`;
             }
             // someone invite you to join their trip
             if (notifications[i].type == INVITATION && notifications[i].status == PENDING) {
                 htmlElement += `<div class="dropdown-item border-bottom pl-0 pr-0" style="background: ${notifications[i].seen == 0 ? "#dddddd": "#ffffff"}">
-                                     <a href="/trip/detail_info/${notifications[i].trip_id}">
-                                          <h3 class="text-center">
-                                                ${notifications[i].trip.title}
-                                          </h3>
-                                     </a>
-                                     <div class="media">
-                                          <img
-                                              src="${notifications[i].trip.user.avatar ? '/asset/images/avatar/' + notifications[i].trip.user.id + '/' + notifications[i].trip.user.avatar : '/asset/images/avatar/default/avatar_default.png'}"
-                                              alt="${notifications[i].trip.user.name}" class="mr-3 rounded-circle"
-                                              style="width:60px;">
-                                          <div class="media-body">
-                                              <h3 class="mt-1 mb-0">${notifications[i].trip.user.name}</h3>
-                                              <p class="mb-0 text-dark"> Mời bạn tham gia chuyến đi của họ</p>
-                                          </div>
-                                          <div class="ml-4">
-                                              <button class="btn btn-primary w-100 btn_accept_invitation" 
-                                                  data-trip-id="${notifications[i].trip_id}"
-                                                  data-friend-id="${notifications[i].user.id}"> Đồng ý </button><br>
-                                              <button class="btn btn-danger w-100 btn_reject_invitation"
-                                                  data-trip-id="${notifications[i].trip_id}" 
-                                                  data-friend-id="${notifications[i].user.id}">Hủy</button>
-                                          </div>
-                                     </div>
-                                </div>`;
+                     <a href="/trip/list">
+                          <h3 class="text-center">
+                                ${notifications[i].trip.title}
+                          </h3>
+                     </a>
+                     <div class="media">
+                          <img
+                              src="${notifications[i].trip.user.avatar ? '/asset/images/avatar/' + notifications[i].trip.user.id + '/' + notifications[i].trip.user.avatar : '/asset/images/avatar/default/avatar_default.png'}"
+                              alt="${notifications[i].trip.user.name}" class="mr-3 rounded-circle"
+                              style="width:60px;">
+                          <div class="media-body">
+                              <a href="/trip/list">
+                                  <h3 class="mt-1 mb-0">${notifications[i].trip.user.name}</h3>
+                                  <p class="mb-0 text-dark"> Mời bạn tham gia chuyến đi của họ</p>
+                              </a>
+                          </div>
+                          <div class="ml-4">
+                              <button class="btn btn-primary w-100 btn_accept_invitation" 
+                                  data-trip-id="${notifications[i].trip_id}"
+                                  data-friend-id="${notifications[i].user.id}"> Đồng ý </button><br>
+                              <button class="btn btn-danger w-100 btn_reject_invitation"
+                                  data-trip-id="${notifications[i].trip_id}" 
+                                  data-friend-id="${notifications[i].user.id}">Hủy</button>
+                          </div>
+                     </div>
+                </div>`;
             }
             // someone accept you invitation to join your trip
             if (notifications[i].type == INVITATION && notifications[i].status == ACCEPT) {
                 htmlElement += `<div class="dropdown-item border-bottom pl-0 pr-0" style="background: ${notifications[i].seen == 0 ? "#dddddd": "#ffffff"}">
-                                 <a href="/trip/detail_info/${notifications[i].trip_id}">
-                                      <h3 class="text-center">
-                                            ${notifications[i].trip.title}
-                                      </h3>
-                                 </a>
-                                 <div class="media">
-                                        <img
-                                            src="${notifications[i].user.avatar ? '/asset/images/avatar/' + notifications[i].user.id + '/' + notifications[i].trip.avatar : '/asset/images/avatar/default/avatar_default.png'}"
-                                            alt="${notifications[i].user.name}" class="mr-3 rounded-circle"
-                                            style="width:60px;">
-                                        <div class="media-body">
-                                            <h3 class="mt-1 mb-0">${notifications[i].user.name}</h3>
-                                            <p class="mb-0 text-dark">Đã chấp nhận lời mời của bạn </p>
-                                        </div>
-                                    </div>
-                            </div>`;
+                     <a href="/trip/list">
+                          <h3 class="text-center">
+                                ${notifications[i].trip.title}
+                          </h3>
+                     </a>
+                     <div class="media">
+                        <img
+                        src="${notifications[i].user.avatar ? '/asset/images/avatar/' + notifications[i].user.id + '/' + notifications[i].trip.avatar : '/asset/images/avatar/default/avatar_default.png'}"
+                        alt="${notifications[i].user.name}" class="mr-3 rounded-circle"
+                        style="width:60px;">
+                        <div class="media-body">
+                            <a href="/trip/list">
+                                <h3 class="mt-1 mb-0">${notifications[i].user.name}</h3>
+                                <p class="mb-0 text-dark">Đã chấp nhận lời mời của bạn </p>
+                            </a>
+                        </div>
+                      </div>
+                </div>`;
             }
         }
         return htmlElement;

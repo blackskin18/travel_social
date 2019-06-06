@@ -19,8 +19,6 @@ class TripController extends Controller
 
     private $tripRepo;
 
-    private $invitationRepo;
-
     private $positionRepo;
 
     private $tripUserRepo;
@@ -94,7 +92,7 @@ class TripController extends Controller
         try {
             $trip = $this->tripRepo->find($request->trip_id);
             if ($trip && Auth::user()->can('delete', $trip)) {
-                $this->invitationRepo->deleteWhere(['trip_id' => $request->trip_id]);
+                $this->tripUserRepo->deleteWhere(['trip_id' => $request->trip_id]);
                 $this->positionRepo->deleteWhere(['trip_id' => $request->trip_id]);
                 $this->tripRepo->delete($request->trip_id);
 
@@ -112,9 +110,22 @@ class TripController extends Controller
         try {
             $authUser = Auth::user();
             $trip = $this->tripRepo->with('tripUser')->with('user')->find($tripId);
-            //$invitations = $this->tripUserRepo->with('user')->findWhere(['trip_id' => $tripId]);
-            $invitations = $this->tripUserRepo->getAllInvitationOfTrip($tripId);
             $members = $this->tripUserRepo->getAllMemberOfTrip($tripId);
+
+            $flag = false;
+            if($authUser->id === $trip->user_id) {
+                $flag = true;
+            }
+            foreach ($members as $member) {
+                if ($member->user_id === $authUser->id) {
+                    $flag = true;
+                    break;
+                }
+            }
+            if(!$flag) {
+                throw new \Exception("You are not a member of this trip");
+            }
+            $invitations = $this->tripUserRepo->getAllInvitationOfTrip($tripId);
             $joinRequests = $this->tripUserRepo->getAllJoinRequestOfTrip($tripId);
             $friends = $this->friendRepo->getAllFriendOfUser($authUser->id);
 

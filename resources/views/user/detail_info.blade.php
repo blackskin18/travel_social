@@ -35,7 +35,7 @@
 					<tr>
 						<td>Email</td>
 						<td>{{ $user->email }}</td>
-						@include('user.include.btn_edit', ['id' => 'edit_email'])
+{{--						@include('user.include.btn_edit', ['id' => 'edit_email'])--}}
 					</tr>
 					<tr>
 						<td>Giới Thiệu</td>

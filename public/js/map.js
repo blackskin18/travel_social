@@ -98,7 +98,6 @@ MapCustom.prototype.makePostionMarker = function (location, infoBoxSelector, typ
         draggable: true
     });
 
-    console.log("1111");
 
     marker.addListener('click', function () {
         var index = that.findIndexOfMarker(location);
@@ -151,6 +150,14 @@ MapCustom.prototype.makePostionMarker = function (location, infoBoxSelector, typ
         });
 
         marker.addListener('dragend', function () {
+            var index = that.findIndexOfMarker({
+                lat: marker.position.lat(),
+                lng: marker.position.lng()
+            });
+            console.log(index);
+            console.log($(infoBoxSelector + ">div.marker_info").eq(index));
+             $(infoBoxSelector + ">div.marker_info").eq(index).find(".lat_position").val(marker.position.lat());
+             $(infoBoxSelector + ">div.marker_info").eq(index).find(".lng_position").val(marker.position.lng());
             that.directions();
         });
 
